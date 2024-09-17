@@ -3,9 +3,9 @@
 ## Alumno: Javier Rodríguez Salas
 ## Tutor: Micael Gallego
 
-## [Enlace al blog](#)
+## [Enlace al blog](https://medium.com/@javiisalaas97)
 
-## [Enlace a GitHub Project](#)
+## [Enlace a GitHub Project](https://github.com/orgs/codeurjc-students/projects/8)
 
 ## Funcionalidades de la aplicación
 
