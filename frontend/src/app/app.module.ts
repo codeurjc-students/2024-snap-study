@@ -6,13 +6,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FooterComponent } from './components/footer.component';
+import { FooterComponent } from './components/childs/footer.component';
+import { LoginComponent } from './components/auth/login.component';
+import { HeaderComponent } from './components/childs/header.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { MainComponent } from './components/main/main.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent,
+    HeaderComponent,
+    SignupComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

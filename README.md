@@ -19,14 +19,18 @@
 - **Borrar asignatura**: un administrador debe poder borrar asignaturas de un grado universitario.
 - **Dar de alta un grado**: un usuario con rol de administrador debe poder dar de alta un grado universitario.
 - **Dar de alta una asignatura**: un usuario administrador debe poder crear una nueva asignatura en un grado universitario.
-
-### Funcionalidades avanzadas
-
-- **Subir un documento**: un usuario administrador debe poder subir un nuevo documento a una asignatura.
-- **Volcar los apuntes en la carpeta de Drive estructurados en subcarpetas**: un usuario registrado debe tener la opción para volcar los documentos de una asignatura seleccionada en una carpeta de Google Drive.
 - **Editar perfil**: un usuario registrado debe poder editar la información de su perfil.
 - **Subir imagen de perfil**: un usuario registrado debe poder subir una imagen para editar su imagen de perfil.
 - **Editar grado universitario**: un usuario administrador debe poder editar la información de un grado universitario.
+- **Subir un documento**: un usuario administrador debe poder subir un nuevo documento a una asignatura.
+- **Descargar documento**: un usuario registrado debe poder descargar un documento.
+
+### Funcionalidades avanzadas
+
+- **Volcar los apuntes en la carpeta de Drive estructurados en subcarpetas**: un usuario registrado debe tener la opción para volcar los documentos de una asignatura seleccionada en una carpeta de Google Drive.
+- **Almacenar documentos en AWS S3**: los documentos disponibles deben almacenarse en el servicio de AWS S3.
+- **Búsqueda avanzadda**: un usuario debe poder buscar un documento mediante su nombre o su contenido.
+- **Resúmenes de documentos**: al subir un documento a la plataforma se generará un resumen que estará disponible para el usuario.
 
 
 ## Aspectos principales de la aplicación web
@@ -57,10 +61,13 @@ En el panel de administrador habrá un gráfico de barras donde se mostrarán lo
 ### Tecnología complementaria
 
 Uso de la API de Google Drive para realizar el volcado de documentos pedidos por el usuario. Se creará una carpeta donde se añadirán subcarpetas, una por cada grado y dentro de cada grado, una subcarpeta por cada asignatura solicitada.
+Almacenamiento de documentos en AWS Simple Storage Service (S3).
+Uso de un indexador (Lucene/ElasticSearch) para realizar búsquedas avanzadas.
+Integración de una IA para realizar resúmenes del contenido de un documento.
 
 ### Algoritmo o consulta avanzada
 
-Para los usuarios registrados se mostrarán los grados universitarios ordenados según sus preferencias.
+Buscador avanzado que permita buscar documentos mediante su nombre y contenido.
 
 ## Wireframe de pantallas y navegación
 
