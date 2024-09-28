@@ -1,10 +1,10 @@
 <main class="main-login">
     <h1 class="login-banner">SIGN IN TO YOUR ACCOUNT</h1>
     <section class="login-section">
-        <input type="text" placeholder="Nombre de usuario">
-        <input type="password" placeholder="Contraseña">
+        <input [(ngModel)]="email" type="text" id="email" placeholder="Email">
+        <input [(ngModel)]="password" type="password" id="password" placeholder="Password">
         <div style="padding-bottom: 10px;">
-            <button type="submit" class="register-button"><span>Sign in</span></button>
+            <button (click)="sendCredentials($event)" type="button" class="register-button"><span>Sign in</span></button>
             <a [routerLink]="['/signup']" class="login-button">‎‎‎‎‎‎‎‎‎‎Create a new account</a>
         </div>
     </section>
