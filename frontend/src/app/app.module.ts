@@ -11,6 +11,8 @@ import { LoginComponent } from './components/auth/login.component';
 import { HeaderComponent } from './components/childs/header.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { MainComponent } from './components/main/main.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -27,6 +29,8 @@ import { MainComponent } from './components/main/main.component';
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent],
