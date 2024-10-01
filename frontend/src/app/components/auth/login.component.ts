@@ -16,8 +16,7 @@ export class LoginComponent {
 
   sendCredentials(event: Event) {
     event.preventDefault();
-    console.log(this.email);
-    console.log(this.password);
+
     this.authService.login(this.email, this.password).subscribe({
       next: () => {
         this.router.navigate(['/']);

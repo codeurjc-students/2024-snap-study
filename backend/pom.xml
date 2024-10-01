@@ -62,13 +62,19 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
-			<version>0.9.1</version>
+			<version>0.9.1</version> <!-- O la versión más reciente -->
 		</dependency>
 
 		<dependency>
-   			<groupId>org.springdoc</groupId>
-  			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-   			<version>2.4.0</version>
+  			<groupId>javax.xml.bind</groupId>
+  			<artifactId>jaxb-api</artifactId>
+  			<version>2.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version> <!-- O la versión más reciente -->
 		</dependency>
 
 	</dependencies>

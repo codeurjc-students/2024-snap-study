@@ -38,7 +38,9 @@ public class UserLoginService {
 		
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
+				System.out.println("-----------------adsd--------------");
+System.out.println(authentication);
+System.out.println("-------------------------adad------");
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		String accessToken = SecurityCipher.decrypt(encryptedAccessToken);
