@@ -1,12 +1,13 @@
 <main class="main-register">
     <h1 class="login-banner">CREATE YOUR ACCOUNT</h1>
     <section class="register-section">
-        <input type="text" placeholder="Username">
-        <input type="text" placeholder="Email">
-        <input type="password" placeholder="Password">
-        <input type="password" placeholder="Confirm Password">
+        <input [(ngModel)]="firstName" type="text" placeholder="First Name">
+        <input [(ngModel)]="lastName" type="text" placeholder="Last Name">
+        <input [(ngModel)]="email" type="email" placeholder="Email">
+        <input [(ngModel)]="password" type="password" placeholder="Password">
+        <input [(ngModel)]="password2" type="password" placeholder="Confirm Password">
         <div>
-            <button type="submit" class="register-button" style="width: 110%;"><span>Create account</span></button>
+            <button (click)="createUser()" type="submit" class="register-button" style="width: 110%;"><span>Create account</span></button>
         </div>
     </section>
     <section id="work-section" class="work-section">

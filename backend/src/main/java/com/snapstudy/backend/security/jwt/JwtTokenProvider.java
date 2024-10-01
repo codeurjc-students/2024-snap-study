@@ -1,6 +1,5 @@
 package com.snapstudy.backend.security.jwt;
 
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;

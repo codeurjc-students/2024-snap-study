@@ -1,0 +1,73 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 55px); 
+    padding-top: 40px; 
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+    50% {
+        border-color: transparent; /* Hace parpadear el cursor */
+    }
+}
+
+#animated-text {
+    overflow: hidden; /* Oculta el texto que aún no ha sido escrito */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+    border-right: 5px solid black; /* Cursor a la derecha */
+    width: 0; /* Empieza con ancho 0 */
+    animation: 
+        typing 3s steps(30, end) forwards, /* Mantiene el texto visible al final */
+        blink-caret 0.75s step-end infinite; /* Efecto de parpadeo del cursor */
+}
+
+/* Al final, haz que el cursor deje de parpadear */
+#animated-text.done {
+    border-right: none; /* Elimina el cursor */
+    animation: none; /* Detiene la animación */
+}
+
+.heading-container {
+    border: 5px solid black;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 75%;
+    margin-bottom: 100px;
+    margin-left: 0px;
+}
+
+.error h1 {
+    font-size: 4rem;
+    font-weight: bold; 
+}
+
+.error h1 + h1 {
+    margin-top: 0px;
+}
+
+.error h1:first-child {
+    color: rgb(255, 60, 0);
+}

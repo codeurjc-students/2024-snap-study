@@ -20,12 +20,16 @@ export class AuthService {
 
     logout() {
         this.http
-            .post<HttpResponse<any>>('/api/auth/logout', { withCredentials: true })
+            .post<HttpResponse<any>>(BASE_URL + 'logout', { withCredentials: true })
             .subscribe(() => {
                 this.logged = false;
                 this.admin = false;
                 this.student = false;
                 this.router.navigate(['']);
             });
+    }
+
+    createUser(firstName: string, lastName: string, email: string, password: string) {
+        return this.http.post<string>('/api/users/', {firstName, lastName, email, password});
     }
 }

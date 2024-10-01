@@ -37,7 +37,10 @@ public class AuthRestController {
 			@CookieValue(name = "accessToken", required = false) String accessToken,
 			@CookieValue(name = "refreshToken", required = false) String refreshToken,
 			@RequestBody LoginRequest loginRequest) {
-		
+				System.out.println("----------------------------------");
+System.out.println(loginRequest);
+System.out.println("----------------------------------");
+
 		return userLoginService.login(loginRequest, accessToken, refreshToken);
 	}
 
