@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ export class LoginComponent {
 
   public email: string = '';
   public password: string = '';
+  private userLoadedSubscription: Subscription = new Subscription();
 
   constructor(private authService: AuthService, private router: Router){}
 
@@ -19,10 +21,19 @@ export class LoginComponent {
 
     this.authService.login(this.email, this.password).subscribe({
       next: () => {
-        this.router.navigate(['/']);
-     },
+        this.userLoadedSubscription = this.authService.userLoaded().subscribe((loaded: boolean) => {
+          if (loaded) {
+            if (this.authService.isAdmin()) {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/']);
+            }
+          }
+        });
+        this.authService.getCurrentUser();
+      },
       error: (err: HttpErrorResponse) => {
-        console.log("S");
+        this.router.navigate(['/error']);
        },
      });
   }

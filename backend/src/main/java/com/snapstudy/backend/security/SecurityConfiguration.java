@@ -66,6 +66,8 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests(authorize -> authorize
                     // PRIVATE ENDPOINTS
 					.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
 					.anyRequest().permitAll()
 					
 			);

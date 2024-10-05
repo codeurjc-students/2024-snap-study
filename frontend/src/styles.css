@@ -382,3 +382,42 @@ main {
     margin: auto; /* Centra el contenedor en la página */
     text-align: left; /* Centra el texto */
 }
+
+.square {
+    width: 100%;
+    height: 100%;
+    background-color: #FF4500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotateSquare 15s linear infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Animación para el cuadrado */
+@keyframes rotateSquare {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.number {
+    color: white;
+    font-size: 10rem;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra el número en el cuadrado */
+}
+
+.container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
