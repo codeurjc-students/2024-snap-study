@@ -1,0 +1,44 @@
+<main class="main-register">
+    <h1 class="login-banner">EXPLORE ALL AVAILABLE DEGREES</h1>
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1 id="animated-text1">Check all available degrees on our platform</h1>
+    <h1 id="animated-text2" style="text-align: center;">and access useful resources for each subject</h1>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <section id="work-section" class="work-section">
+        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
+    </section>
+</main>
+<div id="container">
+    <ul>
+        <li *ngFor="let degree of degrees">
+            <div class="date">{{ degree.postedDate }}</div>
+            <div class="title"><a>{{ degree.name }}</a></div> <!-- Añadir link -->
+            <div class="container">
+                <div class="square"></div>
+            </div>
+        </li>
+        <div class="divider"></div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <a class="register-button" [class.display-div]="!moredegrees" (click)="getMoredegrees()"><span>Load
+                more</span></a>
+
+        <!-- <div class="col-12 button-container" [class.display-div]="!moreSubjects" *ngIf="!loading">
+            <button (click)="getMoreSubjects()">Load More Subjects</button>
+        </div> -->
+
+    </ul>
+
+</div>

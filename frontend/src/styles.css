@@ -202,7 +202,6 @@ main {
     padding: 40px 20px; /* Ajusta el padding según sea necesario */
     background-color: white; /* Color de fondo general de la página */
     position: relative;
-    min-height: 100vh; /* Asegura que el footer se extienda al menos hasta el final de la pantalla */
 }
 
 .footer-rounded-container {
@@ -224,7 +223,7 @@ main {
 }
 
 .footer-copyright {
-    font-size: 0.8rem; /* Tamaño pequeño para el copyright */
+    font-size: 0.8rem;
     color: grey;
     margin-top: 0px; /* Reduce el espacio entre el copyright y Snapstudy */
     width: 100%; /* Asegura que se alinee a la derecha en el contenedor completo */
@@ -266,8 +265,19 @@ main {
 .hola {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding-top: 200px;
-    padding-bottom: 200px;
+    padding-top: 100px;
+    padding-bottom: 150px;
+    display: grid;
+    place-items: center;
+    height: 50vh;
+    background-color: #fff;
+}
+
+.hola2 {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 100px;
+    padding-bottom: 600px;
     display: grid;
     place-items: center;
     height: 50vh;
@@ -280,6 +290,7 @@ main {
     align-items: start;
     max-width: 1200px;
     gap: 200px;
+    padding-bottom: 150px;
 }
 
 .left-column {
