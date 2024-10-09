@@ -5,13 +5,15 @@ import { SignupComponent } from './components/signup/signup.component';
 import { MainComponent } from './components/main/main.component';
 import { ErrorComponent } from './components/errors/error.component';
 import { DegreeListComponent } from './components/degrees-list/degree-list.component';
+import { SubjectListComponent } from './components/subjects-list/subject-list.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'login', component: LoginComponent },
   { path: 'error', component: ErrorComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'degrees', component: DegreeListComponent}
+  { path: 'degrees', component: DegreeListComponent},
+  { path: 'degrees/:id', component: SubjectListComponent }
 ];
 
 @NgModule({

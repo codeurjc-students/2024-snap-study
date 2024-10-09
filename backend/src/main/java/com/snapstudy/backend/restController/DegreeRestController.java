@@ -6,11 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
+import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.service.DegreeService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +20,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/degrees")
@@ -41,4 +44,21 @@ public class DegreeRestController {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
         }
+
+        @Operation(summary = "Get a degree")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Found the degree", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
+                        @ApiResponse(responseCode = "404", description = "Dregee not found", content = @Content) })
+        @GetMapping("/{degreeId}")
+        public ResponseEntity<Degree> getSubject(@PathVariable Long degreeId, HttpServletRequest request) {
+
+                Degree degree = degreeService.getDegreeById(degreeId);
+                if (degree != null) {
+                        return new ResponseEntity<>(degree, HttpStatus.OK);
+                } else {
+                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+        }
+
 }
