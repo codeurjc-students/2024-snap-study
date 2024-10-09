@@ -347,6 +347,13 @@ main {
     font-size: 5rem;
 }
 
+.banner2 {
+    padding-top: 0px;
+    font-size: 5rem;
+    text-align: center; /* Alinea el texto al centro */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+}
+
 .register-section {
     display: flex;
     justify-content: center;

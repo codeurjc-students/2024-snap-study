@@ -1,0 +1,58 @@
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from '../../models/subject.model';
+import { SubjectService } from '../../services/subject.service';
+import { Degree } from '../../models/degree.model';
+import { DegreeService } from '../../services/degree.service';
+
+@Component({
+  selector: 'app-main',
+  templateUrl: './subject-list.component.html',
+})
+export class SubjectListComponent {
+
+  public subjects: Subject[];
+  public degree: any;
+  private id: string;
+  public indexsubjects: number = 0;    //ajax
+  public moresubjects: boolean = false;   //ajax
+
+  constructor(private degreeService: DegreeService, private subjectService: SubjectService, private route: ActivatedRoute) {
+    this.subjects = [];
+    this.id = "";
+  }
+
+  ngOnInit() {
+    this.getDegree();
+  }
+
+  getDegree(){
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+    });
+    this.degreeService.getDegree(parseInt(this.id)).subscribe(
+      (response: Degree) => {
+        this.degree = response;
+      },
+      (error: any) => {
+        console.error('Error al obtener los sujetos:', error);
+      }
+    );
+  }
+
+  getMoresubjects() {
+    this.subjectService.getSubjects(this.indexsubjects).subscribe((response) => {
+        this.subjects = this.subjects.concat(response.content);
+        this.moresubjects = !response.last;
+        this.indexsubjects++;
+      });
+  }
+
+  showLoadMoreButton(){
+    if (this.moresubjects){
+      return true;
+    }
+    return false;
+  }
+
+}

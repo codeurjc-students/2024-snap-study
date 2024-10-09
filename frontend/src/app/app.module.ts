@@ -13,6 +13,8 @@ import { SignupComponent } from './components/signup/signup.component';
 import { MainComponent } from './components/main/main.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { DegreeListComponent } from './components/degrees-list/degree-list.component';
+import { SubjectListComponent } from './components/subjects-list/subject-list.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { CommonModule } from '@angular/common';
     LoginComponent,
     HeaderComponent,
     SignupComponent,
-    MainComponent
+    MainComponent,
+    DegreeListComponent,
+    SubjectListComponent
   ],
   imports: [
     BrowserModule,

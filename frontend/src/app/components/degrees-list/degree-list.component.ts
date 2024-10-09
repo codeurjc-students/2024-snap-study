@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { User } from '../../models/user.model';
-import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Degree } from '../../models/degree.model';
 import { DegreeService } from '../../services/degree.service';
 
@@ -12,14 +9,12 @@ import { DegreeService } from '../../services/degree.service';
 })
 export class DegreeListComponent {
 
-  public user!: User;
   public degrees: Degree[];
-  public isStudent!: boolean;
 
   public indexdegrees: number = 0;    //ajax
   public moredegrees: boolean = false;   //ajax
 
-  constructor(public authService: AuthService, private degreeService: DegreeService, private router: Router, private route: ActivatedRoute) {
+  constructor(private degreeService: DegreeService) {
     this.degrees = [];
   }
 
@@ -37,6 +32,13 @@ export class DegreeListComponent {
         this.moredegrees = !response.last;
         this.indexdegrees++;
       });
+  }
+
+  showLoadMoreButton(){
+    if (this.moredegrees){
+      return true;
+    }
+    return false;
   }
 
 }

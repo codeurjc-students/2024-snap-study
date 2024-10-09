@@ -24,4 +24,5 @@ public class Subject {
     @ManyToMany(mappedBy = "subjects")  // La relación inversa
     @JsonManagedReference
     private List<Degree> degrees;
+
 }

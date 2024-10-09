@@ -21,24 +21,19 @@
 <div id="container">
     <ul>
         <li *ngFor="let degree of degrees">
-            <div class="date">{{ degree.postedDate }}</div>
-            <div class="title"><a>{{ degree.name }}</a></div> <!-- Añadir link -->
-            <div class="container">
-                <div class="square"></div>
+            <div class="info">
+                <div class="date">{{ degree.postedDate | date: 'MMM, yyyy' }}</div>
+                <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}</a></div> <!-- Añadir link -->
+                <div class="container">
+                    <div class="square"></div>
+                </div>
             </div>
+            <div class="divider"></div>
+            <br />
+            <br />
         </li>
-        <div class="divider"></div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <a class="register-button" [class.display-div]="!moredegrees" (click)="getMoredegrees()"><span>Load
+        <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredegrees" (click)="getMoredegrees()"><span>Load
                 more</span></a>
-
-        <!-- <div class="col-12 button-container" [class.display-div]="!moreSubjects" *ngIf="!loading">
-            <button (click)="getMoreSubjects()">Load More Subjects</button>
-        </div> -->
-
     </ul>
 
 </div>
