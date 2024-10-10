@@ -120,6 +120,17 @@ main {
     padding-right: 15px;
 }
 
+.left-column2 {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    text-align: center; /* Alinea el texto de los elementos al centro */
+    flex: 1;
+    padding-left: 10%;
+    padding-right: 20%;
+}
+
 .menu-item {
     font-size: 5rem; /* Ajusta el tamaño del texto para que sea adecuado */
     font-weight: bold;

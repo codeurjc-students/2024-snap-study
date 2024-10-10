@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { DegreeListComponent } from './components/degrees-list/degree-list.component';
 import { SubjectListComponent } from './components/subjects-list/subject-list.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { SubjectListComponent } from './components/subjects-list/subject-list.co
     SignupComponent,
     MainComponent,
     DegreeListComponent,
-    SubjectListComponent
+    SubjectListComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
