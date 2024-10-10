@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Student;
+import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.repository.DegreeRepository;
 import com.snapstudy.backend.repository.StudentRepository;
+import com.snapstudy.backend.repository.SubjectRepository;
 
 @Service
 public class TestDataInitializer {
@@ -16,6 +18,8 @@ public class TestDataInitializer {
     private StudentRepository studenRepository;
     @Autowired
     private DegreeRepository degreeRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     @PostConstruct
     public void init() throws Exception {
@@ -55,6 +59,26 @@ public class TestDataInitializer {
         degreeRepository.save(d14);
         degreeRepository.save(d15);
         degreeRepository.save(d16);
+
+        Subject s1 = new Subject("Math", d1);
+        Subject s2 = new Subject("Programming", d2);
+        Subject s3 = new Subject("Physics", d3);
+        Subject s4 = new Subject("Data Bases", d1);
+        Subject s5 = new Subject("AWS Cloud", d1);
+        Subject s6 = new Subject("Cloud Computing", d1);
+        Subject s7 = new Subject("IA", d1);
+        Subject s8 = new Subject("Machine Learning", d1);
+        Subject s9 = new Subject("Science", d1);
+
+        subjectRepository.save(s1);
+        subjectRepository.save(s2);
+        subjectRepository.save(s3);
+        subjectRepository.save(s4);
+        subjectRepository.save(s5);
+        subjectRepository.save(s6);
+        subjectRepository.save(s7);
+        subjectRepository.save(s8);
+        subjectRepository.save(s9);
 
     }
 }

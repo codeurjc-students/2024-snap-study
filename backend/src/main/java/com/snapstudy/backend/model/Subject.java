@@ -1,10 +1,10 @@
 package com.snapstudy.backend.model;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -15,14 +15,50 @@ public class Subject {
     private Long id;
     @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
+    private Date postedDate;
 
     @OneToMany
     @JoinColumn(name = "subject_id")
     @JsonBackReference
     private List<Document> documents;
 
-    @ManyToMany(mappedBy = "subjects")  // La relación inversa
-    @JsonManagedReference
-    private List<Degree> degrees;
+    @ManyToOne
+    @JoinColumn(name = "degree_id", nullable = false)
+    @JsonBackReference 
+    private Degree degree;
+
+    public Subject(){}
+
+    public Subject(String name, Degree degree){
+        this.name = name;
+        this.postedDate = new Date(System.currentTimeMillis());
+        this.degree = degree;
+        this.documents = new ArrayList();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getPostedDate() {
+        return postedDate;
+    }
+
+    public void setPostedDate(Date postedDate) {
+        this.postedDate = postedDate;
+    }
 
 }

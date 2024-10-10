@@ -10,19 +10,15 @@
     <br />
     <br />
     <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <section id="work-section" class="work-section">
         <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
     </section>
 </main>
 <div id="container">
     <ul>
-        <!-- <li *ngFor="let subject of subjects">
+        <li *ngFor="let subject of subjects">
             <div class="info">
-                <div class="date">{{ subject.postedDate }}</div>
+                <div class="date">{{ subject.postedDate | date: 'MMM, yyyy' }}</div>
                 <div class="title"><a>{{ subject.name }}</a></div>
                 <div class="container">
                     <div class="square"></div>
@@ -33,7 +29,7 @@
             <br />
         </li>
         <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moresubjects" (click)="getMoresubjects()"><span>Load
-                more</span></a> -->
+                more</span></a>
     </ul>
 
 </div>

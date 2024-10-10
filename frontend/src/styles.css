@@ -388,6 +388,46 @@ main {
     padding-top: 25px; /* Ajusta el padding-top para evitar que el contenido se oculte bajo el header fijo */
 }
 
+ul {
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 50px;
+    margin: 0;
+}
+
+li {
+    display: flex;
+    flex-direction: column; /* Coloca el contenido en columna */
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px 0; /* Ajusta el padding según prefieras */
+    position: relative;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Asegura que el contenido ocupe el ancho completo */
+}
+
+.divider {
+    padding-top: 30px;
+    border-bottom: 1px solid black;
+    margin: 0 auto;
+    width: 1000px; /* Ancho de la línea divisoria */
+}
+
+.date {
+    font-size: 20px;
+    color: black; /* Color para la fecha */
+}
+
+.title {
+    font-size: 25px;
+    color: black; /* Color para el texto */
+    text-align: right; /* Alinea el texto a la derecha */
+}
+
 .background-section {
     /*background-image: url('D://DESCARGAS//imagenprueba.png'); /* Reemplaza con la ruta a tu imagen de fondo */
     background-size: cover; /* Asegura que la imagen cubra el contenedor */
