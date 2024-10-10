@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
-import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.service.DegreeService;
 
 import io.swagger.v3.oas.annotations.Operation;

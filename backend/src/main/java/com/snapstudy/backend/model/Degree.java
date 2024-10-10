@@ -18,7 +18,7 @@ public class Degree {
     @Column(nullable = false)
     private Date postedDate;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
         name = "degree_subject",
         joinColumns = @JoinColumn(name = "degree_id"),
