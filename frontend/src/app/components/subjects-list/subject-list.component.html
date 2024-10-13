@@ -19,7 +19,7 @@
         <li *ngFor="let subject of subjects">
             <div class="info">
                 <div class="date">{{ subject.postedDate | date: 'MMM, yyyy' }}</div>
-                <div class="title"><a>{{ subject.name }}</a></div>
+                <div class="title"><a [routerLink]="['/degrees/' + degree.id + '/subjects', subject.id]">{{ subject.name }}</a></div>
                 <div class="container">
                     <div class="square"></div>
                 </div>

@@ -1,0 +1,40 @@
+<main class="main-register">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1 class="banner2">DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</h1>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <section id="work-section" class="work-section">
+        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
+    </section>
+</main>
+<div id="container">
+    <ul>
+        <li *ngFor="let document of documents">
+            <div class="info">
+                <input type="checkbox" (change)="onCheckboxChange($event, document.id)">
+                <div class="title"><a>{{ document.name }}</a></div>
+                <div class="container">
+                    <div class="square"></div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <br />
+            <br />
+        </li>
+        <div class="button-container">
+            <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredocuments" (click)="getMoredocuments()"><span>Load
+                more</span></a>
+        <a *ngIf="authService.isLogged()" class="register-button" (click)="getSelectedDocuments()"><span>Get Documents</span></a>
+        </div>
+        
+
+    </ul>
+
+</div>

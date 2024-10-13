@@ -4,6 +4,7 @@ import { Subject } from '../../models/subject.model';
 import { SubjectService } from '../../services/subject.service';
 import { Degree } from '../../models/degree.model';
 import { DegreeService } from '../../services/degree.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -34,7 +35,6 @@ export class SubjectListComponent {
     this.degreeService.getDegree(parseInt(this.id)).subscribe(
       (response: Degree) => {
         this.degree = response;
-        console.log("a");
         this.getMoresubjects();
       },
       (error: any) => {
@@ -45,7 +45,6 @@ export class SubjectListComponent {
 
   getMoresubjects() {
     this.subjectService.getSubjects(parseInt(this.id), this.indexsubjects).subscribe((response) => {
-      console.log("b");
         this.subjects = this.subjects.concat(response.content);
         this.moresubjects = !response.last;
         this.indexsubjects++;

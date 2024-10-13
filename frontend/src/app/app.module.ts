@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { DegreeListComponent } from './components/degrees-list/degree-list.component';
 import { SubjectListComponent } from './components/subjects-list/subject-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { DocumentListComponent } from './components/documents-list/document-list.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     MainComponent,
     DegreeListComponent,
     SubjectListComponent,
-    ProfileComponent
+    ProfileComponent,
+    DocumentListComponent
   ],
   imports: [
     BrowserModule,
