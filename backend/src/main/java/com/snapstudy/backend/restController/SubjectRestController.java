@@ -60,11 +60,11 @@ public class SubjectRestController {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = Subject.class)) }),
                         @ApiResponse(responseCode = "404", description = "Dregee not found", content = @Content) })
         @GetMapping("/{subjectId}")
-        public ResponseEntity<Subject> getSubject(@PathVariable Long SubjectId, HttpServletRequest request) {
+        public ResponseEntity<Subject> getSubject(@PathVariable Long subjectId, HttpServletRequest request) {
 
-                Subject Subject = subjectService.getSubjectById(SubjectId);
-                if (Subject != null) {
-                        return new ResponseEntity<>(Subject, HttpStatus.OK);
+                Subject subject = subjectService.getSubjectById(subjectId);
+                if (subject != null) {
+                        return new ResponseEntity<>(subject, HttpStatus.OK);
                 } else {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }

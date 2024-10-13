@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.snapstudy.backend.model.Degree;
+import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.Student;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.repository.DegreeRepository;
+import com.snapstudy.backend.repository.DocumentRepository;
 import com.snapstudy.backend.repository.StudentRepository;
 import com.snapstudy.backend.repository.SubjectRepository;
 
@@ -20,6 +22,8 @@ public class TestDataInitializer {
     private DegreeRepository degreeRepository;
     @Autowired
     private SubjectRepository subjectRepository;
+    @Autowired
+    private DocumentRepository documentRepository;
 
     @PostConstruct
     public void init() throws Exception {
@@ -79,6 +83,23 @@ public class TestDataInitializer {
         subjectRepository.save(s7);
         subjectRepository.save(s8);
         subjectRepository.save(s9);
+
+        Document dt1 = new Document("Tema 1", "Prueba", s1);
+        Document dt2 = new Document("Tema 2", "Prueba", s1);
+        Document dt3 = new Document("Tema 3", "Prueba", s1);
+        Document dt4 = new Document("Tema 4", "Prueba", s1);
+        Document dt5 = new Document("Tema 5", "Prueba", s1);
+        Document dt6 = new Document("Tema 6", "Prueba", s1);
+        Document dt7 = new Document("Tema 7", "Prueba", s1);
+        Document dt8 = new Document("Tema 8", "Prueba", s1);
+        documentRepository.save(dt1);
+        documentRepository.save(dt2);
+        documentRepository.save(dt3);
+        documentRepository.save(dt4);
+        documentRepository.save(dt5);
+        documentRepository.save(dt6);
+        documentRepository.save(dt7);
+        documentRepository.save(dt8);
 
     }
 }

@@ -70,6 +70,7 @@ public class SecurityConfiguration {
 					.requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/degrees/").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/subjects/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/documents/**").permitAll()
 					.anyRequest().permitAll()
 					
 			);

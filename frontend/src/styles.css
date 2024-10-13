@@ -59,6 +59,13 @@ header {
     overflow: hidden; /* Oculta el contenido que se desborda */
 }
 
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos al máximo espacio posible */
+    align-items: center; /* Alinea los botones verticalmente al centro */
+    width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
+}
+
 .register-button:hover {
     background-color: rgb(255, 60, 0); /* Fondo al pasar el ratón */
     color: white; /* Texto blanco al pasar el ratón */
@@ -489,4 +496,13 @@ li {
     position: relative;
     width: 120px;
     height: 120px;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: #FF4500;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
 }
