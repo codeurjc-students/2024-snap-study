@@ -46,13 +46,8 @@ export class AuthService {
         this.http.get<User>('/api/users/me', { withCredentials: true }).subscribe((response: User) => {
             this.currentUser = response;
             this.logged = true;
-
-            if (this.currentUser.roles.includes('ADMIN')) {
-                this.admin = true;
-            }
-            else if (this.currentUser.roles.includes('STUDENT')) {
-                this.student = true;
-            }
+            this.admin = this.currentUser.roles.includes('ADMIN');
+            this.student = this.currentUser.roles.includes('STUDENT');
             this.userLoadedSubject.next(true);
         });
     }

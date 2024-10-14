@@ -8,6 +8,7 @@ import { DegreeListComponent } from './components/degrees-list/degree-list.compo
 import { SubjectListComponent } from './components/subjects-list/subject-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { DocumentListComponent } from './components/documents-list/document-list.component';
+import { AdminPannelComponent } from './components/admin/admin-pannel.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'degrees', component: DegreeListComponent},
   { path: 'degrees/:id', component: SubjectListComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'degrees/:id/subjects/:sid', component: DocumentListComponent }
+  { path: 'degrees/:id/subjects/:sid', component: DocumentListComponent },
+  { path: 'admin', component: AdminPannelComponent }
 ];
 
 @NgModule({

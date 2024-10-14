@@ -4,10 +4,12 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.snapstudy.backend.model.Admin;
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.Student;
 import com.snapstudy.backend.model.Subject;
+import com.snapstudy.backend.repository.AdminRepository;
 import com.snapstudy.backend.repository.DegreeRepository;
 import com.snapstudy.backend.repository.DocumentRepository;
 import com.snapstudy.backend.repository.StudentRepository;
@@ -24,10 +26,14 @@ public class TestDataInitializer {
     private SubjectRepository subjectRepository;
     @Autowired
     private DocumentRepository documentRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
     @PostConstruct
     public void init() throws Exception {
         Student user1 = new Student("Javier", "Salas", "javiisalaas97@gmail.com", "hola");
+        Admin ad = new Admin("Administrador", "Admin", "admin@admin.com", "admin");
+        adminRepository.save(ad);
         studenRepository.save(user1);
 
         Degree d1 = new Degree("Software Engineering");

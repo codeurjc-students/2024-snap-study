@@ -2,6 +2,7 @@ package com.snapstudy.backend.restController;
 
 import java.io.IOException;
 import java.net.URI;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -63,13 +64,17 @@ public class UserRestController {
 			@ApiResponse(responseCode = "200", description = "Found the user", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
 			@ApiResponse(responseCode = "404", description = "User not found ", content = @Content),
-			@ApiResponse(responseCode = "403", description = "forbiden o dont have permissions", content = @Content) })
+			@ApiResponse(responseCode = "403", description = "forbiden o dont have permissions", content = @Content),
+			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@GetMapping("/me")
 	public ResponseEntity<?> profile(HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+		if (principal == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 
-		Optional<User> currentUser = userService.getByEmail(request.getUserPrincipal().getName());
+		Optional<User> currentUser = userService.getByEmail(principal.getName());
 		if (currentUser.isPresent()) {
-
 			return new ResponseEntity<>(this.getPrincipalUser(currentUser.get(), request), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,6 +83,9 @@ public class UserRestController {
 
 
 	private User getPrincipalUser(User user, HttpServletRequest request) {
+		System.out.println("---------------------------------");
+		System.out.println(user.getRoles());
+		System.out.println("---------------------------------");
 		if (user.getRoles().contains("STUDENT")) {
 			user = studentService.getStudentByEmail(request.getUserPrincipal().getName());
 		} else if (user.getRoles().contains("ADMIN")) {
