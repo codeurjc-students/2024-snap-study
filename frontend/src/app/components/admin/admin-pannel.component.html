@@ -1,0 +1,39 @@
+<main class="main-register">
+    <h1 class="login-banner">ADMIN PANNEL</h1>
+    <br />
+    <br />
+    <br />
+    <h1 id="animated-text1">Keep Growing</h1>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <section id="work-section" class="work-section">
+        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
+    </section>
+</main>
+<div id="container">
+    <a class="button-container"><span>Add new degree</span></a>
+</div>
+<div id="container">
+    <ul>
+        <li *ngFor="let degree of degrees">
+            <div class="info">
+                <div class="date">{{ degree.postedDate | date: 'MMM, yyyy' }}</div>
+                <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}</a></div>
+                <div class="container">
+                    <div class="square"></div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <br />
+            <br />
+        </li>
+        <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredegrees" (click)="getMoredegrees()"><span>Load
+                more</span></a>
+    </ul>
+
+</div>

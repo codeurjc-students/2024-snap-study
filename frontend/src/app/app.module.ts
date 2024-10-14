@@ -17,6 +17,7 @@ import { DegreeListComponent } from './components/degrees-list/degree-list.compo
 import { SubjectListComponent } from './components/subjects-list/subject-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { DocumentListComponent } from './components/documents-list/document-list.component';
+import { AdminPannelComponent } from './components/admin/admin-pannel.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { DocumentListComponent } from './components/documents-list/document-list
     DegreeListComponent,
     SubjectListComponent,
     ProfileComponent,
-    DocumentListComponent
+    DocumentListComponent,
+    AdminPannelComponent
   ],
   imports: [
     BrowserModule,
