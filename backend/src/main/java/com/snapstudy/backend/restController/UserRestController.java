@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,9 +84,6 @@ public class UserRestController {
 
 
 	private User getPrincipalUser(User user, HttpServletRequest request) {
-		System.out.println("---------------------------------");
-		System.out.println(user.getRoles());
-		System.out.println("---------------------------------");
 		if (user.getRoles().contains("STUDENT")) {
 			user = studentService.getStudentByEmail(request.getUserPrincipal().getName());
 		} else if (user.getRoles().contains("ADMIN")) {
@@ -93,5 +91,40 @@ public class UserRestController {
 		}
 
 		return user;
+	}
+
+
+	@Operation(summary = "Update the user profile")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Profile updated", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class)) }),
+			@ApiResponse(responseCode = "404", description = "Profile not found ", content = @Content),
+			@ApiResponse(responseCode = "403", description = "forbiden o dont have permissions", content = @Content) })
+	@PutMapping("/")
+	public ResponseEntity<User> editProfile(HttpServletRequest request, @RequestBody UserDTO post)
+			throws IOException, SQLException {
+
+		Optional<User> currentUser = userService.getByEmail(request.getUserPrincipal().getName());
+
+		if (currentUser.isPresent()) {
+			User user = this.getPrincipalUser(currentUser.get(), request);
+
+			if (user != null) {
+				user.setFirstName(post.getFirstName());
+				user.setLastName(post.getLastName());
+				user.setEmail(post.getEmail());
+				user.setPassword(post.getPassword());
+
+				userService.setUser(user);
+
+				return new ResponseEntity<>(user, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
 	}
 }

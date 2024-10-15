@@ -18,6 +18,9 @@ import { SubjectListComponent } from './components/subjects-list/subject-list.co
 import { ProfileComponent } from './components/profile/profile.component';
 import { DocumentListComponent } from './components/documents-list/document-list.component';
 import { AdminPannelComponent } from './components/admin/admin-pannel.component';
+import { PopUpDialogComponent } from './components/childs/popup-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 @NgModule({
@@ -32,15 +35,17 @@ import { AdminPannelComponent } from './components/admin/admin-pannel.component'
     SubjectListComponent,
     ProfileComponent,
     DocumentListComponent,
-    AdminPannelComponent
+    AdminPannelComponent,
+    PopUpDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
+    CommonModule,
     HttpClientModule,
-    CommonModule
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

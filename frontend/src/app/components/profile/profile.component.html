@@ -15,14 +15,14 @@
         </div>
         <div class="right-column">
             <section class="login-section">
-                <input type="text" id="fristname" placeholder="Firs Name">
-                <input type="text" id="lastname" placeholder="Last Name">
-                <input type="text" id="email" placeholder="Email">
-                <input type="password" id="password" placeholder="Password">
-                <input type="password" id="password" placeholder="Confirm Password">
+                <input [(ngModel)]="firstName" type="text" id="fristname" placeholder="First Name">
+                <input [(ngModel)]="lastName"type="text" id="lastname" placeholder="Last Name">
+                <input [(ngModel)]="email" type="text" id="email" placeholder="Email" disabled="true" style="background-color:gainsboro">
+                <input [(ngModel)]="password" type="password" id="password" placeholder="Password">
+                <input [(ngModel)]="password2" type="password" id="password2" placeholder="Confirm Password">
                 <br />
                 <br />
-                <a class="register-button"><span>Save changes</span></a>
+                <a class="register-button" (click)="editProfile()"><span>Save changes</span></a>
                 <br />
                 <br />
             </section>
