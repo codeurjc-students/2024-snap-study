@@ -55,4 +55,8 @@ export class AuthService {
     isLogged(): boolean {
         return this.logged;
     }
+
+    getUser(): User {
+        return this.currentUser;
+    }
 }

@@ -15,4 +15,8 @@ export class UserService {
 
         return this.http.get(BASE_URL, { params: params }) as Observable<any>;
     }*/
+
+    editProfile(firstName: String, lastName: String, email: String, password: String) {
+        return this.http.put(BASE_URL, { firstName, lastName, email, password })
+    }
 }
