@@ -1,28 +1,36 @@
 <main class="main-register">
     <h1 class="login-banner">PROFILE</h1>
-    <br />
-    <br />
     <section class="content">
         <div class="left-column2">
             <div class="profile-picture">
-                <img src="https://via.placeholder.com/350" alt="Foto de Perfil" class="profile-img">
+                <img src="/api/users/image" alt="Foto de Perfil" class="profile-img"
+                    onerror="this.onerror=null; this.src='https://via.placeholder.com/350';">
             </div>
             <br />
             <br />
-            <a class="register-button" style="width: 120px;"><span>Edit image</span></a>
+            <a class="register-button" style="width: 120px;" (click)="editImage()"><span>Edit image</span></a>
+            <br />
+            <br />
+            <br />
+            <br />
             <br />
             <br />
         </div>
         <div class="right-column">
             <section class="login-section">
                 <input [(ngModel)]="firstName" type="text" id="fristname" placeholder="First Name">
-                <input [(ngModel)]="lastName"type="text" id="lastname" placeholder="Last Name">
-                <input [(ngModel)]="email" type="text" id="email" placeholder="Email" disabled="true" style="background-color:gainsboro">
+                <input [(ngModel)]="lastName" type="text" id="lastname" placeholder="Last Name">
+                <input [(ngModel)]="email" type="text" id="email" placeholder="Email" disabled="true"
+                    style="background-color:gainsboro">
                 <input [(ngModel)]="password" type="password" id="password" placeholder="Password">
                 <input [(ngModel)]="password2" type="password" id="password2" placeholder="Confirm Password">
                 <br />
                 <br />
                 <a class="register-button" (click)="editProfile()"><span>Save changes</span></a>
+                <br />
+                <br />
+                <br />
+                <br />
                 <br />
                 <br />
             </section>

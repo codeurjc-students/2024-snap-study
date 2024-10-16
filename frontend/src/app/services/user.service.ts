@@ -19,4 +19,10 @@ export class UserService {
     editProfile(firstName: String, lastName: String, email: String, password: String) {
         return this.http.put(BASE_URL, { firstName, lastName, email, password })
     }
+
+    setProfileImage(image: File) {
+        const formData = new FormData();
+        formData.append('file', image);
+        return this.http.put('/api/users/image', formData, { withCredentials: true })
+    }
 }

@@ -36,10 +36,10 @@ export class ProfileComponent {
 
     editProfile() {
         if (this.firstName == "" || this.lastName == "") {
-            this.popUpService.openPopUp('UPS! Some field is incomplete');
+            this.popUpService.openPopUp('Some field is incomplete');
         }
         else if (this.password != this.password2 || this.password == "") {
-            this.popUpService.openPopUp('UPS! Passwords do not match');
+            this.popUpService.openPopUp('Passwords do not match');
         } else {
             this.userService.editProfile(this.firstName, this.lastName, this.email, this.password).subscribe({
                 next: (_: any) => {
@@ -58,5 +58,9 @@ export class ProfileComponent {
                 }
             });
         }
+    }
+
+    editImage(){
+        this.popUpService.openPopUpImage();
     }
 }

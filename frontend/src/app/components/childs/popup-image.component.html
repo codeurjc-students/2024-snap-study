@@ -1,0 +1,14 @@
+<div class="overlay" *ngIf="isOpen"></div>
+<div class="popup">
+  <div>
+    <h1 class="image-banner">PROFILE IMAGE</h1>
+    <br />
+    <div class="input-container">
+        <input (change)="onFileChange($event)" type="file" accept="image/*">
+      </div>
+  </div>
+  <div class="action-buttons">
+    <button mat-button [mat-dialog-close]="true" (click)="saveImage()" class="orange-button">Save Image</button>
+    <button mat-button [mat-dialog-close]="true" class="orange-button">Cancel</button>
+  </div>
+</div>

@@ -129,7 +129,7 @@ main {
 
 .popup {
     background-color: white;
-    padding: 30px;
+    padding: 50px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -139,6 +139,20 @@ main {
     border-radius: 8px; /* Ajusta el radio del borde según sea necesario */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.input-container {
+    border: 1px solid #ccc; /* Borde gris */
+    background-color: #f0f0f0; /* Fondo gris claro */
+    padding: 20px; /* Espacio interno para el input */
+    border-radius: 4px; /* Bordes ligeramente redondeados */
+    display: inline-block; /* Mantener el input en línea con el contenido */
+  }
+
+  .input-container input {
+    background-color: transparent; /* Hace que el fondo del input sea transparente */
+    border: none; /* Quitar bordes del input para usar el del contenedor */
+    outline: none; /* Evitar que el input tenga borde visible al hacer foco */
+  }
 
 .overlay {
     position: fixed; /* Fijo para cubrir toda la pantalla */
@@ -150,11 +164,25 @@ main {
     z-index: 999998; /* Asegúrate de que sea menor que el z-index del popup */
 }
 
+.dark-bold {
+    font-weight: bold;
+    color: black; /* Un tono más oscuro */
+    font-size: 1.25rem; /* Tamaño inicial del texto */
+    font-weight: 550;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 50px;
+}
+
 .orange-button {
     background-color: black; /* Color de fondo naranja */
     color: white; /* Color del texto blanco */
-    font-size: 1rem; /* Tamaño inicial del texto */
-    font-weight: normal;
+    font-size: 1.25rem; /* Tamaño inicial del texto */
+    font-weight: 520;
     border: none; /* Quita el borde del botón */
     padding: 10px 20px; /* Añade un padding */
     border-radius: 4px; /* Bordes ligeramente redondeados */
@@ -162,7 +190,7 @@ main {
   }
   
 .orange-button:hover {
-    background-color: rgb(255, 60, 0);; /* Color más oscuro al pasar el cursor */
+    background-color: rgb(255, 60, 0); /* Color más oscuro al pasar el cursor */
 }
 
 .left-column2 {
@@ -401,6 +429,11 @@ main {
 .login-banner {
     padding-top: 0px;
     font-size: 5rem;
+}
+
+.image-banner {
+    font-size: 2rem;
+    text-align: center;
 }
 
 .banner2 {
