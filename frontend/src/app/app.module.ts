@@ -20,6 +20,7 @@ import { DocumentListComponent } from './components/documents-list/document-list
 import { AdminPannelComponent } from './components/admin/admin-pannel.component';
 import { PopUpDialogComponent } from './components/childs/popup-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PopUpImageComponent } from './components/childs/popup-image.component';
 
 
 
@@ -36,7 +37,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProfileComponent,
     DocumentListComponent,
     AdminPannelComponent,
-    PopUpDialogComponent
+    PopUpDialogComponent,
+    PopUpImageComponent
   ],
   imports: [
     BrowserModule,
