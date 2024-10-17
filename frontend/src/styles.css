@@ -148,11 +148,11 @@ main {
     display: inline-block; /* Mantener el input en línea con el contenido */
   }
 
-  .input-container input {
+.input-container input {
     background-color: transparent; /* Hace que el fondo del input sea transparente */
     border: none; /* Quitar bordes del input para usar el del contenedor */
     outline: none; /* Evitar que el input tenga borde visible al hacer foco */
-  }
+}
 
 .overlay {
     position: fixed; /* Fijo para cubrir toda la pantalla */
@@ -169,6 +169,19 @@ main {
     color: black; /* Un tono más oscuro */
     font-size: 1.25rem; /* Tamaño inicial del texto */
     font-weight: 550;
+}
+
+.delete {
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px;
+    display: inline-block;
+    color: rgb(255, 60, 0);
+    font-weight: normal;
+    font-size: 1.25rem;
+}
+.delete:hover {
+    background-color: lightgray;
 }
 
 .action-buttons {
