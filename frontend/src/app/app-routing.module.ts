@@ -9,6 +9,8 @@ import { SubjectListComponent } from './components/subjects-list/subject-list.co
 import { ProfileComponent } from './components/profile/profile.component';
 import { DocumentListComponent } from './components/documents-list/document-list.component';
 import { AdminPannelComponent } from './components/admin/admin-pannel.component';
+import { AdminSubjectsComponent } from './components/admin/admin-subjects.component';
+import { AdminDocumentsComponent } from './components/admin/admin-documents.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -19,7 +21,9 @@ const routes: Routes = [
   { path: 'degrees/:id', component: SubjectListComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'degrees/:id/subjects/:sid', component: DocumentListComponent },
-  { path: 'admin', component: AdminPannelComponent }
+  { path: 'admin', component: AdminPannelComponent },
+  { path: 'admin/degrees/:id', component: AdminSubjectsComponent },
+  { path: 'admin/degrees/:id/subjects/:sid', component: AdminDocumentsComponent }
 ];
 
 @NgModule({

@@ -1,11 +1,10 @@
 <main class="main-register">
-    <h1 class="login-banner">ADMIN PANNEL</h1>
     <br />
     <br />
     <br />
-    <h1 id="animated-text1">Keep Growing</h1>
     <br />
     <br />
+    <h1 class="banner2">DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</h1>
     <br />
     <br />
     <br />
@@ -16,14 +15,14 @@
     </section>
 </main>
 <div class="action-buttons" style="max-width: 65%; padding-left: 15%;">
-    <a class="register-button"><span>Add new degree</span></a>
+    <a class="register-button"><span>Add new document</span></a>
 </div>
 <div id="container">
     <ul>
-        <li *ngFor="let degree of degrees">
+        <li *ngFor="let document of documents">
             <div class="info">
-                <div  class="delete"><a (click)="deleteDegree(degree.id)">Delete</a></div>
-                <div class="title"><a [routerLink]="['/admin/degrees', degree.id]">{{ degree.name }}</a></div>
+                <div  class="delete"><a (click)="deleteDocument(document.id)">Delete</a></div>
+                <div class="title"><a>{{ document.name }}</a></div>
                 <div class="container">
                     <div class="square"></div>
                 </div>
@@ -32,8 +31,12 @@
             <br />
             <br />
         </li>
-        <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredegrees" (click)="getMoredegrees()"><span>Load
+        <div class="button-container">
+            <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredocuments" (click)="getMoredocuments()"><span>Load
                 more</span></a>
+        </div>
+        
+
     </ul>
 
 </div>

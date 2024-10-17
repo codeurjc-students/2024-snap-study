@@ -52,4 +52,6 @@ export class AdminPannelComponent implements OnInit {
         return false;
     }
 
+    deleteDegree(id:number){}
+
 }
