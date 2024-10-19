@@ -27,9 +27,10 @@ export class LoginComponent {
               this.router.navigate(['/admin']);
             } else {
               this.router.navigate(['/']);
-            }
+            }            
           }
         });
+        this.authService.getCurrentUser();
       },
       error: (err: HttpErrorResponse) => {
         this.router.navigate(['/error']);

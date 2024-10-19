@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PopUpService } from '../../services/popup.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';

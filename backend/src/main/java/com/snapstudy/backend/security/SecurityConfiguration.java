@@ -71,6 +71,7 @@ public class SecurityConfiguration {
 					.requestMatchers(HttpMethod.GET, "/api/degrees/").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/subjects/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/documents/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/documents/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/users/me").authenticated() // Require authentication for this endpoint
 					.anyRequest().permitAll()
 					

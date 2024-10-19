@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PopUpImageComponent } from './components/childs/popup-image.component';
 import { AdminSubjectsComponent } from './components/admin/admin-subjects.component';
 import { AdminDocumentsComponent } from './components/admin/admin-documents.component';
+import { PopUpDocumentComponent } from './components/childs/popup-document.component';
 
 
 
@@ -43,7 +44,8 @@ import { AdminDocumentsComponent } from './components/admin/admin-documents.comp
     PopUpImageComponent,
     AdminSubjectsComponent,
     AdminPannelComponent,
-    AdminDocumentsComponent
+    AdminDocumentsComponent,
+    PopUpDocumentComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,9 @@ import { DocumentService } from '../../services/document.service';
 import { Document } from '../../models/document.model';
 import { AuthService } from '../../services/auth.service';
 import { timer } from 'rxjs';
+import { PopUpService } from '../../services/popup.service';
+import { DegreeService } from '../../services/degree.service';
+import { Degree } from '../../models/degree.model';
 
 @Component({
   selector: 'app-main',
@@ -17,11 +20,13 @@ export class AdminDocumentsComponent {
   public documents: Document[];
   public subject: any;
   private id: string;
+  private degree: any;
+  private degreeId: string = '';
   public indexdocuments: number = 0;    //ajax
   public moredocuments: boolean = false;   //ajax
   public selectedDocumentIds: number[] = [];
 
-  constructor(public authService: AuthService, private documentService: DocumentService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
+  constructor(public authService: AuthService, private degreeService: DegreeService, private documentService: DocumentService, private popUpService: PopUpService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
     this.documents = [];
     this.id = "";
   }
@@ -29,12 +34,13 @@ export class AdminDocumentsComponent {
   ngOnInit() {
     this.authService.getCurrentUser()
     timer(1000).subscribe(() => {
-        this.authService.userLoaded().subscribe((loaded) => {
-            if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                this.router.navigate(['/error']); // Redirige a error si no es admin
-            }
-        });
-        this.getDocuments();
+      this.authService.userLoaded().subscribe((loaded) => {
+        if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+          this.router.navigate(['/error']); // Redirige a error si no es admin
+        }
+      });
+      this.getDocuments();
+      this.getDegree()
     });
   }
 
@@ -68,14 +74,24 @@ export class AdminDocumentsComponent {
     return false;
   }
 
-  onCheckboxChange(event: any, id: number) {
-    if (event.target.checked) {
-      this.selectedDocumentIds.push(id);
-    } else {
-      this.selectedDocumentIds = this.selectedDocumentIds.filter(docId => docId !== id);
-    }
+  deleteDocument(id: number) { }
+
+  getDegree() {
+    this.route.params.subscribe(params => {
+      this.degreeId = params['id'];
+    });
+    this.degreeService.getDegree(parseInt(this.degreeId)).subscribe(
+      (response: Degree) => {
+        this.degree = response;
+      },
+      (error: any) => {
+        this.router.navigate(['/error']);
+      }
+    );
   }
 
-  deleteDocument(id:number){}
+  openModalAddDocument() {
+    this.popUpService.openPopUpDocument(this.subject, this.degree);
+  }
 
 }
