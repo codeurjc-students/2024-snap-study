@@ -13,18 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
-import com.snapstudy.backend.model.DTO.DocumentDTO;
 import com.snapstudy.backend.repository.DocumentRepository;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.service.DocumentService;
@@ -64,20 +58,18 @@ public class DocumentRestController {
             Page<Document> findDocuments = documentService.findDocumentsBySubjectId(subjectId,
                     PageRequest.of(page, size));
             if (findDocuments.getNumberOfElements() > 0) {
-                System.out.println("----------------------------------------------");
                 return new ResponseEntity<>(findDocuments, HttpStatus.OK);
             } else {
-                System.out.println("----------------------------------------------*");
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }
-        System.out.println("----------------------------------------------**");
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
     @PostMapping("/{degreeId}/{subjectId}")
-    public ResponseEntity<Document> saveDocument(@RequestBody MultipartFile file, @PathVariable Long degreeId, @PathVariable Long subjectId) {
+    public ResponseEntity<Document> saveDocument(@RequestBody MultipartFile file, @PathVariable Long degreeId,
+            @PathVariable Long subjectId) {
 
         Subject subject = subjectService.getSubjectById(subjectId);
 
