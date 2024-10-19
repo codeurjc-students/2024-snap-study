@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -25,7 +27,7 @@ public class Subject {
 
     @ManyToOne
     @JoinColumn(name = "degree_id", nullable = false)
-    @JsonBackReference 
+    @JsonBackReference
     private Degree degree;
 
     public Subject(){}

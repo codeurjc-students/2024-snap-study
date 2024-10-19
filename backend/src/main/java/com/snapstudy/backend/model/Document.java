@@ -1,5 +1,6 @@
 package com.snapstudy.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -14,18 +15,21 @@ public class Document {
     private String name;
     @Column(nullable = false)
     private String content; //para ELASTICSEARCH/IA RESUMEN
+    @Column(nullable = false)
+    private Long repositoryId; //para ELASTICSEARCH/IA RESUMEN
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Subject subject;
 
     public Document (){}
 
-    public Document (String name, String content, Subject subject){
+    public Document (String name, String content, Subject subject, Long repositoryId){
         this.name = name;
         this.content = content;
         this.subject = subject;
+        this.repositoryId = repositoryId;
     }
 
     public Long getId() {
@@ -34,6 +38,14 @@ public class Document {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(Long id) {
+        this.repositoryId = id;
     }
 
     public String getName() {

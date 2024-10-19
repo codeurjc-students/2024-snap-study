@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import com.snapstudy.backend.model.Admin;
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Document;
+import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Student;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.repository.AdminRepository;
 import com.snapstudy.backend.repository.DegreeRepository;
 import com.snapstudy.backend.repository.DocumentRepository;
+import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.repository.StudentRepository;
 import com.snapstudy.backend.repository.SubjectRepository;
 
@@ -28,6 +30,8 @@ public class TestDataInitializer {
     private DocumentRepository documentRepository;
     @Autowired
     private AdminRepository adminRepository;
+    @Autowired
+    private RepositoryDocumentsRepository repodocumentRepository;
 
     @PostConstruct
     public void init() throws Exception {
@@ -90,22 +94,20 @@ public class TestDataInitializer {
         subjectRepository.save(s8);
         subjectRepository.save(s9);
 
-        Document dt1 = new Document("Tema 1", "Prueba", s1);
-        Document dt2 = new Document("Tema 2", "Prueba", s1);
-        Document dt3 = new Document("Tema 3", "Prueba", s1);
-        Document dt4 = new Document("Tema 4", "Prueba", s1);
-        Document dt5 = new Document("Tema 5", "Prueba", s1);
-        Document dt6 = new Document("Tema 6", "Prueba", s1);
-        Document dt7 = new Document("Tema 7", "Prueba", s1);
-        Document dt8 = new Document("Tema 8", "Prueba", s1);
+        RepositoryDocument newRepo = new RepositoryDocument(d1.getId(), s1.getId());
+        repodocumentRepository.save(newRepo);
+
+        
+        Document dt1 = new Document("Tema 1", "Prueba", s1, newRepo.getId());
+        Document dt2 = new Document("Tema 2", "Prueba", s1, newRepo.getId());
+        Document dt3 = new Document("Tema 3", "Prueba", s1, newRepo.getId());
+        Document dt4 = new Document("Tema 4", "Prueba", s1, newRepo.getId());
+        Document dt5 = new Document("Tema 5", "Prueba", s1, newRepo.getId());
         documentRepository.save(dt1);
         documentRepository.save(dt2);
         documentRepository.save(dt3);
         documentRepository.save(dt4);
         documentRepository.save(dt5);
-        documentRepository.save(dt6);
-        documentRepository.save(dt7);
-        documentRepository.save(dt8);
-
+        
     }
 }
