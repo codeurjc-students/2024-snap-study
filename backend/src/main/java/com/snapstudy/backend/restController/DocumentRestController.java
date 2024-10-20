@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.repository.DocumentRepository;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
+import com.snapstudy.backend.s3.S3Service;
+import com.snapstudy.backend.service.DegreeService;
 import com.snapstudy.backend.service.DocumentService;
 import com.snapstudy.backend.service.SubjectService;
 
@@ -42,6 +45,10 @@ public class DocumentRestController {
     private RepositoryDocumentsRepository repositoryDocument;
     @Autowired
     private DocumentRepository documentRepository;
+    @Autowired
+    private S3Service awsS3;
+    @Autowired
+    private DegreeService degreeService;
 
     @Operation(summary = "Get a page of documents")
     @ApiResponses(value = {
@@ -73,32 +80,51 @@ public class DocumentRestController {
 
         Subject subject = subjectService.getSubjectById(subjectId);
 
-        // Check if file, degree, and subject are valid
         if (file == null || degreeId == null || subject == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        RepositoryDocument repository = getRepository(degreeId, subjectId);
+        Degree degree = degreeService.getDegreeById(degreeId);
+        if (degree == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
+
+        RepositoryDocument repository = getRepository(degreeId, subjectId, path);
         if (repository == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Document document = new Document(file.getOriginalFilename(), "", subject, repository.getId());
+        String fileName = file.getOriginalFilename();
+        fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+
+        //control de nombres de archivo repetidos
+        Document docCheck = documentService.getDocumentByName(fileName);
+        if (docCheck != null) {
+            return new ResponseEntity<>(HttpStatus.OK); // Ya existe un archivo con este nombre
+        }
+
+        Document document = new Document(fileName, "", subject, repository.getId());
         documentRepository.save(document);
 
-        // TODO: Call your method to upload to S3 here
+        path = path + "/" + file.getOriginalFilename();
+        awsS3.addFile(path, file); //subimos el fichero a s3
 
         return new ResponseEntity<>(document, HttpStatus.OK); // Return the document
     }
 
-    private RepositoryDocument getRepository(Long degreeId, Long subjectId) {
+    private RepositoryDocument getRepository(Long degreeId, Long subjectId, String path) {
+
+        //Crea la carpeta en el s3 si no existe
+        awsS3.createFolder(path);
+
         Optional<RepositoryDocument> repository = repositoryDocument.findByDegreeIdAndSubjectId(degreeId, subjectId);
 
         if (repository.isPresent()) {
             return repository.get();
         } else {
             RepositoryDocument newRepo = new RepositoryDocument(degreeId, subjectId);
-            // crear en s3
             return newRepo;
         }
     }
