@@ -29,4 +29,14 @@ public class DocumentService {
         }
     }
 
+    public Document getDocumentByName(String name) {
+        Optional<Document> document = documentRepository.findByName(name);
+
+        if (document.isPresent()) {
+            return document.get();
+        } else {
+            return null;
+        }
+    }
+
 }
