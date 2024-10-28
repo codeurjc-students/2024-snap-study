@@ -125,6 +125,7 @@ public class DocumentRestController {
             return repository.get();
         } else {
             RepositoryDocument newRepo = new RepositoryDocument(degreeId, subjectId);
+            repositoryDocument.save(newRepo);
             return newRepo;
         }
     }
