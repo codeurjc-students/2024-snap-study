@@ -9,7 +9,7 @@ import { PopUpService } from "../../services/popup.service";
 @Component({
     selector: 'app-main',
     templateUrl: './profile.component.html',
-    styleUrl: './profile.component.css'
+    styleUrls: ['./profile.component.css', '../../../styles.css']
 })
 export class ProfileComponent {
 
