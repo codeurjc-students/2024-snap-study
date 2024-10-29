@@ -3,12 +3,13 @@
   <div>
     <h1 class="image-banner">PROFILE IMAGE</h1>
     <br />
-    <div class="input-container">
-        <input (change)="onFileChange($event)" type="file" accept="image/*">
-      </div>
+    <div class="form-signuppp">
+        <input class="form-control" (change)="onFileChange($event)" type="file" accept="image/*">
+    </div>
+      <br />
   </div>
   <div class="action-buttons">
-    <button mat-button [mat-dialog-close]="true" (click)="saveImage()" class="orange-button">Save Image</button>
-    <button mat-button [mat-dialog-close]="true" class="orange-button">Cancel</button>
+    <button mat-button [mat-dialog-close]="true" (click)="saveImage()" class="btn btn-dark">Save Image</button>
+    <button mat-button [mat-dialog-close]="true" class="btn btn-dark">Cancel</button>
   </div>
 </div>

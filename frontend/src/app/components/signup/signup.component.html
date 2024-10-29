@@ -1,16 +1,33 @@
-<main class="main-register">
-    <h1 class="login-banner">CREATE YOUR ACCOUNT</h1>
-    <section class="register-section">
-        <input [(ngModel)]="firstName" type="text" placeholder="First Name">
-        <input [(ngModel)]="lastName" type="text" placeholder="Last Name">
-        <input [(ngModel)]="email" type="email" placeholder="Email">
-        <input [(ngModel)]="password" type="password" placeholder="Password">
-        <input [(ngModel)]="password2" type="password" placeholder="Confirm Password">
-        <div>
-            <button (click)="createUser()" type="submit" class="register-button" style="width: 110%;"><span>Create account</span></button>
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 class="text-white mb-5 centered-h2">CREATE A NEW ACCOUNT!</h2>
+                    <div class="form-signup">
+                        <div class="col"><input [(ngModel)]="firstName" type="text" placeholder="First Name..."
+                                class="form-control" /></div>
+                        <br />
+                        <div class="col"><input [(ngModel)]="lastName" type="text" placeholder="Last Name..."
+                                class="form-control" /></div>
+                        <br />
+                        <div class="col"><input [(ngModel)]="email" type="email" placeholder="Email..."
+                                class="form-control" /></div>
+                        <br />
+                        <div class="col"><input [(ngModel)]="password" type="password" placeholder="Password..."
+                                class="form-control" /></div>
+                        <br />
+                        <div class="col"><input [(ngModel)]="password2" type="password"
+                                placeholder="Confirm Password..." class="form-control" /></div>
+                        <br />
+                        <div class="row">
+                            <div class="col-auto"><button class="btn btn-primary" (click)="createUser()">Create
+                                    account!</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-    <section id="work-section" class="work-section">
-        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
-    </section>
-</main>
+</header>
+<section class="footer"></section>
