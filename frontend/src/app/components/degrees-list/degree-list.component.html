@@ -1,37 +1,36 @@
-<main class="main-register">
-    <h1 class="login-banner">EXPLORE ALL AVAILABLE DEGREES</h1>
-    <br />
-    <br />
-    <br />
-    <h1 id="animated-text1">Check all available degrees on our platform</h1>
-    <h1 id="animated-text2" style="text-align: center;">and access useful resources for each subject</h1>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <section id="work-section" class="work-section">
-        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
-    </section>
-</main>
-<div id="container">
-    <ul>
-        <li *ngFor="let degree of degrees">
-            <div class="info">
-                <div class="date">{{ degree.postedDate | date: 'MMM, yyyy' }}</div>
-                <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}</a></div> <!-- Añadir link -->
-                <div class="container">
-                    <div class="square"></div>
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 class="text-white mb-5 centered-h2">EXPLORE ALL AVAILABLE DEGREES!</h2>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Check all available degrees on our platform and access
+                        useful resources for each subject</h2>
                 </div>
             </div>
-            <div class="divider"></div>
-            <br />
-            <br />
-        </li>
-        <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredegrees" (click)="getMoredegrees()"><span>Load
-                more</span></a>
-    </ul>
+        </div>
+    </section>
+</header>
 
-</div>
+<section style="padding: 5%;">
+    <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(LIST)</b></h2>
+    <div id="container">
+        <ul>
+            <li *ngFor="let degree of degrees">
+                <div class="info">
+                    <div class="date">{{ degree.postedDate | date: 'MMM, yyyy' }}</div>
+                    <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}</a></div>
+                    <!-- Añadir link -->
+                    <div class="container-square">
+                        <div class="square"></div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <br />
+                <br />
+            </li>
+            <div class="col-auto"><button *ngIf="showLoadMoreButton()" class="btn btn-dark"
+                    [class.display-div]="!moredegrees" (click)="getMoredegrees()">Load More</button></div>
+        </ul>
+    </div>
+</section>

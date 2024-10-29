@@ -5,7 +5,6 @@ import { DegreeService } from '../../services/degree.service';
 @Component({
   selector: 'app-main',
   templateUrl: './degree-list.component.html',
-  styleUrl: './degree-list.component.css'
 })
 export class DegreeListComponent {
 
