@@ -40,7 +40,7 @@ public class DegreeRestController {
                 if (findDegrees.getNumberOfElements() > 0) {
                         return new ResponseEntity<>(findDegrees, HttpStatus.OK);
                 } else {
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 }
         }
 

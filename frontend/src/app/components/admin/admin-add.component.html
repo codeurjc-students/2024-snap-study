@@ -1,0 +1,24 @@
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 *ngIf="isDegree" class="text-white mb-5 centered-h2">ADD A NEW DEGREE!</h2>
+                    <h2 *ngIf="!isDegree" class="text-white mb-5 centered-h2">ADD A NEW SUBJECT!</h2>
+                    <div class="form-signup">
+                        <div class="col"><input [(ngModel)]="name" type="text" placeholder="Name..."
+                                class="form-control" /></div>
+                        <br />
+                        <div class="row">
+                            <div *ngIf="isDegree" class="col-auto"><button class="btn btn-primary">Create
+                                    degree!</button></div>
+                            <div *ngIf="!isDegree" class="col-auto"><button class="btn btn-primary">Create
+                                    subject!</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</header>
+<section class="footer"></section>

@@ -9,7 +9,6 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-main',
   templateUrl: './document-list.component.html',
-  styleUrls: ['../../../styles.css', '../degrees-list/degree-list.component.css']
 })
 export class DocumentListComponent {
 

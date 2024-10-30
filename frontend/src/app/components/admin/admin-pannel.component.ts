@@ -8,7 +8,6 @@ import { timer } from 'rxjs';
 @Component({
     selector: 'app-main',
     templateUrl: './admin-pannel.component.html',
-    styleUrls: ['../../../styles.css', '../degrees-list/degree-list.component.css']
 })
 export class AdminPannelComponent implements OnInit {
 

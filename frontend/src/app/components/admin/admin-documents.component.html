@@ -1,42 +1,38 @@
-<main class="main-register">
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <h1 class="banner2">DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</h1>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <section id="work-section" class="work-section">
-        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
-    </section>
-</main>
-<div class="action-buttons" style="max-width: 65%; padding-left: 15%;">
-    <a class="register-button" (click)="openModalAddDocument()"><span>Add new document</span></a>
-</div>
-<div id="container">
-    <ul>
-        <li *ngFor="let document of documents">
-            <div class="info">
-                <div  class="delete"><a (click)="deleteDocument(document.id)">Delete</a></div>
-                <div class="title"><a>{{ document.name }}</a></div>
-                <div class="container">
-                    <div class="square"></div>
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 class="text-white mb-5 centered-h2">DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</h2>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
+                        notes and resources for each one</h2>
                 </div>
             </div>
-            <div class="divider"></div>
-            <br />
-            <br />
-        </li>
-        <div class="button-container">
-            <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredocuments" (click)="getMoredocuments()"><span>Load
-                more</span></a>
         </div>
-        
+    </section>
+</header>
 
-    </ul>
-
-</div>
+<section style="padding: 5%;">
+    <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(LIST)</b></h2>
+    <div id="container">
+        <ul>
+            <li *ngFor="let document of documents">
+                <div class="info">
+                    <button class="btn btn-dark" (click)="deleteDocument(subject.id)">Delete</button>
+                    <div class="title"><a>{{ document.name }}</a></div>
+                    <div class="container-square">
+                        <div class="square"></div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <br />
+                <br />
+            </li>
+            <div class="action-buttons">
+                <button *ngIf="showLoadMoreButton()" class="btn btn-dark" [class.display-div]="!moredocuments"
+                    (click)="getMoredocuments()">Load More</button>
+                <button class="btn btn-dark" (click)="openModalAddDocument()">Add new document</button>
+            </div>
+        </ul>
+    </div>
+</section>

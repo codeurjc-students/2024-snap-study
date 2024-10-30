@@ -18,8 +18,4 @@ export class HeaderComponent {
     this.isLogged = this.authService.isLogged();
     this.isAdmin = this.authService.isAdmin();
   }
-
-  logout() {
-    this.authService.logout();
-  }
 }

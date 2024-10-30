@@ -63,4 +63,8 @@ export class ProfileComponent {
     editImage(){
         this.popUpService.openPopUpImage();
     }
+
+    logout() {
+        this.authService.logout();
+      }
 }

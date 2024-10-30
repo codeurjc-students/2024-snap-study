@@ -53,6 +53,10 @@ public class UserRestController {
 			@ApiResponse(responseCode = "403", description = "forbiden o dont have permissions", content = @Content) })
 	@PostMapping("/")
 	public ResponseEntity<User> register(@RequestBody UserDTO post) throws IOException, SQLException {
+		Optional<User> checkUser = userService.getByEmail(post.getEmail());
+		if(checkUser.isPresent()){
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 		User user = new Student(post.getFirstName(), post.getLastName(), post.getEmail(), post.getPassword());
 		userService.setUser(user);
 

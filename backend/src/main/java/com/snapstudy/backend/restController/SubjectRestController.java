@@ -47,7 +47,7 @@ public class SubjectRestController {
                     if (findSubjects.getNumberOfElements() > 0) {
                         return new ResponseEntity<>(findSubjects, HttpStatus.OK);
                     } else {
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                     }
                 }
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
