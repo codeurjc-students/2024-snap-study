@@ -67,10 +67,10 @@ public class DocumentRestController {
             if (findDocuments.getNumberOfElements() > 0) {
                 return new ResponseEntity<>(findDocuments, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 

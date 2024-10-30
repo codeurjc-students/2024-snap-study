@@ -3,9 +3,6 @@
   --bs-teal: #495057;
   --bs-black: #000;
   --bs-white: #fff;
-  --bs-success: #67c29c;
-  --bs-info: #1cabc4;
-  --bs-warning: #e4c662;
   --bs-danger: #a16468;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
@@ -43,7 +40,7 @@
   --bs-border-radius-2xl: 2rem;
   --bs-border-radius-pill: 50rem;
   --bs-link-color: #495057;
-  --bs-link-hover-color: #50817e;
+  --bs-link-hover-color: #858688;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #faf4e0;
 }
@@ -80,20 +77,29 @@ body {
   width: 100%; /* Asegura que el contenido ocupe el ancho completo */
 }
 
+input[type="checkbox"]:checked {
+  accent-color: #495057;
+}
+
+input[type="checkbox"] {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
 .divider {
-  padding-top: 30px;
+  padding-top: 4%;
   border-bottom: 1px solid black;
   margin: 0 auto;
-  width: 1000px; /* Ancho de la línea divisoria */
+  width: 60rem;
 }
 
 .date {
-  font-size: 20px;
+  font-size: 1.25rem;
   color: black; /* Color para la fecha */
 }
 
 .title {
-  font-size: 25px;
+  font-size: 1.6rem !important;
   color: black; /* Color para el texto */
   text-align: right; /* Alinea el texto a la derecha */
 }
@@ -128,8 +134,8 @@ body {
 
 .container-square {
   position: relative;
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
 }
 
 hr {
@@ -258,8 +264,8 @@ sup {
 }
 
 a {
-  color: var(--bs-link-color);
-  text-decoration: underline;
+  color: var(--bs-dark);
+  text-decoration: none;
 }
 a:hover {
   color: var(--bs-link-hover-color);
@@ -2466,7 +2472,7 @@ textarea.form-control-lg {
 
 .text-white-50 {
   --bs-text-opacity: 1;
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .bg-light {
@@ -2625,7 +2631,7 @@ body {
   font-size: 2.5rem;
   line-height: 2.5rem;
   letter-spacing: 0.8rem;
-  background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
           background-clip: text;
@@ -2711,7 +2717,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999999; /* asegúrate de que el z-index sea mayor que el del footer */
-  border: 2px solid black; /* Agrega un borde sólido de 1 píxel */
+  border: 2px solid #495049; /* Agrega un borde sólido de 1 píxel */
   border-radius: 8px; /* Ajusta el radio del borde según sea necesario */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -2720,7 +2726,7 @@ body {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding-top: 50px;
+  padding-top: 5%;
 }
 
 .form-signuppp input {

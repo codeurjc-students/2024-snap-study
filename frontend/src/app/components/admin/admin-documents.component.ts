@@ -13,7 +13,6 @@ import { Degree } from '../../models/degree.model';
 @Component({
   selector: 'app-main',
   templateUrl: './admin-documents.component.html',
-  styleUrls: ['../../../styles.css', '../degrees-list/degree-list.component.css']
 })
 export class AdminDocumentsComponent {
 
@@ -32,7 +31,6 @@ export class AdminDocumentsComponent {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser()
     timer(1000).subscribe(() => {
       this.authService.userLoaded().subscribe((loaded) => {
         if (!this.authService.isLogged() || !this.authService.isAdmin()) {

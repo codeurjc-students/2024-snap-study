@@ -1,38 +1,39 @@
-<main class="main-register">
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <h1 class="banner2">MANAGES ALL SUBJECTS FOR {{ degree.name | uppercase }}</h1>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <section id="work-section" class="work-section">
-        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
-    </section>
-</main>
-<div class="action-buttons" style="max-width: 65%; padding-left: 15%;">
-    <a class="register-button"><span>Add new subject</span></a>
-</div>
-<div id="container">
-    <ul>
-        <li *ngFor="let subject of subjects">
-            <div class="info">
-                <div  class="delete"><a (click)="deleteSubject(subject.id)">Delete</a></div>
-                <div class="title"><a [routerLink]="['/admin/degrees/' + degree.id + '/subjects', subject.id]">{{ subject.name }}</a></div>
-                <div class="container">
-                    <div class="square"></div>
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 class="text-white mb-5 centered-h2">MANAGES ALL SUBJECTS FOR {{ degree.name | uppercase }}</h2>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
+                        notes and resources for each one</h2>
                 </div>
             </div>
-            <div class="divider"></div>
-            <br />
-            <br />
-        </li>
-        <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moresubjects" (click)="getMoresubjects()"><span>Load
-                more</span></a>
-    </ul>
+        </div>
+    </section>
+</header>
 
-</div>
+<section style="padding: 5%;">
+    <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(LIST)</b></h2>
+    <div id="container">
+        <ul>
+            <li *ngFor="let subject of subjects">
+                <div class="info">
+                    <button class="btn btn-dark" (click)="deleteSubject(subject.id)">Delete</button>
+                    <div class="title"><a [routerLink]="['/admin/degrees/' + degree.id + '/subjects', subject.id]">{{
+                            subject.name }}</a></div>
+                    <div class="container-square">
+                        <div class="square"></div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <br />
+                <br />
+            </li>
+            <div class="action-buttons">
+                <button *ngIf="showLoadMoreButton()" class="btn btn-dark" [class.display-div]="!moresubjects"
+                    (click)="getMoresubjects()">Load More</button>
+                <button class="btn btn-dark">Add new degree</button>
+            </div>
+        </ul>
+    </div>
+</section>
