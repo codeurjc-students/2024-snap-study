@@ -31,15 +31,13 @@ export class AdminDocumentsComponent {
   }
 
   ngOnInit() {
-    timer(1000).subscribe(() => {
-      this.authService.userLoaded().subscribe((loaded) => {
-        if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-          this.router.navigate(['/error']); // Redirige a error si no es admin
-        }
-      });
-      this.getDocuments();
-      this.getDegree()
+    this.authService.userLoaded().subscribe((loaded) => {
+      if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+        this.router.navigate(['/error']); // Redirige a error si no es admin
+      }
     });
+    this.getDocuments();
+    this.getDegree()
   }
 
   getDocuments() {

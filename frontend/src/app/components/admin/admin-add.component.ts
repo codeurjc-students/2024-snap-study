@@ -2,11 +2,10 @@ import { Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DegreeService } from "../../services/degree.service";
-import { Degree } from "../../models/degree.model";
 import { HttpErrorResponse } from "@angular/common/http";
-import { PopUpDialogComponent } from "../childs/popup-dialog.component";
 import { PopUpService } from "../../services/popup.service";
 import { SubjectService } from "../../services/subject.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     selector: 'app-main',
@@ -18,9 +17,14 @@ export class AdminAddComponent {
     public isDegreeParam: number = -1;
     private degree: any;
 
-    constructor(private subjectService: SubjectService, private popUpService: PopUpService, private degreeService: DegreeService, private route: ActivatedRoute, private router: Router, private location: Location) { }
+    constructor(private authService: AuthService, private subjectService: SubjectService, private popUpService: PopUpService, private degreeService: DegreeService, private route: ActivatedRoute, private router: Router, private location: Location) { }
 
     ngOnInit() {
+        this.authService.userLoaded().subscribe((loaded) => {
+            if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+                this.router.navigate(['/error']); // Redirige a error si no es admin
+            }
+        });
         this.route.params.subscribe(params => {
             this.isDegreeParam = params['isDegree'];
             this.degree = params['degreeId']
@@ -53,7 +57,6 @@ export class AdminAddComponent {
 
     createSubject(event: Event) {
         event.preventDefault();
-        console.log(this.degree)
         if(this.degree != null){
             this.subjectService.saveSubject(this.name, this.degree).subscribe(
                 {
@@ -70,8 +73,6 @@ export class AdminAddComponent {
                 });
         } else {
             this.router.navigate(['/error']);
-
         }
-        
     }
 }
