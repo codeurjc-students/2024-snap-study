@@ -11,6 +11,7 @@ import { DocumentListComponent } from './components/documents-list/document-list
 import { AdminPannelComponent } from './components/admin/admin-pannel.component';
 import { AdminSubjectsComponent } from './components/admin/admin-subjects.component';
 import { AdminDocumentsComponent } from './components/admin/admin-documents.component';
+import { AdminAddComponent } from './components/admin/admin-add.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'degrees/:id/subjects/:sid', component: DocumentListComponent },
   { path: 'admin', component: AdminPannelComponent },
   { path: 'admin/degrees/:id', component: AdminSubjectsComponent },
-  { path: 'admin/degrees/:id/subjects/:sid', component: AdminDocumentsComponent }
+  { path: 'admin/degrees/:id/subjects/:sid', component: AdminDocumentsComponent },
+  { path: 'admin/add/:isDegree/:degreeId', component: AdminAddComponent }
 ];
 
 @NgModule({

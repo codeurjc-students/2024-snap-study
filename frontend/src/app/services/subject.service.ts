@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Subject } from "../models/subject.model";
 
 const BASE_URL = '/api/subjects/';
 
@@ -18,5 +19,9 @@ export class SubjectService {
 
     getSubject(id:number): Observable<any> {
         return this.http.get(BASE_URL + id) as Observable<any>;
+    }
+
+    saveSubject(name: string, degreeId: number): Observable<Subject> {
+        return this.http.post(BASE_URL + degreeId, name) as Observable<Subject>;
     }
 }

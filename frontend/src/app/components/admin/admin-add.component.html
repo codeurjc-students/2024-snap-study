@@ -10,10 +10,11 @@
                                 class="form-control" /></div>
                         <br />
                         <div class="row">
-                            <div *ngIf="isDegree" class="col-auto"><button class="btn btn-primary">Create
+                            <div *ngIf="isDegree" class="col-auto"><button class="btn btn-primary" (click)="createDegree($event)">Create
                                     degree!</button></div>
-                            <div *ngIf="!isDegree" class="col-auto"><button class="btn btn-primary">Create
+                            <div *ngIf="!isDegree" class="col-auto"><button class="btn btn-primary" (click)="createSubject($event)">Create
                                     subject!</button></div>
+                            <div class="col-auto"><button class="btn btn-primary" (click)="goBack()">Back</button></div>
                         </div>
                     </div>
                 </div>

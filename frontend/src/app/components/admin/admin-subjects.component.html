@@ -32,7 +32,7 @@
             <div class="action-buttons">
                 <button *ngIf="showLoadMoreButton()" class="btn btn-dark" [class.display-div]="!moresubjects"
                     (click)="getMoresubjects()">Load More</button>
-                <button class="btn btn-dark">Add new degree</button>
+                <button class="btn btn-dark" [routerLink]="['/admin/add', 0, degree.id]">Add new subject</button>
             </div>
         </ul>
     </div>
