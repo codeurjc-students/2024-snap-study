@@ -25,17 +25,15 @@ export class AdminSubjectsComponent {
   }
 
   ngOnInit() {
-    timer(1000).subscribe(() => {
-        this.authService.userLoaded().subscribe((loaded) => {
-            if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                this.router.navigate(['/error']); // Redirige a error si no es admin
-            }
-        });
-        this.getDegree();
+    this.authService.userLoaded().subscribe((loaded) => {
+      if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+        this.router.navigate(['/error']); // Redirige a error si no es admin
+      }
     });
+    this.getDegree();
   }
 
-  getDegree(){
+  getDegree() {
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -52,19 +50,19 @@ export class AdminSubjectsComponent {
 
   getMoresubjects() {
     this.subjectService.getSubjects(parseInt(this.id), this.indexsubjects).subscribe((response) => {
-        this.subjects = this.subjects.concat(response.content);
-        this.moresubjects = !response.last;
-        this.indexsubjects++;
-      });
+      this.subjects = this.subjects.concat(response.content);
+      this.moresubjects = !response.last;
+      this.indexsubjects++;
+    });
   }
 
-  showLoadMoreButton(){
-    if (this.moresubjects){
+  showLoadMoreButton() {
+    if (this.moresubjects) {
       return true;
     }
     return false;
   }
 
-  deleteSubject(is:number){}
+  deleteSubject(is: number) { }
 
 }

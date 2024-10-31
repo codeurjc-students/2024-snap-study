@@ -21,18 +21,15 @@ export class AdminPannelComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.authService.getCurrentUser()
-        timer(1000).subscribe(() => {
-            this.authService.userLoaded().subscribe((loaded) => {
-                if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                    this.router.navigate(['/error']); // Redirige a error si no es admin
-                }
-            });
-            this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
-                this.degrees = this.degrees.concat(response.content);
-                this.moredegrees = !response.last;
-                this.indexdegrees++; //next ajax buttom
-            });
+        this.authService.userLoaded().subscribe((loaded) => {
+            if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+                this.router.navigate(['/error']); // Redirige a error si no es admin
+            }
+        });
+        this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
+            this.degrees = this.degrees.concat(response.content);
+            this.moredegrees = !response.last;
+            this.indexdegrees++; //next ajax buttom
         });
     }
 
@@ -51,6 +48,6 @@ export class AdminPannelComponent implements OnInit {
         return false;
     }
 
-    deleteDegree(id:number){}
+    deleteDegree(id: number) { }
 
 }
