@@ -1,5 +1,7 @@
 package com.snapstudy.backend.restController;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/degrees")
@@ -59,5 +64,18 @@ public class DegreeRestController {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
         }
+
+        @PostMapping("/")
+        public ResponseEntity<Degree> createDegree(@RequestBody String name) {
+                Optional<Degree> degree = degreeService.findByName(name);
+            if(degree.isPresent()){
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            } else {
+                Degree newDegree = new Degree(name);
+                degreeService.save(newDegree);
+                return new ResponseEntity<>(newDegree, HttpStatus.OK);
+            }
+        }
+        
 
 }

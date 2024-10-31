@@ -24,6 +24,7 @@ import { PopUpImageComponent } from './components/childs/popup-image.component';
 import { AdminSubjectsComponent } from './components/admin/admin-subjects.component';
 import { AdminDocumentsComponent } from './components/admin/admin-documents.component';
 import { PopUpDocumentComponent } from './components/childs/popup-document.component';
+import { AdminAddComponent } from './components/admin/admin-add.component';
 
 
 
@@ -45,7 +46,8 @@ import { PopUpDocumentComponent } from './components/childs/popup-document.compo
     AdminSubjectsComponent,
     AdminPannelComponent,
     AdminDocumentsComponent,
-    PopUpDocumentComponent
+    PopUpDocumentComponent,
+    AdminAddComponent
   ],
   imports: [
     BrowserModule,

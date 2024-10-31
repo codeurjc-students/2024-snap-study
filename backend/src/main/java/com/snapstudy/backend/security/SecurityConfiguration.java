@@ -73,6 +73,8 @@ public class SecurityConfiguration {
 					.requestMatchers(HttpMethod.GET, "/api/documents/**").permitAll()
 					.requestMatchers(HttpMethod.POST, "/api/documents/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/users/me").authenticated() // Require authentication for this endpoint
+					.requestMatchers(HttpMethod.POST, "/api/degrees/").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.POST, "/api/subjects/*").hasRole("ADMIN")
 					.anyRequest().permitAll()
 					
 			);
