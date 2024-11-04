@@ -75,7 +75,9 @@ public class SecurityConfiguration {
 					.requestMatchers(HttpMethod.GET, "/api/users/me").authenticated() // Require authentication for this endpoint
 					.requestMatchers(HttpMethod.POST, "/api/degrees/").hasRole("ADMIN")
 					.requestMatchers(HttpMethod.POST, "/api/subjects/*").hasRole("ADMIN")
-					.requestMatchers(HttpMethod.DELETE, "/api/document/*").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.DELETE, "/api/documents/*").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.DELETE, "/api/subjects/*").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.DELETE, "/api/degrees/*").hasRole("ADMIN")
 					.anyRequest().permitAll()
 					
 			);

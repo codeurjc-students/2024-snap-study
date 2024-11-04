@@ -4,6 +4,7 @@ import { DegreeService } from '../../services/degree.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { timer } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-main',
@@ -48,6 +49,28 @@ export class AdminPannelComponent implements OnInit {
         return false;
     }
 
-    deleteDegree(id: number) { }
+    deleteDegree(id: number){ 
+        this.degreeService.deleteDegree(id).subscribe({
+          next: _ => {
+            { this.reload(); }
+          },
+          error: (err: HttpErrorResponse) => {
+            if (err.status === 204 || err.status === 200) {
+              this.reload();
+            } else {
+              this.router.navigate(['/error']);
+            }
+          }
+        });
+      }
+
+      reload() {
+        this.indexdegrees = 0
+        this.degreeService.getDegrees(0).subscribe((response) => {
+          this.degrees = response.content;
+          this.moredegrees = !response.last;
+          this.indexdegrees++;
+        });
+      }
 
 }

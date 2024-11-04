@@ -36,4 +36,7 @@ public class DegreeService {
     degreeRepository.save(degree);
   }
 
+  public void deleteDegree(Long id){
+    degreeRepository.deleteById(id);
+}
 }

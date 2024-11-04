@@ -6,6 +6,7 @@ import { Degree } from '../../models/degree.model';
 import { DegreeService } from '../../services/degree.service';
 import { AuthService } from '../../services/auth.service';
 import { timer } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-main',
@@ -63,6 +64,28 @@ export class AdminSubjectsComponent {
     return false;
   }
 
-  deleteSubject(is: number) { }
+  deleteSubject(id: number) { 
+    this.subjectService.deleteSubject(id).subscribe({
+      next: _ => {
+        { this.reload(); }
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 204 || err.status === 200) {
+          this.reload();
+        } else {
+          this.router.navigate(['/error']);
+        }
+      }
+    });
+  }
+
+  reload() {
+    this.indexsubjects = 0
+    this.subjectService.getSubjects(parseInt(this.id), 0).subscribe((response) => {
+      this.subjects = response.content;
+      this.moresubjects = !response.last;
+      this.indexsubjects++;
+    });
+  }
 
 }

@@ -38,4 +38,8 @@ public class SubjectService {
         return subjectRepository.findByNameAndDegree(name, degree);
     }
 
+    public void deleteSubject(Long id){
+        subjectRepository.deleteById(id);
+    }
+
 }
