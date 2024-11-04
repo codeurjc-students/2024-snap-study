@@ -86,7 +86,7 @@ export class AdminDocumentsComponent {
   }
 
   deleteDocument(id: number) {
-    this.documentService.deleteDocument(id).subscribe({
+    this.documentService.deleteDocument(id, this.degree.id, this.subject.id).subscribe({
       next: _ => {
         { this.reload(); }
       },

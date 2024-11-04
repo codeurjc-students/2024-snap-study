@@ -98,26 +98,33 @@ public class DocumentRestController {
         }
 
         String fileName = file.getOriginalFilename();
+        String ext = fileName.substring(fileName.lastIndexOf('.'));
         fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+        
+        System.out.println("----------------------------------");
+        System.out.println("----------------------------------");
+        System.out.println(ext);
+        System.out.println("----------------------------------");
+        System.out.println("----------------------------------");
 
-        //control de nombres de archivo repetidos
+        // control de nombres de archivo repetidos
         Document docCheck = documentService.getDocumentByName(fileName);
         if (docCheck != null) {
             return new ResponseEntity<>(HttpStatus.OK); // Ya existe un archivo con este nombre
         }
 
-        Document document = new Document(fileName, "", subject, repository.getId());
+        Document document = new Document(fileName, "", subject, repository.getId(), ext);
         documentRepository.save(document);
 
         path = path + "/" + file.getOriginalFilename();
-        awsS3.addFile(path, file); //subimos el fichero a s3
+        awsS3.addFile(path, file); // subimos el fichero a s3
 
         return new ResponseEntity<>(document, HttpStatus.OK); // Return the document
     }
 
     private RepositoryDocument getRepository(Long degreeId, Long subjectId, String path) {
 
-        //Crea la carpeta en el s3 si no existe
+        // Crea la carpeta en el s3 si no existe
         awsS3.createFolder(path);
 
         Optional<RepositoryDocument> repository = repositoryDocument.findByDegreeIdAndSubjectId(degreeId, subjectId);
@@ -131,13 +138,36 @@ public class DocumentRestController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDocument (@PathVariable Long id){
+    @DeleteMapping("/{degreeId}/{subjectId}/{id}")
+    public ResponseEntity<Void> deleteDocument(@PathVariable Long id, @PathVariable Long degreeId,
+            @PathVariable Long subjectId) {
         Document doc = documentService.getDocumentById(id);
 
-        if(doc != null){
-            documentService.deleteDocument(id);
-            return ResponseEntity.noContent().build();
+        if (doc != null) {
+
+            Subject subject = subjectService.getSubjectById(subjectId);
+
+            if (degreeId == null || subject == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            Degree degree = degreeService.getDegreeById(degreeId);
+            if (degree == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
+            String fileName = doc.getName() + doc.getExtension();
+
+            int result = awsS3.deleteFile(path, fileName); // eliminar del s3 el documento
+
+            if (result == 0){
+                documentService.deleteDocument(id);
+                return ResponseEntity.noContent().build();
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -1,6 +1,7 @@
 package com.snapstudy.backend.s3;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -10,9 +11,12 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GetObjectMetadataRequest;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,9 +75,9 @@ public class S3Service {
 
             // Configuración del cliente de S3
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                    .withEndpointConfiguration(new AmazonS3ClientBuilder.EndpointConfiguration(serviceUrl, ""))
-                    .build();
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .withRegion(Regions.EU_WEST_1)
+                .build();
 
             // Verificar si la carpeta ya existe
             String folderKey = folderName.endsWith("/") ? folderName : folderName + "/";
@@ -103,6 +107,63 @@ public class S3Service {
         } catch (Exception e) {
             e.printStackTrace();
             return 2; // Error al crear la carpeta
+        }
+    }
+
+    public static int deleteFile(String folder, String fileName) {
+        try {
+            // Configuramos el cliente de Amazon S3 con nuestras credenciales
+            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .withRegion(Regions.EU_WEST_1)
+                .build();
+
+            // Eliminamos el archivo indicando el bucket y el archivo
+            String key = folder + "/" + fileName;
+            s3Client.deleteObject(new DeleteObjectRequest(bucket, key));
+
+            return 0; // Eliminación exitosa
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 1; // Error al eliminar el archivo en Amazon S3
+        }
+    }
+
+    public static int deleteFolder(String folderName) {
+        try {
+            // Configuramos el cliente de Amazon S3 con nuestras credenciales
+            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                    .withEndpointConfiguration(new AmazonS3ClientBuilder.EndpointConfiguration(serviceUrl, ""))
+                    .build();
+
+            // Verificamos si la carpeta existe
+            String folderKey = folderName.endsWith("/") ? folderName : folderName + "/";
+            try {
+                // Si no lanza excepción, la carpeta existe
+                ObjectMetadata metadata = s3Client.getObjectMetadata(bucket, folderKey);
+
+                // Obtenemos todos los objetos dentro de la carpeta
+                ListObjectsRequest listRequest = new ListObjectsRequest()
+                        .withBucketName(bucket)
+                        .withPrefix(folderKey);
+
+                List<S3ObjectSummary> objects = s3Client.listObjects(listRequest).getObjectSummaries();
+
+                // Eliminamos cada objeto en la carpeta
+                for (S3ObjectSummary object : objects) {
+                    s3Client.deleteObject(new DeleteObjectRequest(bucket, object.getKey()));
+                }
+                return 0; // Eliminación exitosa
+
+            } catch (Exception e) {
+                return 1; // Si ocurre una excepción aquí, la carpeta no existe
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 2; // Error al eliminar la carpeta en Amazon S3
         }
     }
 
