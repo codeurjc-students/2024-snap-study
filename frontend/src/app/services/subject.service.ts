@@ -24,4 +24,8 @@ export class SubjectService {
     saveSubject(name: string, degreeId: number): Observable<Subject> {
         return this.http.post(BASE_URL + degreeId, name) as Observable<Subject>;
     }
+
+    deleteSubject(id: number): Observable<any> {
+        return this.http.delete(BASE_URL + id) as Observable<any>;
+    }
 }

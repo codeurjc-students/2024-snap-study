@@ -73,7 +73,7 @@ export class AdminDocumentsComponent {
     this.indexdocuments = 0
     this.documentService.getDocuments(parseInt(this.id), 0).subscribe((response) => {
       this.documents = response.content;
-      this.moredocuments = true;
+      this.moredocuments = !response.last;
       this.indexdocuments++;
     });
   }
@@ -116,7 +116,6 @@ export class AdminDocumentsComponent {
 
   openModalAddDocument() {
     this.popUpService.openPopUpDocument(this.subject, this.degree);
-
   }
 
 }
