@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
@@ -20,8 +19,7 @@ public class Subject {
     @Column(nullable = false)
     private Date postedDate;
 
-    @OneToMany
-    @JoinColumn(name = "subject_id")
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Document> documents;
 

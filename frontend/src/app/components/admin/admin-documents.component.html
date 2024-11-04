@@ -18,7 +18,7 @@
         <ul>
             <li *ngFor="let document of documents">
                 <div class="info">
-                    <button class="btn btn-dark" (click)="deleteDocument(subject.id)">Delete</button>
+                    <button class="btn btn-dark" (click)="deleteDocument(document.id)">Delete</button>
                     <div class="title"><a>{{ document.name }}</a></div>
                     <div class="container-square">
                         <div class="square"></div>

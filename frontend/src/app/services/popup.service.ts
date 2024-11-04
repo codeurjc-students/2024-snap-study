@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopUpDialogComponent } from '../components/childs/popup-dialog.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject as RxSubject } from 'rxjs';
 import { PopUpImageComponent } from '../components/childs/popup-image.component';
 import { PopUpDocumentComponent } from '../components/childs/popup-document.component';
 import { Subject } from '../models/subject.model';
@@ -14,6 +14,9 @@ export class PopUpService {
 
     private popupState = new BehaviorSubject<boolean>(false);
     popupState$ = this.popupState.asObservable();
+
+    private documentSavedSource = new RxSubject<void>();
+    documentSaved$ = this.documentSavedSource.asObservable();
 
     constructor(private dialog: MatDialog) { }
 
@@ -50,5 +53,9 @@ export class PopUpService {
         }).afterClosed().subscribe(() => {
             this.popupState.next(false); 
         });
+    }
+
+    notifyDocumentSaved() {
+        this.documentSavedSource.next();
     }
 }
