@@ -4,7 +4,6 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-
 })
 export class HeaderComponent {
 
@@ -18,9 +17,5 @@ export class HeaderComponent {
   ngOnInit(): void {
     this.isLogged = this.authService.isLogged();
     this.isAdmin = this.authService.isAdmin();
-  }
-
-  logout() {
-    this.authService.logout();
   }
 }

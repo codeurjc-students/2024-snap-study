@@ -1,14 +1,26 @@
-<main class="main-login">
-    <h1 class="login-banner">SIGN IN TO YOUR ACCOUNT</h1>
-    <section class="login-section">
-        <input [(ngModel)]="email" type="text" id="email" placeholder="Email">
-        <input [(ngModel)]="password" type="password" id="password" placeholder="Password">
-        <div style="padding-bottom: 10px;">
-            <button (click)="sendCredentials($event)" type="button" class="register-button"><span>Sign in</span></button>
-            <a [routerLink]="['/signup']" class="login-button">‎‎‎‎‎‎‎‎‎‎Create a new account</a>
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 class="text-white mb-5 centered-h2">SIGN IN INTO YOUR ACCOUNT!</h2>
+                    <div class="form-signup">
+                        <div class="col"><input [(ngModel)]="email" class="form-control" id="email" type="text"
+                                placeholder="Enter email address..." /></div>
+                        <br />
+                        <div class="col"><input [(ngModel)]="password" class="form-control" id="password"
+                                type="password" placeholder="Enter password..." /></div>
+                        <br />
+                        <div class="row">
+                            <div class="col-auto"><button class="btn btn-primary" (click)="sendCredentials($event)">Sign
+                                    in!</button></div>
+                            <div class="col-auto"><button class="btn btn-primary" [routerLink]="['/signup']">Create a
+                                    new
+                                    account!</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-    <section id="work-section" class="work-section">
-        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
-    </section>
-</main>
+</header>

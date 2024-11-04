@@ -6,11 +6,11 @@ import { Degree } from '../../models/degree.model';
 import { DegreeService } from '../../services/degree.service';
 import { AuthService } from '../../services/auth.service';
 import { timer } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-main',
   templateUrl: './admin-subjects.component.html',
-  styleUrls: ['../../../styles.css', '../degrees-list/degree-list.component.css']
 })
 export class AdminSubjectsComponent {
 
@@ -26,19 +26,15 @@ export class AdminSubjectsComponent {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser()
-    timer(1000).subscribe(() => {
-        this.authService.userLoaded().subscribe((loaded) => {
-            if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                this.router.navigate(['/error']); // Redirige a error si no es admin
-            }
-        });
-        this.getDegree();
+    this.authService.userLoaded().subscribe((loaded) => {
+      if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+        this.router.navigate(['/error']); // Redirige a error si no es admin
+      }
     });
-    
+    this.getDegree();
   }
 
-  getDegree(){
+  getDegree() {
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -55,19 +51,41 @@ export class AdminSubjectsComponent {
 
   getMoresubjects() {
     this.subjectService.getSubjects(parseInt(this.id), this.indexsubjects).subscribe((response) => {
-        this.subjects = this.subjects.concat(response.content);
-        this.moresubjects = !response.last;
-        this.indexsubjects++;
-      });
+      this.subjects = this.subjects.concat(response.content);
+      this.moresubjects = !response.last;
+      this.indexsubjects++;
+    });
   }
 
-  showLoadMoreButton(){
-    if (this.moresubjects){
+  showLoadMoreButton() {
+    if (this.moresubjects) {
       return true;
     }
     return false;
   }
 
-  deleteSubject(is:number){}
+  deleteSubject(id: number) { 
+    this.subjectService.deleteSubject(id).subscribe({
+      next: _ => {
+        { this.reload(); }
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 204 || err.status === 200) {
+          this.reload();
+        } else {
+          this.router.navigate(['/error']);
+        }
+      }
+    });
+  }
+
+  reload() {
+    this.indexsubjects = 0
+    this.subjectService.getSubjects(parseInt(this.id), 0).subscribe((response) => {
+      this.subjects = response.content;
+      this.moresubjects = !response.last;
+      this.indexsubjects++;
+    });
+  }
 
 }

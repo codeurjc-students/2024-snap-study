@@ -14,13 +14,13 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class PopUpDocumentComponent implements OnInit {
     isOpen = false;
     public document: File;
-    public subject: Subject; 
+    public subject: Subject;
     public degree: Degree;
 
     constructor(
-        private popUpService: PopUpService, 
-        private documentService: DocumentService, 
-        private router: Router, 
+        private popUpService: PopUpService,
+        private documentService: DocumentService,
+        private router: Router,
         @Inject(MAT_DIALOG_DATA) public data: { subject: Subject, degree: Degree } // Recibir datos
     ) {
         this.document = new File([], '');
@@ -47,7 +47,7 @@ export class PopUpDocumentComponent implements OnInit {
         if (this.document.size > 0) {
             this.documentService.saveDocument(this.document, this.degree.id, this.subject.id).subscribe(
                 () => {
-                    window.location.reload();
+                    this.popUpService.notifyDocumentSaved();
                 },
                 (error) => {
                     this.router.navigate(['/error']);

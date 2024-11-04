@@ -1,82 +1,105 @@
-<main>
-    <section class="content">
-        <div class="left-column">
-            <a [routerLink]="['/degrees']" class="menu-item">EXPLORE</a>
-            <a href="#about" class="menu-item">ABOUT</a>
-            <a href="#services" class="menu-item">SERVICES</a>
-            <a href="#contact" class="menu-item">CONTACT</a>
-        </div>
-        <div class="right-column">
-            <section class="background-section">
-                    <h2 style="font-size: 3rem; color: rgb(255 60 0);">Boost your studies!</h2>
-                    <p style="font-size: 1.5rem;">Explore our complete collection of notes and get free access to all our study materials.</p>
-            </section>
-        </div>
-    </section>
-    <section id="work-section" class="work-section">
-        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
-    </section>
-</main>
-
-<section id="about" class="hola">
-    <div class="about-section">
-        <div class="left-column">
-            <h1>(ABOUT US)</h1>
-            <br />
-            <br />
-            <br />
-            <div class="container">
-                <div class="square"></div>
+<header class="masthead">
+    <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+        <div class="d-flex justify-content-center">
+            <div class="text-center">
+                <h1 class="mx-auto my-0 text-uppercase" class="work-section">SNAPSTUDY<span
+                        class="registered-symbol">®</span></h1>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5">Explore our complete collection of notes and get free
+                    access to all our study materials.</h2>
+                <a class="btn btn-primary" [routerLink]="['/degrees']">Explore</a>
             </div>
         </div>
-        <div class="text-content">
-            <br />
-            <br />
-            <p><b>At Agentic, we are a team of dedicated creatives driven by the desire to redefine online experiences. Our journey began with a shared commitment to excellence in web design, development, UI/UX, and product design.</b></p>
+    </div>
+</header>
+<!-- About-->
+<section class="about-section text-center" id="about">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-lg-8" style="padding: 8%;">
+                <h2 class="text-white mb-4">(ABOUT US)</h2>
+                <p class="text-white-50">
+                    At SnapStudy, we provide access to a wide range of study materials for multiple subjects and
+                    university degrees, adapting to the needs of students at every stage of their academic
+                    journey.<br />
+                    Our platform stands out by facilitating the download of documents in versatile formats, ensuring
+                    greater flexibility and availability for students.
+                    <br /><br />
+                    What truly sets us apart is the use of artificial intelligence to generate detailed descriptions
+                    of the documents, optimizing the search process. Our technology not only allows searches by file
+                    name but also within the content of each document, ensuring that you find exactly what you need
+                    quickly and efficiently.<br />
+                    Additionally, by using cloud storage, we provide greater flexibility and availability of
+                    resources, allowing access to them anytime, from any device.
+                </p>
+                <br />
+                <br />
+                <br />
+            </div>
         </div>
     </div>
 </section>
-
-<section id="services" class="hola2">
-    <div class="about-section">
-        <div class="left-column">
-            <h1>(SERVICES)</h1>
-            <br />
-            <br />
-            <br />
-            <div class="container">
-                <div class="square"></div>
-                <div class="number">1</div>
+<!-- Projects-->
+<section class="projects-section bg-light" id="projects">
+    <div class="container px-4 px-lg-5" style="width: 80% !important;">
+        <h2 class="text-dark mb-5"><b>(SERVICES)</b></h2>
+        <!-- Project One Row-->
+        <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+            <div class="col-lg-6"><img class="img-fluid" src="assets/img/aws.png" alt="..." /></div>
+            <div class="col-lg-6">
+                <div class="bg-black text-center h-100 project">
+                    <div class="d-flex h-100">
+                        <div class="project-text w-100 my-auto text-center text-lg-left">
+                            <h4 class="text-white">Amazon Simple Storage Service</h4>
+                            <p class="mb-0 text-white-50">An example of where you can put an image of a project, or
+                                anything else, along with a description.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="text-content">
-            <br />
-            <br />
-            <p><b>At Agentic, we are a team of dedicated creatives driven by the desire to redefine online experiences. Our journey began with a shared commitment to excellence in web design, development, UI/UX, and product design.</b></p>
-        </div>
-    </div>
-    <div class="about-section">
-        <div class="left-column">
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <div class="container">
-                <div class="square"></div>
-                <div class="number">2</div>
+        <!-- Project Two Row-->
+        <div class="row gx-0 justify-content-center">
+            <div class="col-lg-6"><img class="img-fluid" src="assets/img/drive.png" alt="..." /></div>
+            <div class="col-lg-6 order-lg-first">
+                <div class="bg-black text-center h-100 project">
+                    <div class="d-flex h-100">
+                        <div class="project-text w-100 my-auto text-center text-lg-right">
+                            <h4 class="text-white">Google Drive</h4>
+                            <p class="mb-0 text-white-50">Another example of a project with its respective
+                                description. These sections work well responsively as well!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="text-content">
-            <p style="padding-bottom: 100px;"><b>At Agentic, we are a team of dedicated creatives driven by the desire to redefine online experiences. Our journey began with a shared commitment to excellence in web design, development, UI/UX, and product design.</b></p>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+        <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+            <div class="col-lg-6"><img class="img-fluid" src="assets/img/demo-image-01.jpg" alt="..." /></div>
+            <div class="col-lg-6">
+                <div class="bg-black text-center h-100 project">
+                    <div class="d-flex h-100">
+                        <div class="project-text w-100 my-auto text-center text-lg-left">
+                            <h4 class="text-white">Elastic Search</h4>
+                            <p class="mb-0 text-white-50">An example of where you can put an image of a project, or
+                                anything else, along with a description.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Project Two Row-->
+        <div class="row gx-0 justify-content-center">
+            <div class="col-lg-6"><img class="img-fluid" src="assets/img/demo-image-02.jpg" alt="..." /></div>
+            <div class="col-lg-6 order-lg-first">
+                <div class="bg-black text-center h-100 project">
+                    <div class="d-flex h-100">
+                        <div class="project-text w-100 my-auto text-center text-lg-right">
+                            <h4 class="text-white">AI</h4>
+                            <p class="mb-0 text-white-50">Another example of a project with its respective
+                                description. These sections work well responsively as well!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,10 +68,10 @@ public class DocumentRestController {
             if (findDocuments.getNumberOfElements() > 0) {
                 return new ResponseEntity<>(findDocuments, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
@@ -127,6 +128,18 @@ public class DocumentRestController {
             RepositoryDocument newRepo = new RepositoryDocument(degreeId, subjectId);
             repositoryDocument.save(newRepo);
             return newRepo;
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDocument (@PathVariable Long id){
+        Document doc = documentService.getDocumentById(id);
+
+        if(doc != null){
+            documentService.deleteDocument(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
