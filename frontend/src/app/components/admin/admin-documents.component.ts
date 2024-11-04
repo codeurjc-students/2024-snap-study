@@ -9,11 +9,11 @@ import { timer } from 'rxjs';
 import { PopUpService } from '../../services/popup.service';
 import { DegreeService } from '../../services/degree.service';
 import { Degree } from '../../models/degree.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-main',
   templateUrl: './admin-documents.component.html',
-  styleUrls: ['../../../styles.css', '../degrees-list/degree-list.component.css']
 })
 export class AdminDocumentsComponent {
 
@@ -32,15 +32,15 @@ export class AdminDocumentsComponent {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser()
-    timer(1000).subscribe(() => {
-      this.authService.userLoaded().subscribe((loaded) => {
-        if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-          this.router.navigate(['/error']); // Redirige a error si no es admin
-        }
-      });
-      this.getDocuments();
-      this.getDegree()
+    this.authService.userLoaded().subscribe((loaded) => {
+      if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+        this.router.navigate(['/error']); // Redirige a error si no es admin
+      }
+    });
+    this.getDocuments();
+    this.getDegree()
+    this.popUpService.documentSaved$.subscribe(() => {
+      this.reload();
     });
   }
 
@@ -60,8 +60,19 @@ export class AdminDocumentsComponent {
   }
 
   getMoredocuments() {
+    console.log("bbb")
+
     this.documentService.getDocuments(parseInt(this.id), this.indexdocuments).subscribe((response) => {
       this.documents = this.documents.concat(response.content);
+      this.moredocuments = !response.last;
+      this.indexdocuments++;
+    });
+  }
+
+  reload() {
+    this.indexdocuments = 0
+    this.documentService.getDocuments(parseInt(this.id), 0).subscribe((response) => {
+      this.documents = response.content;
       this.moredocuments = !response.last;
       this.indexdocuments++;
     });
@@ -74,7 +85,20 @@ export class AdminDocumentsComponent {
     return false;
   }
 
-  deleteDocument(id: number) { }
+  deleteDocument(id: number) {
+    this.documentService.deleteDocument(id).subscribe({
+      next: _ => {
+        { this.reload(); }
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 204 || err.status === 200) {
+          this.reload();
+        } else {
+          this.router.navigate(['/error']);
+        }
+      }
+    });
+  }
 
   getDegree() {
     this.route.params.subscribe(params => {

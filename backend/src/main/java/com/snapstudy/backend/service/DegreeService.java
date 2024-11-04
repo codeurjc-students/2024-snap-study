@@ -28,4 +28,15 @@ public class DegreeService {
     }
   }
 
+  public Optional<Degree> findByName(String name){
+    return degreeRepository.findByName(name);
+  }
+
+  public void save (Degree degree){
+    degreeRepository.save(degree);
+  }
+
+  public void deleteDegree(Long id){
+    degreeRepository.deleteById(id);
+}
 }

@@ -39,4 +39,8 @@ public class DocumentService {
         }
     }
 
+    public void deleteDocument(Long id){
+        documentRepository.deleteById(id);
+    }
+
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
@@ -19,12 +18,7 @@ public class Degree {
     @Column(nullable = false)
     private Date postedDate;
 
-    @OneToMany
-    @JoinTable(
-        name = "degree_subject",
-        joinColumns = @JoinColumn(name = "degree_id"),
-        inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
+    @OneToMany(mappedBy = "degree", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Subject> subjects;
 

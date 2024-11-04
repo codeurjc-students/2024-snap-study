@@ -1,40 +1,40 @@
-<main class="main-register">
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <h1 class="banner2">DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</h1>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <section id="work-section" class="work-section">
-        <h1>SNAPSTUDY<span class="registered-symbol">®</span></h1>
-    </section>
-</main>
-<div id="container">
-    <ul>
-        <li *ngFor="let document of documents">
-            <div class="info">
-                <input type="checkbox" (change)="onCheckboxChange($event, document.id)">
-                <div class="title"><a>{{ document.name }}</a></div>
-                <div class="container">
-                    <div class="square"></div>
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 class="text-white mb-5 centered-h2">DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</h2>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
+                        notes and resources for each one</h2>
                 </div>
             </div>
-            <div class="divider"></div>
-            <br />
-            <br />
-        </li>
-        <div class="button-container">
-            <a *ngIf="showLoadMoreButton()" class="register-button" [class.display-div]="!moredocuments" (click)="getMoredocuments()"><span>Load
-                more</span></a>
-        <a *ngIf="authService.isLogged()" class="register-button" (click)="getSelectedDocuments()"><span>Get Documents</span></a>
         </div>
-        
+    </section>
+</header>
 
-    </ul>
-
-</div>
+<section style="padding: 5%;">
+    <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(CHECKLIST)</b></h2>
+    <div id="container">
+        <ul>
+            <li *ngFor="let document of documents">
+                <div class="info">
+                    <input type="checkbox" (change)="onCheckboxChange($event, document.id)">
+                    <div class="title"><a [routerLink]="['/degrees', document.id]">{{ document.name }}</a></div>
+                    <!-- Añadir link -->
+                    <div class="container-square">
+                        <div class="square"></div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <br />
+                <br />
+            </li>
+            <div class="action-buttons">
+                <div class="col-auto"><button *ngIf="showLoadMoreButton()" class="btn btn-dark"
+                        [class.display-div]="!moredocuments" (click)="getMoredocuments()">Load More</button></div>
+                <div class="col-auto"><button *ngIf="authService.isLogged()" class="btn btn-dark"
+                        (click)="getSelectedDocuments()">Get Documents</button></div>
+            </div>
+        </ul>
+    </div>
+</section>

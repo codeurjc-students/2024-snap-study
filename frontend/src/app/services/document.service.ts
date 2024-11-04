@@ -1,8 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Degree } from "../models/degree.model";
-import { Subject } from "../models/subject.model";
 
 const BASE_URL = '/api/documents/';
 
@@ -26,5 +24,9 @@ export class DocumentService {
         const formData = new FormData();
         formData.append('file', document);
         return this.http.post("/api/documents/" + degree + "/" + subject, formData);
+    }
+
+    deleteDocument(id: number): Observable<any> {
+        return this.http.delete(BASE_URL + id) as Observable<any>;
     }
 }
