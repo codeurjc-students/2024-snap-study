@@ -1,5 +1,6 @@
 package com.snapstudy.backend.restController;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
-import com.snapstudy.backend.model.Document;
+import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
+import com.snapstudy.backend.s3.S3Service;
 import com.snapstudy.backend.service.DegreeService;
+import com.snapstudy.backend.service.SubjectService;
+import com.snapstudy.backend.model.RepositoryDocument;
+import com.snapstudy.backend.model.Subject;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,6 +38,12 @@ public class DegreeRestController {
 
         @Autowired
         private DegreeService degreeService;
+        @Autowired
+        private S3Service awsS3;
+        @Autowired
+        private RepositoryDocumentsRepository repositoryDocument;
+        @Autowired
+        private SubjectService subjectService;
 
         @Operation(summary = "Get a page of degrees")
         @ApiResponses(value = {
@@ -83,11 +94,61 @@ public class DegreeRestController {
                 Degree deg = degreeService.getDegreeById(id);
 
                 if (deg != null) {
-                        degreeService.deleteDegree(id);
-                        return ResponseEntity.noContent().build();
+                        String path = "RepositoryDocuments/" + deg.getName() + "/";
+
+                        Boolean deletion = deleteFolders(path, id);
+
+                        if (deletion) {
+                                degreeService.deleteDegree(id);
+                                return ResponseEntity.noContent().build();
+                        } else {
+                                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        }
                 } else {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
+        }
+
+        private Boolean deleteFolders(String path, Long degreeId){
+                //Si borras un grado, que tiene asignaturas (carpetas), si no borras cada asignatura
+                //derá error porque AWS S3 no funciona como una jerarquía de carpetas, sino que solo
+                //usa claves de objetos que incluyen el prefijo de la "carpeta"
+
+                //Obtiene todas las asignaturas de este grado
+                List<RepositoryDocument> repos = repositoryDocument.findByDegreeId(degreeId);
+
+                if(repos.size() > 0){
+                        for(RepositoryDocument repo : repos){
+                                Long subjectId = repo.getSubjectId();
+                                Subject subject = subjectService.getSubjectById(subjectId);
+
+                                if (subject != null){
+                                        String folder = path + subject.getName();
+
+                                        int result = awsS3.deleteFolder(folder); // eliminar del s3 la carpeta
+
+                                        if (result == 0) {
+                                                subjectService.deleteSubject(subjectId);
+                                                repositoryDocument.delete(repo); //eliminar del repositorio
+                                        } else if (result == 1) { //la carpeta ya no existe
+                                                //en fase de pruebas es normal que no esten todas las carpetas en el s3
+                                        }
+                                }
+                                else {
+                                        return false;
+                                }
+                        }
+                }
+                else { //puede ser que un grado no tenga asignaturas, entonces no hay nada en el repositorio
+                        int result = awsS3.deleteFolder(path);
+                        if (result == 0) {
+                                degreeService.deleteDegree(degreeId);
+                        } else {
+                                return false;
+                        }
+                }
+
+                return true;
         }
 
 }

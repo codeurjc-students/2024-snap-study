@@ -100,12 +100,6 @@ public class DocumentRestController {
         String fileName = file.getOriginalFilename();
         String ext = fileName.substring(fileName.lastIndexOf('.'));
         fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-        
-        System.out.println("----------------------------------");
-        System.out.println("----------------------------------");
-        System.out.println(ext);
-        System.out.println("----------------------------------");
-        System.out.println("----------------------------------");
 
         // control de nombres de archivo repetidos
         Document docCheck = documentService.getDocumentByName(fileName);
