@@ -135,12 +135,13 @@ public class S3Service {
             // Configuramos el cliente de Amazon S3 con nuestras credenciales
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                    .withEndpointConfiguration(new AmazonS3ClientBuilder.EndpointConfiguration(serviceUrl, ""))
-                    .build();
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .withRegion(Regions.EU_WEST_1)
+                .build();
 
             // Verificamos si la carpeta existe
             String folderKey = folderName.endsWith("/") ? folderName : folderName + "/";
+
             try {
                 // Si no lanza excepción, la carpeta existe
                 ObjectMetadata metadata = s3Client.getObjectMetadata(bucket, folderKey);

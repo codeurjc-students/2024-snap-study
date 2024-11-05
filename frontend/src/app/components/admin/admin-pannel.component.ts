@@ -22,6 +22,7 @@ export class AdminPannelComponent implements OnInit {
     }
 
     ngOnInit() {
+      this.authService.getCurrentUser();
         this.authService.userLoaded().subscribe((loaded) => {
             if (!this.authService.isLogged() || !this.authService.isAdmin()) {
                 this.router.navigate(['/error']); // Redirige a error si no es admin

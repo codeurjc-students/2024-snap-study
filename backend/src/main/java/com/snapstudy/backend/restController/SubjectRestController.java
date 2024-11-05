@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
-import com.snapstudy.backend.model.Document;
+import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
+import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
+import com.snapstudy.backend.s3.S3Service;
 import com.snapstudy.backend.service.DegreeService;
 import com.snapstudy.backend.service.SubjectService;
 
@@ -37,6 +39,10 @@ public class SubjectRestController {
         private SubjectService subjectService;
         @Autowired
         private DegreeService degreeService;
+        @Autowired
+        private S3Service awsS3;
+        @Autowired
+        private RepositoryDocumentsRepository repositoryDocument;
 
         @Operation(summary = "Get a page of Subjects")
         @ApiResponses(value = {
@@ -96,13 +102,41 @@ public class SubjectRestController {
                 }
         }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteSubject(@PathVariable Long id) {
+        @DeleteMapping("/{degreeId}/{id}")
+        public ResponseEntity<Void> deleteSubject(@PathVariable Long degreeId, @PathVariable Long id) {
                 Subject sub = subjectService.getSubjectById(id);
 
                 if (sub != null) {
-                        subjectService.deleteSubject(id);
-                        return ResponseEntity.noContent().build();
+
+                        if (degreeId == null) {
+                                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                        }
+
+                        Degree degree = degreeService.getDegreeById(degreeId);
+                        if (degree == null) {
+                                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        }
+
+                        String path = "RepositoryDocuments/" + degree.getName() + "/" + sub.getName();
+                        int result = awsS3.deleteFolder(path); // eliminar del s3 la carpeta
+
+                        if (result == 0) {
+
+                                Optional<RepositoryDocument> repository = repositoryDocument
+                                                .findByDegreeIdAndSubjectId(degreeId, id);
+
+                                if (repository.isPresent()) {
+                                        repositoryDocument.delete(repository.get()); // eliminar del repositorio
+                                } else {
+                                        // en fase de pruebas no están todos los repos en el s3
+                                }
+
+                                subjectService.deleteSubject(id);
+
+                                return ResponseEntity.noContent().build();
+                        } else {
+                                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        }
                 } else {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
