@@ -16,21 +16,35 @@ export class AdminAddComponent {
     public name: string = '';
     public isDegreeParam: number = -1;
     private degree: any;
+    public selectedDegreeType: string = '';
+    public degreeTypes: string[] = [];
 
     constructor(private authService: AuthService, private subjectService: SubjectService, private popUpService: PopUpService, private degreeService: DegreeService, private route: ActivatedRoute, private router: Router, private location: Location) { }
 
     ngOnInit() {
+        this.authService.getCurrentUser(); // Llamada asíncrona para obtener el usuario
+
         this.authService.userLoaded().subscribe((loaded) => {
-            if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                this.router.navigate(['/error']); // Redirige a error si no es admin
+            if (loaded) {
+                if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+                    this.router.navigate(['/error']); // Redirige a error si no es admin
+                } else {
+                    this.route.params.subscribe(params => {
+                        this.isDegreeParam = params['isDegree'];
+                        this.degree = params['degreeId'];
+                        if (this.isDegreeParam == 1) {
+                            this.isDegree = true;
+                            this.getDegreeTypes();
+                        }
+                    });
+                }
             }
         });
-        this.route.params.subscribe(params => {
-            this.isDegreeParam = params['isDegree'];
-            this.degree = params['degreeId']
-            if (this.isDegreeParam == 1) {
-                this.isDegree = true
-            }
+    }
+
+    getDegreeTypes() {
+        this.degreeService.getDegreeTypes().subscribe((data: string[]) => {
+            this.degreeTypes = data;
         });
     }
 
@@ -57,7 +71,7 @@ export class AdminAddComponent {
 
     createSubject(event: Event) {
         event.preventDefault();
-        if(this.degree != null){
+        if (this.degree != null) {
             this.subjectService.saveSubject(this.name, this.degree).subscribe(
                 {
                     next: _ => {
