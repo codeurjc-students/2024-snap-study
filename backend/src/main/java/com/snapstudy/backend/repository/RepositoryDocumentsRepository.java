@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import com.snapstudy.backend.model.RepositoryDocument;
 
 import java.util.Optional;
+import java.util.List;
+
 
 public interface RepositoryDocumentsRepository extends JpaRepository<RepositoryDocument, Long>{
     Optional<RepositoryDocument> findById(Long id);
@@ -14,5 +16,7 @@ public interface RepositoryDocumentsRepository extends JpaRepository<RepositoryD
     @Query("SELECT r FROM RepositoryDocument r WHERE r.degreeId = :degreeId AND r.subjectId = :subjectId")
     Optional<RepositoryDocument> findByDegreeIdAndSubjectId(@Param("degreeId") Long degreeId, @Param("subjectId") Long subjectId);
 
+    @Query("SELECT r FROM RepositoryDocument r WHERE r.degreeId = :degreeId")
+    List<RepositoryDocument> findByDegreeId(Long degreeId);
 }
 

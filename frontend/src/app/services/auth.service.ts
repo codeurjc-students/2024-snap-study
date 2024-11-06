@@ -22,10 +22,13 @@ export class AuthService {
     }
 
     logout() {
+        console.log('e')
         this.http.post<HttpResponse<any>>(BASE_URL + 'logout', { withCredentials: true }).subscribe(() => {
             this.logged = false;
             this.admin = false;
             this.student = false;
+            this.currentUser = {} as User; // Limpia el usuario actual
+            this.userLoadedSubject.next(false);
             this.router.navigate(['']);
         });
     }
@@ -35,14 +38,18 @@ export class AuthService {
     }
 
     userLoaded(): Observable<boolean> {
+        console.log('a')
+
         return this.userLoadedSubject.asObservable();
     }
 
     isAdmin(): boolean {
+        console.log('b')
         return this.admin;
     }
 
     getCurrentUser() {
+        console.log('d')
         this.http.get<User>('/api/users/me', { withCredentials: true }).subscribe((response: User) => {
             this.currentUser = response;
             this.logged = true;
@@ -50,9 +57,11 @@ export class AuthService {
             this.student = this.currentUser.roles.includes('STUDENT');
             this.userLoadedSubject.next(true);
         });
+
     }
 
     isLogged(): boolean {
+        console.log('c')
         return this.logged;
     }
 

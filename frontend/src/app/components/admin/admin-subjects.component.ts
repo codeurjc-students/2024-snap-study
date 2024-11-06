@@ -65,7 +65,7 @@ export class AdminSubjectsComponent {
   }
 
   deleteSubject(id: number) { 
-    this.subjectService.deleteSubject(id).subscribe({
+    this.subjectService.deleteSubject(id, this.degree.id).subscribe({
       next: _ => {
         { this.reload(); }
       },

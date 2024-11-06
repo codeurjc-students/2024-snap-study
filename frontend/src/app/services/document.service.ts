@@ -26,7 +26,7 @@ export class DocumentService {
         return this.http.post("/api/documents/" + degree + "/" + subject, formData);
     }
 
-    deleteDocument(id: number): Observable<any> {
-        return this.http.delete(BASE_URL + id) as Observable<any>;
+    deleteDocument(id: number, degreeId:number, subjectId: number): Observable<any> {
+        return this.http.delete(BASE_URL + degreeId + "/" + subjectId + "/" + id) as Observable<any>;
     }
 }
