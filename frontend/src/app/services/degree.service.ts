@@ -28,4 +28,8 @@ export class DegreeService {
     deleteDegree(id: number): Observable<any> {
         return this.http.delete(BASE_URL + id) as Observable<any>;
     }
+
+    getDegreeTypes(): Observable<string[]> {
+        return this.http.get(BASE_URL + "types") as Observable<string[]>
+    }
 }

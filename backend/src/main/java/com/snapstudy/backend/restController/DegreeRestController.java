@@ -2,6 +2,7 @@ package com.snapstudy.backend.restController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
+import com.snapstudy.backend.model.DegreeType;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.s3.S3Service;
 import com.snapstudy.backend.service.DegreeService;
@@ -109,37 +111,38 @@ public class DegreeRestController {
                 }
         }
 
-        private Boolean deleteFolders(String path, Long degreeId){
-                //Si borras un grado, que tiene asignaturas (carpetas), si no borras cada asignatura
-                //derá error porque AWS S3 no funciona como una jerarquía de carpetas, sino que solo
-                //usa claves de objetos que incluyen el prefijo de la "carpeta"
+        private Boolean deleteFolders(String path, Long degreeId) {
+                // Si borras un grado, que tiene asignaturas (carpetas), si no borras cada
+                // asignatura
+                // derá error porque AWS S3 no funciona como una jerarquía de carpetas, sino que
+                // solo
+                // usa claves de objetos que incluyen el prefijo de la "carpeta"
 
-                //Obtiene todas las asignaturas de este grado
+                // Obtiene todas las asignaturas de este grado
                 List<RepositoryDocument> repos = repositoryDocument.findByDegreeId(degreeId);
 
-                if(repos.size() > 0){
-                        for(RepositoryDocument repo : repos){
+                if (repos.size() > 0) {
+                        for (RepositoryDocument repo : repos) {
                                 Long subjectId = repo.getSubjectId();
                                 Subject subject = subjectService.getSubjectById(subjectId);
 
-                                if (subject != null){
+                                if (subject != null) {
                                         String folder = path + subject.getName();
 
                                         int result = awsS3.deleteFolder(folder); // eliminar del s3 la carpeta
 
                                         if (result == 0) {
                                                 subjectService.deleteSubject(subjectId);
-                                                repositoryDocument.delete(repo); //eliminar del repositorio
-                                        } else if (result == 1) { //la carpeta ya no existe
-                                                //en fase de pruebas es normal que no esten todas las carpetas en el s3
+                                                repositoryDocument.delete(repo); // eliminar del repositorio
+                                        } else if (result == 1) { // la carpeta ya no existe
+                                                // en fase de pruebas es normal que no esten todas las carpetas en el s3
                                         }
-                                }
-                                else {
+                                } else {
                                         return false;
                                 }
                         }
-                }
-                else { //puede ser que un grado no tenga asignaturas, entonces no hay nada en el repositorio
+                } else { // puede ser que un grado no tenga asignaturas, entonces no hay nada en el
+                         // repositorio
                         int result = awsS3.deleteFolder(path);
                         if (result == 0) {
                                 degreeService.deleteDegree(degreeId);
@@ -149,6 +152,14 @@ public class DegreeRestController {
                 }
 
                 return true;
+        }
+
+        @GetMapping("/types")
+        public List<String> getCareerFields() {
+                return List.of(DegreeType.values())
+                                .stream()
+                                .map(DegreeType::getDisplayName)
+                                .collect(Collectors.toList());
         }
 
 }

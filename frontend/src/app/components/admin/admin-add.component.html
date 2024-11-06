@@ -9,6 +9,13 @@
                         <div class="col"><input [(ngModel)]="name" type="text" placeholder="Name..."
                                 class="form-control" /></div>
                         <br />
+                        <div *ngIf="isDegree" class="col">
+                            <select [(ngModel)]="selectedDegreeType" class="form-control">
+                                <option value="" disabled selected>Select a degree type</option>
+                                <option *ngFor="let field of degreeTypes" [value]="field">{{ field }}</option>
+                            </select>
+                        </div>
+                        <br />
                         <div class="row">
                             <div *ngIf="isDegree" class="col-auto"><button class="btn btn-primary" (click)="createDegree($event)">Create
                                     degree!</button></div>
