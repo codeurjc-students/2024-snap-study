@@ -17,6 +17,8 @@ public class Degree {
     private String name;
     @Column(nullable = false)
     private Date postedDate;
+    @Column(nullable = false)
+    private String type;
 
     @OneToMany(mappedBy = "degree", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
@@ -24,8 +26,9 @@ public class Degree {
 
     public Degree(){}
 
-    public Degree(String name){
+    public Degree(String name, String type){
         this.name = name;
+        this.type = type;
         this.postedDate = new Date(System.currentTimeMillis());
         this.subjects = new ArrayList();
     }
@@ -60,6 +63,14 @@ public class Degree {
 
     public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
 }

@@ -40,22 +40,22 @@ public class TestDataInitializer {
         adminRepository.save(ad);
         studenRepository.save(user1);
 
-        Degree d1 = new Degree("Software Engineering");
-        Degree d2 = new Degree("Law");
-        Degree d3 = new Degree("Medicine");
-        Degree d4 = new Degree("Electrical Engineering");
-        Degree d5 = new Degree("Mechanical Engineering");
-        Degree d6 = new Degree("Civil Engineering");
-        Degree d7 = new Degree("Business Administration");
-        Degree d8 = new Degree("Psychology");
-        Degree d9 = new Degree("Architecture");
-        Degree d10 = new Degree("Chemistry");
-        Degree d11 = new Degree("Physics");
-        Degree d12 = new Degree("Mathematics");
-        Degree d13 = new Degree("Political Science");
-        Degree d14 = new Degree("Economics");
-        Degree d15 = new Degree("History");
-        Degree d16 = new Degree("Philosophy");
+        Degree d1 = new Degree("Software Engineering", "Engineering and Architecture");
+        Degree d2 = new Degree("Law", "Social Sciences and Law");
+        Degree d3 = new Degree("Medicine", "Health Sciences");
+        Degree d4 = new Degree("Electrical Engineering", "Engineering and Architecture");
+        Degree d5 = new Degree("Mechanical Engineering", "Engineering and Architecture");
+        Degree d6 = new Degree("Civil Engineering", "Engineering and Architecture");
+        Degree d7 = new Degree("Business Administration", "Social Sciences and Law");
+        Degree d8 = new Degree("Psychology", "Health Sciences");
+        Degree d9 = new Degree("Architecture", "Engineering and Architecture");
+        Degree d10 = new Degree("Chemistry", "Exact and Natural Sciences");
+        Degree d11 = new Degree("Physics", "Exact and Natural Sciences");
+        Degree d12 = new Degree("Mathematics", "Exact and Natural Sciences");
+        Degree d13 = new Degree("Political Science", "Social Sciences and Law");
+        Degree d14 = new Degree("Economics", "Social Sciences and Law");
+        Degree d15 = new Degree("History", "Arts and Humanities");
+        Degree d16 = new Degree("Philosophy", "Arts and Humanities");
 
         degreeRepository.save(d1);
         degreeRepository.save(d2);
@@ -97,7 +97,6 @@ public class TestDataInitializer {
         RepositoryDocument newRepo = new RepositoryDocument(d1.getId(), s1.getId());
         repodocumentRepository.save(newRepo);
 
-        
         Document dt1 = new Document("Tema 1", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt2 = new Document("Tema 2", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt3 = new Document("Tema 3", "Prueba", s1, newRepo.getId(), ".pdf");
@@ -108,6 +107,6 @@ public class TestDataInitializer {
         documentRepository.save(dt3);
         documentRepository.save(dt4);
         documentRepository.save(dt5);
-        
+
     }
 }
