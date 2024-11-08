@@ -48,16 +48,26 @@ export class AuthService {
         return this.admin;
     }
 
-    getCurrentUser() {
-        console.log('d')
-        this.http.get<User>('/api/users/me', { withCredentials: true }).subscribe((response: User) => {
-            this.currentUser = response;
-            this.logged = true;
-            this.admin = this.currentUser.roles.includes('ADMIN');
-            this.student = this.currentUser.roles.includes('STUDENT');
-            this.userLoadedSubject.next(true);
+    getCurrentUser(): Observable<boolean> {
+        return new Observable<boolean>((observer) => {
+            this.http.get<User>('/api/users/me', { withCredentials: true }).subscribe(
+                (response: User) => {
+                    this.currentUser = response;
+                    this.logged = true;
+                    this.admin = this.currentUser.roles.includes('ADMIN');
+                    this.student = this.currentUser.roles.includes('STUDENT');
+                    this.userLoadedSubject.next(true);
+                    observer.next(true); // Usuario cargado exitosamente
+                    observer.complete();
+                },
+                (error) => {
+                    console.error("Error fetching user:", error);
+                    this.userLoadedSubject.next(false);
+                    observer.next(false); // Error en la carga del usuario
+                    observer.complete();
+                }
+            );
         });
-
     }
 
     isLogged(): boolean {

@@ -26,16 +26,18 @@ export class LoginComponent {
     } else {
       this.authService.login(this.email, this.password).subscribe({
         next: () => {
-          this.userLoadedSubscription = this.authService.userLoaded().subscribe((loaded: boolean) => {
+          // Esperamos a que getCurrentUser complete antes de redirigir
+          this.authService.getCurrentUser().subscribe((loaded: boolean) => {
             if (loaded) {
               if (this.authService.isAdmin()) {
                 this.router.navigate(['/admin']);
               } else {
                 this.router.navigate(['/']);
               }
+            } else {
+              this.router.navigate(['/error']); // Redirige a error si no se puede cargar el usuario
             }
           });
-          this.authService.getCurrentUser();
         },
         error: (err: HttpErrorResponse) => {
           this.router.navigate(['/error']);
