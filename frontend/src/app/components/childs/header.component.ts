@@ -10,12 +10,16 @@ export class HeaderComponent {
   public isLogged: boolean = false;
   public isAdmin: boolean = false;
 
-  constructor(public authService: AuthService) {
-    this.authService.getCurrentUser();
-  }
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
-    this.isLogged = this.authService.isLogged();
-    this.isAdmin = this.authService.isAdmin();
+    this.authService.getCurrentUser().subscribe((loaded) => {
+      if (loaded) {
+        this.isLogged = this.authService.isLogged();
+        this.isAdmin = this.authService.isAdmin();
+      } else {
+        console.error('Error: User data could not be loaded.');
+      }
+    });
   }
 }

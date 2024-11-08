@@ -32,15 +32,22 @@ export class AdminDocumentsComponent {
   }
 
   ngOnInit() {
-    this.authService.userLoaded().subscribe((loaded) => {
-      if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-        this.router.navigate(['/error']); // Redirige a error si no es admin
+    // Llamar a getCurrentUser() y esperar a que se complete antes de proceder
+    this.authService.getCurrentUser().subscribe((loaded) => {
+      if (loaded) {
+        if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+          this.router.navigate(['/error']); // Redirige a error si no está logueado o no es admin
+        } else {
+          this.getDocuments();
+          this.getDegree();
+            this.popUpService.documentSaved$.subscribe(() => {
+            this.reload(); // Recargar después de que se haya guardado un documento
+          });
+        }
+      } else {
+        // Si no se pudo cargar el usuario correctamente, redirigir a error
+        this.router.navigate(['/error']);
       }
-    });
-    this.getDocuments();
-    this.getDegree()
-    this.popUpService.documentSaved$.subscribe(() => {
-      this.reload();
     });
   }
 

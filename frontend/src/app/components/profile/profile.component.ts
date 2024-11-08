@@ -24,7 +24,13 @@ export class ProfileComponent {
     }
 
     ngOnInit() {
-        this.loadUserData();
+        this.authService.getCurrentUser().subscribe((loaded: boolean) => {
+            if (loaded) {
+                this.loadUserData();
+            } else {
+                this.router.navigate(['/error']);
+            }
+        });
     }
 
     loadUserData() {
@@ -35,16 +41,21 @@ export class ProfileComponent {
     }
 
     editProfile() {
-        if (this.firstName == "" || this.lastName == "") {
+        if (this.firstName === "" || this.lastName === "") {
             this.popUpService.openPopUp('Some field is incomplete');
-        }
-        else if (this.password != this.password2 || this.password == "") {
+        } else if (this.password !== this.password2 || this.password === "") {
             this.popUpService.openPopUp('Passwords do not match');
         } else {
             this.userService.editProfile(this.firstName, this.lastName, this.email, this.password).subscribe({
                 next: (_: any) => {
-                    this.authService.getCurrentUser();
-                    this.router.navigate(['/']);
+                    // Esperamos a que getCurrentUser complete antes de redirigir
+                    this.authService.getCurrentUser().subscribe((loaded: boolean) => {
+                        if (loaded) {
+                            this.router.navigate(['/profile']);
+                        } else {
+                            this.router.navigate(['/error']);
+                        }
+                    });
                 },
                 error: (err: HttpErrorResponse) => {
                     if (err.status === 400) {
@@ -52,7 +63,6 @@ export class ProfileComponent {
                             this.router.navigate(['/profile']);
                         });
                     } else {
-                        // Handle other errors
                         this.router.navigate(['/error']);
                     }
                 }
@@ -62,6 +72,7 @@ export class ProfileComponent {
 
     editImage(){
         this.popUpService.openPopUpImage();
+        this.ngOnInit()
     }
 
     logout() {

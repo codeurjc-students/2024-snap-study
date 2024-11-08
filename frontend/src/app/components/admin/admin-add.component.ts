@@ -22,12 +22,11 @@ export class AdminAddComponent {
     constructor(private authService: AuthService, private subjectService: SubjectService, private popUpService: PopUpService, private degreeService: DegreeService, private route: ActivatedRoute, private router: Router, private location: Location) { }
 
     ngOnInit() {
-        this.authService.getCurrentUser(); // Llamada asíncrona para obtener el usuario
-
-        this.authService.userLoaded().subscribe((loaded) => {
+        // Llamada a getCurrentUser() y luego continuar con la lógica
+        this.authService.getCurrentUser().subscribe((loaded) => {
             if (loaded) {
                 if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                    this.router.navigate(['/error']); // Redirige a error si no es admin
+                    this.router.navigate(['/error']);
                 } else {
                     this.route.params.subscribe(params => {
                         this.isDegreeParam = params['isDegree'];
@@ -38,6 +37,8 @@ export class AdminAddComponent {
                         }
                     });
                 }
+            } else {
+                this.router.navigate(['/error']);
             }
         });
     }

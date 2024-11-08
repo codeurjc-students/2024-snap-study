@@ -3,7 +3,6 @@ import { Degree } from '../../models/degree.model';
 import { DegreeService } from '../../services/degree.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { timer } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -22,18 +21,22 @@ export class AdminPannelComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.authService.getCurrentUser();
-        this.authService.userLoaded().subscribe((loaded) => {
-            if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                this.router.navigate(['/error']); // Redirige a error si no es admin
-            }
-        });
-        this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
-            this.degrees = this.degrees.concat(response.content);
-            this.moredegrees = !response.last;
-            this.indexdegrees++; //next ajax buttom
-        });
-    }
+      this.authService.getCurrentUser().subscribe((loaded) => {
+          if (loaded) {
+              if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+                  this.router.navigate(['/error']); // Redirige a error si no es admin
+              } else {
+                  this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
+                      this.degrees = this.degrees.concat(response.content);
+                      this.moredegrees = !response.last;
+                      this.indexdegrees++; //next ajax button
+                  });
+              }
+          } else {
+              this.router.navigate(['/error']); // Redirige a error si no se puede cargar el usuario
+          }
+      });
+  }
 
     getMoredegrees() {
         this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {

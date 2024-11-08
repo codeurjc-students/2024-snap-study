@@ -26,14 +26,14 @@ export class AdminSubjectsComponent {
   }
 
   ngOnInit() {
-    this.authService.userLoaded().subscribe((loaded) => {
+    this.authService.getCurrentUser().subscribe(() => {
       if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-        this.router.navigate(['/error']); // Redirige a error si no es admin
+        this.router.navigate(['/error']);
+      } else {
+        this.getDegree();
       }
     });
-    this.getDegree();
   }
-
   getDegree() {
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -64,7 +64,7 @@ export class AdminSubjectsComponent {
     return false;
   }
 
-  deleteSubject(id: number) { 
+  deleteSubject(id: number) {
     this.subjectService.deleteSubject(id, this.degree.id).subscribe({
       next: _ => {
         { this.reload(); }
