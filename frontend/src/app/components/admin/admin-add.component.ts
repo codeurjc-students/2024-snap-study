@@ -54,7 +54,7 @@ export class AdminAddComponent {
 
     createDegree(event: Event) {
         event.preventDefault();
-        this.degreeService.saveDegree(this.name).subscribe(
+        this.degreeService.saveDegree(this.name, this.selectedDegreeType).subscribe(
             {
                 next: _ => {
                     this.location.back()

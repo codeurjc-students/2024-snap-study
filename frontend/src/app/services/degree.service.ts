@@ -21,8 +21,8 @@ export class DegreeService {
         return this.http.get(BASE_URL + id) as Observable<Degree>
     }
 
-    saveDegree(name: string): Observable<Degree> {
-        return this.http.post(BASE_URL, name) as Observable<Degree>
+    saveDegree(name: string, type: string): Observable<Degree> {
+        return this.http.post(BASE_URL, { name, type }) as Observable<Degree>
     }
 
     deleteDegree(id: number): Observable<any> {

@@ -24,6 +24,7 @@ import com.snapstudy.backend.service.DegreeService;
 import com.snapstudy.backend.service.SubjectService;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
+import com.snapstudy.backend.model.DTO.DegreeDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -80,12 +81,13 @@ public class DegreeRestController {
         }
 
         @PostMapping("/")
-        public ResponseEntity<Degree> createDegree(@RequestBody String name) {
-                Optional<Degree> degree = degreeService.findByName(name);
+        public ResponseEntity<Degree> createDegree(@RequestBody DegreeDTO degreeDTO) {
+
+                Optional<Degree> degree = degreeService.findByName(degreeDTO.getName());
                 if (degree.isPresent()) {
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
                 } else {
-                        Degree newDegree = new Degree(name);
+                        Degree newDegree = new Degree(degreeDTO.getName(), degreeDTO.getType());
                         degreeService.save(newDegree);
                         return new ResponseEntity<>(newDegree, HttpStatus.OK);
                 }
