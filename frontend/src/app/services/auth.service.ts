@@ -22,7 +22,6 @@ export class AuthService {
     }
 
     logout() {
-        console.log('e')
         this.http.post<HttpResponse<any>>(BASE_URL + 'logout', { withCredentials: true }).subscribe(() => {
             this.logged = false;
             this.admin = false;
@@ -38,13 +37,10 @@ export class AuthService {
     }
 
     userLoaded(): Observable<boolean> {
-        console.log('a')
-
         return this.userLoadedSubject.asObservable();
     }
 
     isAdmin(): boolean {
-        console.log('b')
         return this.admin;
     }
 
@@ -71,7 +67,6 @@ export class AuthService {
     }
 
     isLogged(): boolean {
-        console.log('c')
         return this.logged;
     }
 
