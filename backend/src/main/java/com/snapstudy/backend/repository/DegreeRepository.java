@@ -13,4 +13,5 @@ public interface DegreeRepository extends JpaRepository<Degree, Long> {
     Page<Degree> findAll(Pageable page);
     Optional<Degree> findById(Long id);
     Optional<Degree> findByName(String name);
+    Page<Degree> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

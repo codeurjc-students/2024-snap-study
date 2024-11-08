@@ -14,4 +14,5 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     Page<Subject> findSubjectsByDegreeId(Long id, Pageable page);
     Optional<Subject> findById(Long id);
     Optional<Subject> findByNameAndDegree(String name, Degree degree);
+    Page<Subject> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

@@ -67,8 +67,6 @@ export class AdminDocumentsComponent {
   }
 
   getMoredocuments() {
-    console.log("bbb")
-
     this.documentService.getDocuments(parseInt(this.id), this.indexdocuments).subscribe((response) => {
       this.documents = this.documents.concat(response.content);
       this.moredocuments = !response.last;

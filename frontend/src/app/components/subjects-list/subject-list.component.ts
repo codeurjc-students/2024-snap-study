@@ -4,7 +4,6 @@ import { Subject } from '../../models/subject.model';
 import { SubjectService } from '../../services/subject.service';
 import { Degree } from '../../models/degree.model';
 import { DegreeService } from '../../services/degree.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main',

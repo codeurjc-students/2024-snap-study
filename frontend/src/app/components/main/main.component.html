@@ -6,7 +6,18 @@
                         class="registered-symbol">®</span></h1>
                 <h2 class="text-white-50 mx-auto mt-2 mb-5">Explore our complete collection of notes and get free
                     access to all our study materials.</h2>
-                <a class="btn btn-primary" [routerLink]="['/degrees']">Explore</a>
+                <section class="search-section">
+                    <div class="container px-4 px-lg-5">
+                        <div class="form-signup">
+                            <div class="action-buttons-gap">
+                                <div class="col"><input [(ngModel)]="searchText" class="form-control" type="text"
+                                        placeholder="Start typing to search..." /></div>
+                                <div class="col-auto"><button class="btn btn-primary" type="submit" (click)="search()">Search Now!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>

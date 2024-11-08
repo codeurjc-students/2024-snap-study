@@ -1,0 +1,37 @@
+<header class="masthead">
+    <section class="signup-section" id="signup">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-8 col-lg-6 mx-auto text-center">
+                    <h2 class="text-white mb-5 centered-h2">SEARCH</h2>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
+                        notes and resources for each one</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+</header>
+
+<section style="padding: 5%;">
+    <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(SEARCH RESULT)</b></h2>
+    <div id="container">
+        <h3>Degrees</h3>
+    <ul>
+      <li *ngFor="let degree of results.degrees">{{ degree.name }}</li>
+    </ul>
+
+    <h3>Subjects</h3>
+    <ul>
+      <li *ngFor="let subject of results.subjects">{{ subject.name }}</li>
+    </ul>
+
+    <h3>Documents</h3>
+    <ul>
+      <li *ngFor="let document of results.documents">{{ document.name }}</li>
+    </ul>
+
+    <div *ngIf="!results.last">
+      <button (click)="loadMore()" class="btn btn-dark">Load More</button>
+    </div>
+    </div>
+</section>

@@ -25,6 +25,7 @@ import { AdminSubjectsComponent } from './components/admin/admin-subjects.compon
 import { AdminDocumentsComponent } from './components/admin/admin-documents.component';
 import { PopUpDocumentComponent } from './components/childs/popup-document.component';
 import { AdminAddComponent } from './components/admin/admin-add.component';
+import { SearchComponent } from './components/search/search.component';
 
 
 
@@ -47,7 +48,8 @@ import { AdminAddComponent } from './components/admin/admin-add.component';
     AdminPannelComponent,
     AdminDocumentsComponent,
     PopUpDocumentComponent,
-    AdminAddComponent
+    AdminAddComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
