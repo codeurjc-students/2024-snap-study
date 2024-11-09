@@ -1,37 +1,74 @@
-<header class="masthead">
-    <section class="signup-section" id="signup">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5">
-                <div class="col-md-8 col-lg-6 mx-auto text-center">
-                    <h2 class="text-white mb-5 centered-h2">SEARCH</h2>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
-                        notes and resources for each one</h2>
-                </div>
-            </div>
-        </div>
-    </section>
+<header>
+  <section class="head-section">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5">
+        <h2 class="text-dark mx-auto mt-2 mb-5">Search results for "<b>{{ searchText }}</b>"</h2>
+      </div>
+    </div>
+  </section>
 </header>
 
 <section style="padding: 5%;">
-    <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(SEARCH RESULT)</b></h2>
-    <div id="container">
-        <h3>Degrees</h3>
+  <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(SEARCH RESULT)</b></h2>
+  <div id="container">
     <ul>
-      <li *ngFor="let degree of results.degrees">{{ degree.name }}</li>
+      <li *ngFor="let degree of results.degrees">
+        <div class="info">
+          <div class="date">Degree</div>
+          <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}&nbsp;&nbsp; - &nbsp;&nbsp;{{ degree.type }}</a></div>
+          <div class="container-square">
+            <div class="square"></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <br />
+        <br />
+      </li>
     </ul>
+  </div>
 
-    <h3>Subjects</h3>
+  <div id="container">
     <ul>
-      <li *ngFor="let subject of results.subjects">{{ subject.name }}</li>
+      <li *ngFor="let subject of results.subjects">
+        <div class="info">
+          <div class="date">Subject</div>
+          <div class="title"><a [routerLink]="['/degrees/' + subject.id + '/subjects', subject.id]">{{
+              subject.name }}</a></div>
+          <!-- Añadir link -->
+          <div class="container-square">
+            <div class="square"></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <br />
+        <br />
+      </li>
     </ul>
+  </div>
 
-    <h3>Documents</h3>
+  <div id="container">
     <ul>
-      <li *ngFor="let document of results.documents">{{ document.name }}</li>
+      <li *ngFor="let document of results.documents">
+        <div class="info">
+          <div class="date">Document</div>
+          <div class="title"><a [routerLink]="['/degrees/' + document.id + '/subjects', document.id]">{{
+              document.name }}</a></div>
+          <!-- Añadir link -->
+          <div class="container-square">
+            <div class="square"></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <br />
+        <br />
+      </li>
     </ul>
-
+  </div>
+  <div class="action-buttons">
     <div *ngIf="!results.last">
       <button (click)="loadMore()" class="btn btn-dark">Load More</button>
     </div>
-    </div>
+  </div>
+    
+
 </section>
