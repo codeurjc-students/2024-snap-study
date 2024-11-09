@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Renderer2 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { SearchService } from "../../services/search.service";
 
@@ -8,9 +8,9 @@ import { SearchService } from "../../services/search.service";
 })
 export class SearchComponent {
 
-    private searchText: string = '';
+    searchText: string = '';
     page: number = 0;
-    size: number = 10;
+    size: number = 3;
     results: any = {
         degrees: [],
         subjects: [],
@@ -18,15 +18,20 @@ export class SearchComponent {
         last: false
     };
 
-    constructor(private searchService: SearchService, private route: ActivatedRoute) { }
+    constructor(private searchService: SearchService, private route: ActivatedRoute, private renderer: Renderer2) { }
 
     ngOnInit() {
+        this.renderer.addClass(document.body, 'search-results-page');
         this.route.params.subscribe(params => {
             this.searchText = params['text'];
         });
 
         this.executeSearch();
     }
+
+    ngOnDestroy(): void {
+        this.renderer.removeClass(document.body, 'search-results-page');
+      }
 
     executeSearch() {
         this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {

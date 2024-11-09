@@ -2022,7 +2022,7 @@ textarea.form-control-lg {
 .mx-3 {
   margin-right: 1rem !important;
   margin-left: 1rem !important;
-  color: antiquewhite;
+  color: white;
 }
 
 .mx-auto {
@@ -2234,7 +2234,7 @@ body {
 .footer-snapstudy {
   font-size: 11rem; /* Ajusta el tamaño del texto según sea necesario */
   font-weight: bold;
-  color: antiquewhite;
+  color: white;
   width: 100%; /* Ocupa toda la parte inferior */
   text-align: center; /* Centra el texto */
 }
@@ -2396,6 +2396,7 @@ body {
   background-attachment: scroll;
   background-size: cover;
 }
+
 .signup-section .form-signup input {
   box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
   padding: 1.25rem 2rem;
@@ -2424,9 +2425,20 @@ body {
   border: 0;
 }
 
+.head-section {
+  padding-top: 8rem;
+  background: rgb(247, 247, 247);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+  border-bottom: 1px solid #d1d1d1; /* Línea inferior */
+}
+
 .contact-section {
   padding-top: 5rem;
 }
+
 .contact-section .card {
   border: 0;
   border-bottom: 0.25rem solid #495057;
@@ -2465,4 +2477,19 @@ body {
 .footer {
   padding: 8rem;
   background-color: #000;
+}
+
+.search-results-page .navbar .navbar-brand,
+.search-results-page .navbar .nav-link {
+  color: #495057 !important;
+}
+
+.search-results-page .navbar .navbar-brand:hover,
+.search-results-page .navbar .nav-link:hover {
+  color: #000000 !important;
+}
+
+.search-results-page .navbar {
+  border-bottom: 1px solid #d1d1d1 !important; /* Línea superior */
+
 }
