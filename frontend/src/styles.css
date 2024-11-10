@@ -2502,5 +2502,22 @@ body {
 
 .search-results-page .navbar {
   border-bottom: 1px solid #d1d1d1 !important; /* Línea superior */
+}
 
+.banner-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 6%
+}
+
+.banner-item {
+  text-align: center;
+  max-width: 25%;
+}
+
+.banner-item img {
+  width: 20%;
+  height: 20%;
+  margin-bottom: 5%;
 }
