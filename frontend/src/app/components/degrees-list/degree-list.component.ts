@@ -3,7 +3,7 @@ import { Degree } from '../../models/degree.model';
 import { DegreeService } from '../../services/degree.service';
 
 @Component({
-  selector: 'app-main',
+  selector: 'app-degree-list',
   templateUrl: './degree-list.component.html',
 })
 export class DegreeListComponent {

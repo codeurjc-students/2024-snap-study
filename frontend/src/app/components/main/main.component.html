@@ -18,7 +18,32 @@
                         </div>
                     </div>
                 </section>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5" style="padding-top: 10%;"><b>SCROLL TO EXPLORE ALL AVAILABLE DEGREE OPTIONS</b></h2>
             </div>
         </div>
     </div>
 </header>
+
+<section class="projects-section bg-light">
+    <div class="container px-4 px-lg-5" style="width: 80% !important;">
+        <h2 class="text-dark mb-5" style="padding-bottom: 3%;"><b>(DEGREE LIST)</b></h2>
+        <div id="container">
+            <ul>
+                <li *ngFor="let degree of degrees">
+                    <div class="info">
+                        <div class="date">{{ degree.postedDate | date: 'MMM, yyyy' }}</div>
+                        <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}&nbsp;&nbsp; - &nbsp;&nbsp;{{ degree.type }}</a></div>
+                        <div class="container-square">
+                            <div class="square"></div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <br />
+                    <br />
+                </li>
+                <div class="col-auto"><button *ngIf="showLoadMoreButton()" class="btn btn-dark"
+                        [class.display-div]="!moredegrees" (click)="getMoredegrees()">Load More</button></div>
+            </ul>
+        </div>
+    </div>
+</section>
