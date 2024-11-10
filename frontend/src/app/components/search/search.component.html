@@ -36,7 +36,7 @@
       <li *ngFor="let subject of results.subjects">
         <div class="info">
           <div class="date">Subject</div>
-          <div class="title"><a [routerLink]="['/degrees/' + subject.id + '/subjects', subject.id]">{{
+          <div class="title"><a (click)="navigateToSubject(subject.id)">{{
               subject.name }}</a></div>
           <!-- Añadir link -->
           <div class="container-square">

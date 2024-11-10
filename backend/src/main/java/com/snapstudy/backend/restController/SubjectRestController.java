@@ -142,4 +142,18 @@ public class SubjectRestController {
                 }
         }
 
+
+        @GetMapping("/degreesby/{subjectId}")
+        public ResponseEntity<Degree> getDegreeBySubject(@PathVariable Long subjectId) {
+                Subject subject = subjectService.getSubjectById(subjectId);
+
+                if (subject != null) {
+                        Degree degree = subject.getDegree();
+                        if(degree != null){
+                                return new ResponseEntity<>(degree, HttpStatus.OK);
+                        }
+                }
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
 }

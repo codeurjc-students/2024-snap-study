@@ -28,4 +28,8 @@ export class SubjectService {
     deleteSubject(id: number, degreeId: number): Observable<any> {
         return this.http.delete(BASE_URL + degreeId + "/" + id) as Observable<any>;
     }
+
+    getDegreeBySubject(id: number): Observable<any> {
+        return this.http.get(BASE_URL + 'degreesby/' + id) as Observable<any>;
+    }
 }
