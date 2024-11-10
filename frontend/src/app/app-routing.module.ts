@@ -13,6 +13,7 @@ import { AdminSubjectsComponent } from './components/admin/admin-subjects.compon
 import { AdminDocumentsComponent } from './components/admin/admin-documents.component';
 import { AdminAddComponent } from './components/admin/admin-add.component';
 import { SearchComponent } from './components/search/search.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -27,7 +28,8 @@ const routes: Routes = [
   { path: 'admin/degrees/:id', component: AdminSubjectsComponent },
   { path: 'admin/degrees/:id/subjects/:sid', component: AdminDocumentsComponent },
   { path: 'admin/add/:isDegree/:degreeId', component: AdminAddComponent },
-  { path: 'search/:text', component: SearchComponent }
+  { path: 'search/:text', component: SearchComponent },
+  { path: 'about', component: AboutComponent }
 ];
 
 @NgModule({

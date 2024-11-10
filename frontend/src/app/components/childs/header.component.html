@@ -12,9 +12,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li *ngIf="!authService.isAdmin()" class="nav-item"><a class="nav-link" [routerLink]="['/degrees']">Explore</a></li>
                     <li *ngIf="authService.isAdmin()" class="nav-item"><a class="nav-link" [routerLink]="['/admin']">Admin Pannel</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" [routerLink]="['/about']">About</a></li>
                     <li class="nav-item"><a class="nav-link" *ngIf="!authService.isLogged()" [routerLink]="['/login']">Log In</a></li>
                     <li class="nav-item"><a class="nav-link" *ngIf="authService.isLogged()" [routerLink]="['/profile']">Profile</a></li>
                 </ul>
