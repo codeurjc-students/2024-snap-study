@@ -41,6 +41,14 @@ public class Subject {
         return id;
     }
 
+    public Degree getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Degree degree) {
+        this.degree = degree;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

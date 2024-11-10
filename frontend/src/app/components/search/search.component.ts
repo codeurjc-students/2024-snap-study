@@ -1,6 +1,9 @@
 import { Component, Renderer2 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { SearchService } from "../../services/search.service";
+import { SubjectService } from "../../services/subject.service";
+import { Subject } from "../../models/subject.model";
+import { Degree } from "../../models/degree.model";
 
 @Component({
     selector: 'app-search',
@@ -18,7 +21,10 @@ export class SearchComponent {
         last: false
     };
 
-    constructor(private searchService: SearchService, private route: ActivatedRoute, private renderer: Renderer2) { }
+    subject: any;
+    degree: any;
+
+    constructor(private subjectService: SubjectService, private searchService: SearchService, private route: ActivatedRoute, private router: Router, private renderer: Renderer2) { }
 
     ngOnInit() {
         this.renderer.addClass(document.body, 'search-results-page');
@@ -51,5 +57,17 @@ export class SearchComponent {
           });
         }
       }
+
+    navigateToSubject(id:number){
+        this.subjectService.getDegreeBySubject(id).subscribe(
+            (response: Degree) => {
+              this.degree = response;
+              this.router.navigate(['/degrees/' + this.degree.id + '/subjects/' + id]);
+            },
+            (error: any) => {
+              this.router.navigate(['/error']);
+            }
+          );
+    }
 
 }
