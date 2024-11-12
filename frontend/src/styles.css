@@ -218,6 +218,15 @@ abbr[title] {
   transform: scale(1.05); /* Aumentar el tamaño en hover */
 }
 
+.custom-link {
+  color: white;
+  text-decoration: none; /* Opcional: quita el subrayado */
+}
+
+.custom-link:hover {
+  color: #858688;
+}
+
 address {
   margin-bottom: 1rem;
   font-style: normal;
