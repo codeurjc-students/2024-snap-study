@@ -1,12 +1,10 @@
-<header class="masthead">
-    <section class="signup-section" id="signup">
+<header>
+    <section class="head-section">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
-                <div class="col-md-8 col-lg-6 mx-auto text-center">
-                    <h2 class="text-white mb-5 centered-h2">DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</h2>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
-                        notes and resources for each one</h2>
-                </div>
+                <h2 class="text-dark mb-5"><b>DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</b></h2>
+                    <h3 class="text-dark-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
+                        notes and resources for each one</h3>
             </div>
         </div>
     </section>
@@ -18,9 +16,9 @@
         <ul>
             <li *ngFor="let document of documents">
                 <div class="info">
-                    <input type="checkbox" (change)="onCheckboxChange($event, document.id)">
+                    <input *ngIf="authService.isLogged()" type="checkbox" (change)="onCheckboxChange($event, document.id)">
                     <div class="title"><a [routerLink]="['/degrees', document.id]">{{ document.name }}</a></div>
-                    <!-- Añadir link -->
+                    <div class="title"><p>- AI DESCRIPTION -</p></div>
                     <div class="container-square">
                         <div class="square"></div>
                     </div>

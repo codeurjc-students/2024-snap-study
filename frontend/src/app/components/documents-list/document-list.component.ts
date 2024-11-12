@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from '../../models/subject.model';
 import { SubjectService } from '../../services/subject.service';
@@ -19,12 +19,13 @@ export class DocumentListComponent {
   public moredocuments: boolean = false;   //ajax
   public selectedDocumentIds: number[] = [];
 
-  constructor(public authService: AuthService, private documentService: DocumentService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
+  constructor(private renderer: Renderer2, public authService: AuthService, private documentService: DocumentService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
     this.documents = [];
     this.id = "";
   }
 
   ngOnInit() {
+    this.renderer.addClass(document.body, 'search-results-page');
     this.getDocuments();
   }
 
@@ -69,6 +70,10 @@ export class DocumentListComponent {
   //DESCARGARÁ O VOLCARÁ LOS DOCUMENTOS SEGÚN LOS IDS SELECCIONADOS
   getSelectedDocuments() {
     console.log(this.selectedDocumentIds); // Muestra los IDs seleccionados
+  }
+
+  ngOnDestroy(): void {
+    this.renderer.removeClass(document.body, 'search-results-page');
   }
 
 }

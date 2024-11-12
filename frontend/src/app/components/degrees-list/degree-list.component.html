@@ -1,12 +1,10 @@
-<header class="masthead">
-    <section class="signup-section" id="signup">
+<header>
+    <section class="head-section">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
-                <div class="col-md-8 col-lg-6 mx-auto text-center">
-                    <h2 class="text-white mb-5 centered-h2">EXPLORE ALL AVAILABLE DEGREES!</h2>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Check all available degrees on our platform and access
-                        useful resources for each subject</h2>
-                </div>
+                <h2 class="text-dark mb-5"><b>EXPLORE ALL AVAILABLE DEGREES!</b></h2>
+                <h3 class="text-dark-50 mx-auto mt-2 mb-5">Check all available degrees on our platform and access
+                    useful resources for each subject</h3>
             </div>
         </div>
     </section>
@@ -19,7 +17,8 @@
             <li *ngFor="let degree of degrees">
                 <div class="info">
                     <div class="date">{{ degree.postedDate | date: 'MMM, yyyy' }}</div>
-                    <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}&nbsp;&nbsp; - &nbsp;&nbsp;{{ degree.type }}</a></div>
+                    <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}&nbsp;&nbsp; -
+                            &nbsp;&nbsp;{{ degree.type }}</a></div>
                     <div class="container-square">
                         <div class="square"></div>
                     </div>
