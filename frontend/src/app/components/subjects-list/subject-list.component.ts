@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from '../../models/subject.model';
 import { SubjectService } from '../../services/subject.service';
@@ -17,12 +17,13 @@ export class SubjectListComponent {
   public indexsubjects: number = 0;    //ajax
   public moresubjects: boolean = false;   //ajax
 
-  constructor(private degreeService: DegreeService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
+  constructor(private renderer: Renderer2, private degreeService: DegreeService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
     this.subjects = [];
     this.id = "";
   }
 
   ngOnInit() {
+    this.renderer.addClass(document.body, 'search-results-page');
     this.getDegree();
   }
 
@@ -54,6 +55,10 @@ export class SubjectListComponent {
       return true;
     }
     return false;
+  }
+
+  ngOnDestroy(): void {
+    this.renderer.removeClass(document.body, 'search-results-page');
   }
 
 }
