@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from '../../models/subject.model';
 import { SubjectService } from '../../services/subject.service';
@@ -20,12 +20,13 @@ export class AdminSubjectsComponent {
   public indexsubjects: number = 0;    //ajax
   public moresubjects: boolean = false;   //ajax
 
-  constructor(private degreeService: DegreeService, private subjectService: SubjectService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+  constructor(private renderer: Renderer2, private degreeService: DegreeService, private subjectService: SubjectService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     this.subjects = [];
     this.id = "";
   }
 
   ngOnInit() {
+    this.renderer.addClass(document.body, 'search-results-page');
     this.authService.getCurrentUser().subscribe(() => {
       if (!this.authService.isLogged() || !this.authService.isAdmin()) {
         this.router.navigate(['/error']);
@@ -86,6 +87,10 @@ export class AdminSubjectsComponent {
       this.moresubjects = !response.last;
       this.indexsubjects++;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.renderer.removeClass(document.body, 'search-results-page');
   }
 
 }

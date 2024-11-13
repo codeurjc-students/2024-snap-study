@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -16,12 +16,16 @@ export class SignupComponent {
   public password: string;
   public password2: string;
 
-  constructor(private popUpService: PopUpService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+  constructor(private renderer: Renderer2, private popUpService: PopUpService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     this.firstName = '';
     this.lastName = '';
     this.email = '';
     this.password = '';
     this.password2 = '';
+  }
+
+  ngOnInit(){
+    this.renderer.addClass(document.body, 'search-results-page');
   }
 
   createUser() {
@@ -44,8 +48,10 @@ export class SignupComponent {
         }
       });
     }
+  }
 
-
+  ngOnDestroy(): void {
+    this.renderer.removeClass(document.body, 'search-results-page');
   }
 
 }

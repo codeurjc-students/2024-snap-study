@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from '../../models/subject.model';
 import { SubjectService } from '../../services/subject.service';
@@ -26,13 +26,13 @@ export class AdminDocumentsComponent {
   public moredocuments: boolean = false;   //ajax
   public selectedDocumentIds: number[] = [];
 
-  constructor(public authService: AuthService, private degreeService: DegreeService, private documentService: DocumentService, private popUpService: PopUpService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
+  constructor(private renderer: Renderer2, public authService: AuthService, private degreeService: DegreeService, private documentService: DocumentService, private popUpService: PopUpService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
     this.documents = [];
     this.id = "";
   }
 
   ngOnInit() {
-    // Llamar a getCurrentUser() y esperar a que se complete antes de proceder
+    this.renderer.addClass(document.body, 'search-results-page');
     this.authService.getCurrentUser().subscribe((loaded) => {
       if (loaded) {
         if (!this.authService.isLogged() || !this.authService.isAdmin()) {
@@ -121,6 +121,10 @@ export class AdminDocumentsComponent {
 
   openModalAddDocument() {
     this.popUpService.openPopUpDocument(this.subject, this.degree);
+  }
+
+  ngOnDestroy(): void {
+    this.renderer.removeClass(document.body, 'search-results-page');
   }
 
 }
