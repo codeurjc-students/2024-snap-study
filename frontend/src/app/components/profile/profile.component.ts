@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Renderer2 } from "@angular/core";
 import { User } from "../../models/user.model";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
@@ -20,10 +20,11 @@ export class ProfileComponent {
     public password2: String = '';
     private user: User = {} as User;
 
-    constructor(private authService: AuthService, private router: Router, private userService: UserService, private popUpService: PopUpService) {
+    constructor(private renderer: Renderer2, private authService: AuthService, private router: Router, private userService: UserService, private popUpService: PopUpService) {
     }
 
     ngOnInit() {
+        this.renderer.addClass(document.body, 'search-results-page');
         this.authService.getCurrentUser().subscribe((loaded: boolean) => {
             if (loaded) {
                 this.loadUserData();
@@ -70,12 +71,15 @@ export class ProfileComponent {
         }
     }
 
-    editImage(){
+    editImage() {
         this.popUpService.openPopUpImage();
-        this.ngOnInit()
     }
 
     logout() {
         this.authService.logout();
-      }
+    }
+
+    ngOnDestroy(): void {
+        this.renderer.removeClass(document.body, 'search-results-page');
+    }
 }

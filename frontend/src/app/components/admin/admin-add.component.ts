@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, Renderer2 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DegreeService } from "../../services/degree.service";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -19,10 +19,10 @@ export class AdminAddComponent {
     public selectedDegreeType: string = '';
     public degreeTypes: string[] = [];
 
-    constructor(private authService: AuthService, private subjectService: SubjectService, private popUpService: PopUpService, private degreeService: DegreeService, private route: ActivatedRoute, private router: Router, private location: Location) { }
+    constructor(private renderer: Renderer2, private authService: AuthService, private subjectService: SubjectService, private popUpService: PopUpService, private degreeService: DegreeService, private route: ActivatedRoute, private router: Router, private location: Location) { }
 
     ngOnInit() {
-        // Llamada a getCurrentUser() y luego continuar con la lógica
+        this.renderer.addClass(document.body, 'search-results-page');
         this.authService.getCurrentUser().subscribe((loaded) => {
             if (loaded) {
                 if (!this.authService.isLogged() || !this.authService.isAdmin()) {
@@ -90,4 +90,8 @@ export class AdminAddComponent {
             this.router.navigate(['/error']);
         }
     }
+
+    ngOnDestroy(): void {
+        this.renderer.removeClass(document.body, 'search-results-page');
+      }
 }

@@ -1,26 +1,34 @@
-<header class="masthead">
-    <section class="signup-section" id="signup">
+<header>
+    <section class="head-section">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
-                <div class="col-md-8 col-lg-6 mx-auto text-center">
-                    <h2 class="text-white mb-5 centered-h2">SIGN IN INTO YOUR ACCOUNT!</h2>
-                    <div class="form-signup">
-                        <div class="col"><input [(ngModel)]="email" class="form-control" id="email" type="text"
-                                placeholder="Enter email address..." /></div>
-                        <br />
-                        <div class="col"><input [(ngModel)]="password" class="form-control" id="password"
-                                type="password" placeholder="Enter password..." /></div>
-                        <br />
-                        <div class="row">
-                            <div class="col-auto"><button class="btn btn-primary" (click)="sendCredentials($event)">Sign
-                                    in!</button></div>
-                            <div class="col-auto"><button class="btn btn-primary" [routerLink]="['/signup']">Create a
-                                    new
-                                    account!</button></div>
-                        </div>
-                    </div>
-                </div>
+                <h2 class="text-dark mb-5"><b>SIGN IN INTO YOUR ACCOUNT!</b></h2>
+                <h3 class="text-dark-50 mx-auto mt-2 mb-5">Log in to your account and enjoy all the features</h3>
             </div>
         </div>
     </section>
 </header>
+
+<section class="signup-section" id="signup" style="padding-top: 7rem !important;">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5">
+            <div class="col-md-8 col-lg-6 mx-auto text-center">
+                <div class="form-signup">
+                    <div class="col"><input [(ngModel)]="email" class="form-control" id="email" type="text"
+                            placeholder="Enter email address..." /></div>
+                    <br />
+                    <div class="col"><input [(ngModel)]="password" class="form-control" id="password" type="password"
+                            placeholder="Enter password..." /></div>
+                    <br />
+                    <div class="row" style="padding-top: 2rem;">
+                        <div class="col-auto"><button class="btn btn-dark" (click)="sendCredentials($event)">Sign
+                                in!</button></div>
+                        <div class="col-auto"><button class="btn btn-dark" [routerLink]="['/signup']">Create a
+                                new
+                                account!</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

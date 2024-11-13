@@ -39,7 +39,7 @@ export class PopUpImageComponent implements OnInit {
         if (this.profilePicture.size > 0) {
             this.userService.setProfileImage(this.profilePicture).subscribe(
                 () => {
-                    this.router.navigate(['/profile']);
+                    window.location.reload();
                 }
             );
         }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,7 +15,11 @@ export class LoginComponent {
   public password: string = '';
   private userLoadedSubscription: Subscription = new Subscription();
 
-  constructor(private popUpService: PopUpService, private authService: AuthService, private router: Router) { }
+  constructor(private renderer: Renderer2, private popUpService: PopUpService, private authService: AuthService, private router: Router) { }
+
+  ngOnInit(){
+    this.renderer.addClass(document.body, 'search-results-page');
+  }
 
   sendCredentials(event: Event) {
     event.preventDefault();
@@ -44,6 +48,10 @@ export class LoginComponent {
         },
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.renderer.removeClass(document.body, 'search-results-page');
   }
 
 }

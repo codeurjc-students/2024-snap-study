@@ -1,32 +1,40 @@
-<header class="masthead">
-    <section class="signup-section" id="signup">
+<header>
+    <section class="head-section">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
-                <div class="col-md-8 col-lg-6 mx-auto text-center">
-                    <h2 *ngIf="isDegree" class="text-white mb-5 centered-h2">ADD A NEW DEGREE!</h2>
-                    <h2 *ngIf="!isDegree" class="text-white mb-5 centered-h2">ADD A NEW SUBJECT!</h2>
-                    <div class="form-signup">
-                        <div class="col"><input [(ngModel)]="name" type="text" placeholder="Name..."
-                                class="form-control" /></div>
-                        <br />
-                        <div *ngIf="isDegree" class="col">
-                            <select [(ngModel)]="selectedDegreeType" class="form-control">
-                                <option value="" disabled selected>Select a degree type</option>
-                                <option *ngFor="let field of degreeTypes" [value]="field">{{ field }}</option>
-                            </select>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div *ngIf="isDegree" class="col-auto"><button class="btn btn-primary" (click)="createDegree($event)">Create
-                                    degree!</button></div>
-                            <div *ngIf="!isDegree" class="col-auto"><button class="btn btn-primary" (click)="createSubject($event)">Create
-                                    subject!</button></div>
-                            <div class="col-auto"><button class="btn btn-primary" (click)="goBack()">Back</button></div>
-                        </div>
-                    </div>
-                </div>
+                <h2 *ngIf="isDegree" class="text-dark mb-5"><b>ADD A NEW DEGREE!</b></h2>
+                <h2 *ngIf="!isDegree" class="text-dark mb-5"><b>ADD A NEW SUBJECT!</b></h2>
+                <h3 *ngIf="isDegree" class="text-dark-50 mx-auto mt-2 mb-5">Help this community keep growing with a new degree</h3>
+                <h3 *ngIf="!isDegree" class="text-dark-50 mx-auto mt-2 mb-5">Help this community keep growing with a new subject</h3>
             </div>
         </div>
     </section>
 </header>
-<section class="footer"></section>
+
+<section class="signup-section" id="signup" style="padding-top: 7rem !important;">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5">
+            <div class="col-md-8 col-lg-6 mx-auto text-center">
+                <div class="form-signup">
+                    <div class="col"><input [(ngModel)]="name" type="text" placeholder="Name..."
+                            class="form-control" /></div>
+                    <br />
+                    <div *ngIf="isDegree" class="col">
+                        <select [(ngModel)]="selectedDegreeType" class="form-control">
+                            <option value="" disabled selected>Select a degree type</option>
+                            <option *ngFor="let field of degreeTypes" [value]="field">{{ field }}</option>
+                        </select>
+                    </div>
+                    <br />
+                    <div class="row" style="padding-top: 2rem;">
+                        <div *ngIf="isDegree" class="col-auto"><button class="btn btn-dark" (click)="createDegree($event)">Create
+                                degree!</button></div>
+                        <div *ngIf="!isDegree" class="col-auto"><button class="btn btn-dark" (click)="createSubject($event)">Create
+                                subject!</button></div>
+                        <div class="col-auto"><button class="btn btn-dark" (click)="goBack()">Back</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
