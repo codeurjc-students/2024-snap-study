@@ -1,4 +1,4 @@
 export interface Document {
     id: number;
-    name: String;
+    name: string;
 }

@@ -69,7 +69,36 @@ export class DocumentListComponent {
 
   //DESCARGARÁ O VOLCARÁ LOS DOCUMENTOS SEGÚN LOS IDS SELECCIONADOS
   getSelectedDocuments() {
-    console.log(this.selectedDocumentIds); // Muestra los IDs seleccionados
+    for (const id of this.selectedDocumentIds) {
+      this.documentService.getDocument(id).subscribe(
+        (doc : Document) => {
+          if (doc) {
+            // Si el documento es válido, proceder con la descarga
+            this.documentService.downloadDocument(id).subscribe(
+              (blob) => {
+                const url = window.URL.createObjectURL(blob); // Crear URL temporal
+                const a = document.createElement('a'); // Crear un elemento <a> dinámico
+                a.href = url;
+                a.download = doc.name
+                a.style.display = 'none'; // Enlace no visible
+                document.body.appendChild(a); // Agregar el enlace al DOM
+                a.click(); // Simular clic para iniciar la descarga
+                document.body.removeChild(a); // Eliminar el enlace del DOM
+                window.URL.revokeObjectURL(url); // Liberar la URL temporal
+              },
+              (error) => {
+                console.error(`Error al descargar el documento con ID ${id}:`, error);
+              }
+            );
+          } else {
+            console.warn(`El documento con ID ${id} no es válido.`);
+          }
+        },
+        (error) => {
+          console.error(`Error al obtener el documento con ID ${id}:`, error);
+        }
+      );
+    }
   }
 
   ngOnDestroy(): void {

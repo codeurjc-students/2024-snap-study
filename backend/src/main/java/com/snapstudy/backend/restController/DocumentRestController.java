@@ -1,11 +1,17 @@
 package com.snapstudy.backend.restController;
 
+import java.io.InputStream;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -155,7 +161,7 @@ public class DocumentRestController {
 
             int result = awsS3.deleteFile(path, fileName); // eliminar del s3 el documento
 
-            if (result == 0){
+            if (result == 0) {
                 documentService.deleteDocument(id);
                 return ResponseEntity.noContent().build();
             } else {
@@ -166,4 +172,63 @@ public class DocumentRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) {
+        try {
+            Document doc = documentService.getDocumentById(id);
+
+            if (doc == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Subject sub = doc.getSubject();
+            Degree deg = sub.getDegree();
+            if (deg == null || sub == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            // Construcción segura de la ruta
+            String path = "RepositoryDocuments/" + deg.getName() + "/" + sub.getName();
+            Map<String, InputStream> downloadedFile = awsS3.downloadFile(path, doc.getName());
+
+            if (downloadedFile != null && !downloadedFile.isEmpty()) {
+                String fileName = doc.getName();
+                InputStream inputStream = downloadedFile.get(fileName);
+
+                if (inputStream == null) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+
+                InputStreamResource resource = new InputStreamResource(inputStream);
+
+                // Configurar encabezados para la descarga del archivo
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"");
+                headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .body(resource);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Document> getDocument(@RequestParam("id") Long id) {
+        Document doc = documentService.getDocumentById(id);
+
+        if (doc == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(doc);
+
+    }
+
 }
