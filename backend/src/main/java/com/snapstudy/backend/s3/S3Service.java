@@ -1,8 +1,12 @@
 package com.snapstudy.backend.s3;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
@@ -13,9 +17,11 @@ import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GetObjectMetadataRequest;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import org.springframework.stereotype.Service;
@@ -38,9 +44,9 @@ public class S3Service {
 
                 // Configuración del cliente de S3
                 AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                .withRegion(Regions.EU_WEST_1)
-                .build();
+                        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                        .withRegion(Regions.EU_WEST_1)
+                        .build();
 
                 // Crear un TransferManager para manejar la subida
                 TransferManager transferManager = TransferManagerBuilder.standard()
@@ -52,10 +58,10 @@ public class S3Service {
 
                 // Crear la solicitud de subida
                 PutObjectRequest request = new PutObjectRequest(bucket, fileKey, file.getInputStream(), null);
-                
+
                 // Subir el archivo
                 Upload upload = transferManager.upload(request);
-                upload.waitForCompletion();  // Esperar a que la subida termine
+                upload.waitForCompletion(); // Esperar a que la subida termine
 
                 // Devolver el nombre del archivo
                 return fileKey;
@@ -67,7 +73,6 @@ public class S3Service {
         return null; // El archivo está vacío
     }
 
-
     public static int createFolder(String folderName) {
         try {
             // Credenciales de AWS
@@ -75,9 +80,9 @@ public class S3Service {
 
             // Configuración del cliente de S3
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                .withRegion(Regions.EU_WEST_1)
-                .build();
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                    .withRegion(Regions.EU_WEST_1)
+                    .build();
 
             // Verificar si la carpeta ya existe
             String folderKey = folderName.endsWith("/") ? folderName : folderName + "/";
@@ -89,7 +94,8 @@ public class S3Service {
                 // Si no se produce una excepción, la carpeta ya existe
                 return 1; // Carpeta ya existe
             } catch (Exception e) {
-                // Si se produce una excepción, significa que la carpeta no existe y podemos crearla
+                // Si se produce una excepción, significa que la carpeta no existe y podemos
+                // crearla
                 // Crear un InputStream vacío
                 ByteArrayInputStream emptyContent = new ByteArrayInputStream(new byte[0]);
 
@@ -115,9 +121,9 @@ public class S3Service {
             // Configuramos el cliente de Amazon S3 con nuestras credenciales
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .withRegion(Regions.EU_WEST_1)
-                .build();
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                    .withRegion(Regions.EU_WEST_1)
+                    .build();
 
             // Eliminamos el archivo indicando el bucket y el archivo
             String key = folder + "/" + fileName;
@@ -135,9 +141,9 @@ public class S3Service {
             // Configuramos el cliente de Amazon S3 con nuestras credenciales
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .withRegion(Regions.EU_WEST_1)
-                .build();
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                    .withRegion(Regions.EU_WEST_1)
+                    .build();
 
             // Verificamos si la carpeta existe
             String folderKey = folderName.endsWith("/") ? folderName : folderName + "/";
@@ -166,6 +172,38 @@ public class S3Service {
             e.printStackTrace();
             return 2; // Error al eliminar la carpeta en Amazon S3
         }
+    }
+
+    public Map<String, InputStream> downloadFile(String folder, String fileName) {
+        Map<String, InputStream> fileMap = new HashMap<>();
+        try {
+            // Creamos las credenciales de AWS y el cliente
+            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                    .withRegion(Regions.EU_WEST_1)
+                    .build();
+
+            String fileKey = folder + "/" + fileName;
+
+            // Crear la solicitud para obtener el archivo de S3
+            GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, fileKey);
+
+            // Descargar el archivo desde S3
+            S3Object s3Object = s3Client.getObject(getObjectRequest);
+
+            // Obtener el InputStream del archivo
+            InputStream inputStream = s3Object.getObjectContent();
+
+            if (inputStream != null) {
+                fileMap.put(fileName, inputStream);
+            }
+
+        } catch (AmazonServiceException e) {
+            e.printStackTrace(); // Manejo de excepciones de Amazon S3
+            return null; // Error al descargar el archivo
+        }
+        return fileMap;
     }
 
 }

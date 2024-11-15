@@ -173,7 +173,7 @@ public class DocumentRestController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) {
         try {
             Document doc = documentService.getDocumentById(id);
@@ -190,11 +190,11 @@ public class DocumentRestController {
 
             // Construcción segura de la ruta
             String path = "RepositoryDocuments/" + deg.getName() + "/" + sub.getName();
-            Map<String, InputStream> downloadedFile = awsS3.downloadFile(path, doc.getName());
+            String docName = doc.getName() + doc.getExtension();
+            Map<String, InputStream> downloadedFile = awsS3.downloadFile(path, docName);
 
             if (downloadedFile != null && !downloadedFile.isEmpty()) {
-                String fileName = doc.getName();
-                InputStream inputStream = downloadedFile.get(fileName);
+                InputStream inputStream = downloadedFile.get(docName);
 
                 if (inputStream == null) {
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -204,7 +204,7 @@ public class DocumentRestController {
 
                 // Configurar encabezados para la descarga del archivo
                 HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"");
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + docName + "\"");
                 headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
 
                 return ResponseEntity.ok()
