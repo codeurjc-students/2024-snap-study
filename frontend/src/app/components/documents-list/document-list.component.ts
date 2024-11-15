@@ -79,7 +79,7 @@ export class DocumentListComponent {
                 const url = window.URL.createObjectURL(blob); // Crear URL temporal
                 const a = document.createElement('a'); // Crear un elemento <a> dinámico
                 a.href = url;
-                a.download = doc.name
+                a.download = doc.name + doc.extension
                 a.style.display = 'none'; // Enlace no visible
                 document.body.appendChild(a); // Agregar el enlace al DOM
                 a.click(); // Simular clic para iniciar la descarga
