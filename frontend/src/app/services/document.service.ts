@@ -32,7 +32,7 @@ export class DocumentService {
     }
 
     downloadDocument(id: number) {
-        return this.http.get(BASE_URL + id, { responseType: 'blob' });
+        return this.http.get(BASE_URL + "download/" + id, { responseType: 'blob' });
     }
 
     getDocument(id: number): Observable<Document> {
