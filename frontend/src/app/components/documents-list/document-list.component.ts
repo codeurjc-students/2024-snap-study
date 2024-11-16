@@ -18,6 +18,9 @@ export class DocumentListComponent {
   public indexdocuments: number = 0;    //ajax
   public moredocuments: boolean = false;   //ajax
   public selectedDocumentIds: number[] = [];
+  previewUrl: string | null = null;
+  isPdf: boolean = false;
+  isImage: boolean = false;
 
   constructor(private renderer: Renderer2, public authService: AuthService, private documentService: DocumentService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
     this.documents = [];
@@ -71,7 +74,7 @@ export class DocumentListComponent {
   getSelectedDocuments() {
     for (const id of this.selectedDocumentIds) {
       this.documentService.getDocument(id).subscribe(
-        (doc : Document) => {
+        (doc: Document) => {
           if (doc) {
             // Si el documento es válido, proceder con la descarga
             this.documentService.downloadDocument(id).subscribe(
@@ -99,6 +102,57 @@ export class DocumentListComponent {
         }
       );
     }
+  }
+
+  fetchDocument(id: number): void {
+    this.documentService.getDocument(id).subscribe(
+      (doc: Document) => {
+        if (doc) {
+          this.documentService.downloadDocument(id).subscribe(
+            (blob) => {
+              const fileType = blob.type; // Obtener el tipo de archivo
+              const extension = doc.extension
+
+              // Forzar el tipo si llega como 'application/octet-stream'
+              let inferredType = fileType;
+              if (fileType === 'application/octet-stream') {
+                if (extension === '.pdf') inferredType = 'application/pdf';
+                else if (['.png', '.jpg', '.jpeg', '.gif'].includes(extension)) {
+                  inferredType = `image/${extension.replace('.', '')}`;
+                }
+              }
+
+              // Crear un Blob con el tipo correcto si es necesario
+              const correctedBlob = new Blob([blob], { type: inferredType });
+              const url = window.URL.createObjectURL(correctedBlob); // Crear URL temporal
+
+              // Verificar si es PDF o imagen
+              if (inferredType === 'application/pdf' || inferredType.startsWith('image/')) {
+                const newTab = window.open(url, '_blank'); // Abrir en nueva pestaña
+                if (newTab) {
+                  newTab.focus();
+                } else {
+                  alert('No se pudo abrir la nueva pestaña. Por favor, habilite los popups.');
+                }
+              } else {
+                alert('El documento no puede ser previsualizado por el navegador');
+              }
+
+              // Liberar la URL temporal
+              window.URL.revokeObjectURL(url);
+            },
+            (error) => {
+              alert(`Error al obtener el contenido del documento ${doc.name}`);
+            }
+          );
+        } else {
+          alert('El documento no puede ser previsualizado por el navegador');
+        }
+      },
+      (error) => {
+        alert('Error al obtener el contenido del documento');
+      }
+    );
   }
 
   ngOnDestroy(): void {

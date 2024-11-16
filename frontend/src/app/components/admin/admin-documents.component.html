@@ -18,9 +18,7 @@
                 <div class="info">
                     <button class="btn btn-dark" (click)="deleteDocument(document.id)">Delete</button>
                     <div class="title">{{ document.name }}</div>
-                    <div class="container-square">
-                        <div class="square"></div>
-                    </div>
+                    <button *ngIf="authService.isLogged()" (click)="fetchDocument(document.id)" class="btn btn-dark">Preview</button>
                 </div>
                 <div class="divider"></div>
                 <br />
