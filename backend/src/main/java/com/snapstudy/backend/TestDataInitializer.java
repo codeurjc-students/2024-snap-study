@@ -103,12 +103,16 @@ public class TestDataInitializer {
         Document dt4 = new Document("Tema 4", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt5 = new Document("Tema 5", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt6 = new Document("cubo", "Prueba", s1, newRepo.getId(), ".pdf");
+        Document dt7 = new Document("mia", "Prueba", s1, newRepo.getId(), ".jpg");
+        Document dt8 = new Document("PracticaColasPilas", "Prueba", s1, newRepo.getId(), ".pas");
         documentRepository.save(dt1);
         documentRepository.save(dt2);
         documentRepository.save(dt3);
         documentRepository.save(dt4);
         documentRepository.save(dt5);
         documentRepository.save(dt6);
+        documentRepository.save(dt7);
+        documentRepository.save(dt8);
 
     }
 }
