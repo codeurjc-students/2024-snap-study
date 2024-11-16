@@ -19,7 +19,8 @@
                     <input *ngIf="authService.isLogged()" type="checkbox" (change)="onCheckboxChange($event, document.id)">
                     <div class="title"><a [routerLink]="['/degrees', document.id]">{{ document.name }}</a></div>
                     <div class="title"><p>- AI DESCRIPTION -</p></div>
-                    <div class="container-square">
+                    <button *ngIf="authService.isLogged()" (click)="fetchDocument(document.id)" class="btn btn-dark">Preview</button>
+                    <div *ngIf="!authService.isLogged()" class="container-square">
                         <div class="square"></div>
                     </div>
                 </div>
