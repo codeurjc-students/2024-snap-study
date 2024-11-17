@@ -3,15 +3,16 @@ package com.snapstudy.backend.model.DTO;
 public class DegreeDTO {
 
     private String name;
-    
+
     private String type;
 
-    public DegreeDTO(String name, String type){
+    public DegreeDTO(String name, String type) {
         this.name = name;
         this.type = type;
     }
 
-    public DegreeDTO(){}
+    public DegreeDTO() {
+    }
 
     public String getName() {
         return name;
@@ -29,5 +30,4 @@ public class DegreeDTO {
         this.type = type;
     }
 
-    
 }

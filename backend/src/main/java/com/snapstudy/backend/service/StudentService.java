@@ -8,12 +8,13 @@ import com.snapstudy.backend.repository.StudentRepository;
 
 @Service
 public class StudentService {
-    
+
     @Autowired
     private StudentRepository studentRepository;
-    
+
     public Student getStudentByEmail(String email) {
-        return studentRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Student not found with name " + email));
+        return studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with name " + email));
     }
 
 }

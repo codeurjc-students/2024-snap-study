@@ -1,6 +1,5 @@
 package com.snapstudy.backend.security;
 
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,24 +13,26 @@ import jakarta.servlet.http.HttpServletResponse;
 @Configuration
 public class CSRFHandlerConfiguration implements WebMvcConfigurer {
 
-	@Override
-	public void addInterceptors(@SuppressWarnings("null") InterceptorRegistry registry) {
-		registry.addInterceptor(new CSRFHandlerInterceptor());
-	}
+    @Override
+    public void addInterceptors(@SuppressWarnings("null") InterceptorRegistry registry) {
+        registry.addInterceptor(new CSRFHandlerInterceptor());
+    }
 }
 
 class CSRFHandlerInterceptor implements HandlerInterceptor {
 
-	@Override
-	public void postHandle(@SuppressWarnings("null") final HttpServletRequest request, @SuppressWarnings("null") final HttpServletResponse response, @SuppressWarnings("null") final Object handler,
-			@SuppressWarnings("null") final ModelAndView modelAndView) throws Exception {
+    @Override
+    public void postHandle(@SuppressWarnings("null") final HttpServletRequest request,
+            @SuppressWarnings("null") final HttpServletResponse response,
+            @SuppressWarnings("null") final Object handler,
+            @SuppressWarnings("null") final ModelAndView modelAndView) throws Exception {
 
-		if (modelAndView != null) {
+        if (modelAndView != null) {
 
-			CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
-			if (token != null) {
-				modelAndView.addObject("token", token.getToken());
-			}
-		}
-	}
+            CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+            if (token != null) {
+                modelAndView.addObject("token", token.getToken());
+            }
+        }
+    }
 }

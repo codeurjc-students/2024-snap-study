@@ -6,80 +6,80 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './admin-pannel.component.html',
+    selector: 'app-main',
+    templateUrl: './admin-pannel.component.html',
 })
 export class AdminPannelComponent implements OnInit {
 
-  public degrees: Degree[];
+    public degrees: Degree[];
 
-  public indexdegrees: number = 0;    //ajax
-  public moredegrees: boolean = false;   //ajax
+    public indexdegrees: number = 0;    //ajax
+    public moredegrees: boolean = false;   //ajax
 
-  constructor(private degreeService: DegreeService, public authService: AuthService, private router: Router, private renderer: Renderer2) {
-    this.degrees = [];
-  }
+    constructor(private degreeService: DegreeService, public authService: AuthService, private router: Router, private renderer: Renderer2) {
+        this.degrees = [];
+    }
 
-  ngOnInit() {
-    this.renderer.addClass(document.body, 'search-results-page');
-    this.authService.getCurrentUser().subscribe((loaded) => {
-      if (loaded) {
-        if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-          this.router.navigate(['/error']); // Redirige a error si no es admin
-        } else {
-          this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
+    ngOnInit() {
+        this.renderer.addClass(document.body, 'search-results-page');
+        this.authService.getCurrentUser().subscribe((loaded) => {
+            if (loaded) {
+                if (!this.authService.isLogged() || !this.authService.isAdmin()) {
+                    this.router.navigate(['/error']); // Redirige a error si no es admin
+                } else {
+                    this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
+                        this.degrees = this.degrees.concat(response.content);
+                        this.moredegrees = !response.last;
+                        this.indexdegrees++; //next ajax button
+                    });
+                }
+            } else {
+                this.router.navigate(['/error']); // Redirige a error si no se puede cargar el usuario
+            }
+        });
+    }
+
+    getMoredegrees() {
+        this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
             this.degrees = this.degrees.concat(response.content);
             this.moredegrees = !response.last;
-            this.indexdegrees++; //next ajax button
-          });
-        }
-      } else {
-        this.router.navigate(['/error']); // Redirige a error si no se puede cargar el usuario
-      }
-    });
-  }
-
-  getMoredegrees() {
-    this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
-      this.degrees = this.degrees.concat(response.content);
-      this.moredegrees = !response.last;
-      this.indexdegrees++;
-    });
-  }
-
-  showLoadMoreButton() {
-    if (this.moredegrees) {
-      return true;
+            this.indexdegrees++;
+        });
     }
-    return false;
-  }
 
-  deleteDegree(id: number) {
-    this.degreeService.deleteDegree(id).subscribe({
-      next: _ => {
-        { this.reload(); }
-      },
-      error: (err: HttpErrorResponse) => {
-        if (err.status === 204 || err.status === 200) {
-          this.reload();
-        } else {
-          this.router.navigate(['/error']);
+    showLoadMoreButton() {
+        if (this.moredegrees) {
+            return true;
         }
-      }
-    });
-  }
+        return false;
+    }
 
-  reload() {
-    this.indexdegrees = 0
-    this.degreeService.getDegrees(0).subscribe((response) => {
-      this.degrees = response.content;
-      this.moredegrees = !response.last;
-      this.indexdegrees++;
-    });
-  }
+    deleteDegree(id: number) {
+        this.degreeService.deleteDegree(id).subscribe({
+            next: _ => {
+                { this.reload(); }
+            },
+            error: (err: HttpErrorResponse) => {
+                if (err.status === 204 || err.status === 200) {
+                    this.reload();
+                } else {
+                    this.router.navigate(['/error']);
+                }
+            }
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.renderer.removeClass(document.body, 'search-results-page');
-  }
+    reload() {
+        this.indexdegrees = 0
+        this.degreeService.getDegrees(0).subscribe((response) => {
+            this.degrees = response.content;
+            this.moredegrees = !response.last;
+            this.indexdegrees++;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.renderer.removeClass(document.body, 'search-results-page');
+    }
 
 }

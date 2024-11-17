@@ -27,7 +27,8 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    box-sizing: border-box; /* Asegura que el padding no cause overflow */
+    box-sizing: border-box;
+    /* Asegura que el padding no cause overflow */
 }
 
 .right-column {
@@ -40,10 +41,14 @@
 
 .left-column2 {
     display: flex;
-    flex-direction: column; /* Alinea los elementos en una columna */
-    align-items: center; /* Centra los elementos horizontalmente */
-    justify-content: center; /* Centra los elementos verticalmente */
-    text-align: center; /* Alinea el texto de los elementos al centro */
+    flex-direction: column;
+    /* Alinea los elementos en una columna */
+    align-items: center;
+    /* Centra los elementos horizontalmente */
+    justify-content: center;
+    /* Centra los elementos verticalmente */
+    text-align: center;
+    /* Alinea el texto de los elementos al centro */
     flex: 1;
     padding-left: 10%;
     padding-right: 10%;

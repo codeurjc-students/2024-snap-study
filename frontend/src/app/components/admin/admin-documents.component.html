@@ -3,8 +3,8 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
                 <h2 class="text-dark mb-5"><b>DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</b></h2>
-                    <h3 class="text-dark-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
-                        notes and resources for each one</h3>
+                <h3 class="text-dark-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
+                    notes and resources for each one</h3>
             </div>
         </div>
     </section>
@@ -18,7 +18,8 @@
                 <div class="info">
                     <button class="btn btn-dark" (click)="deleteDocument(document.id)">Delete</button>
                     <div class="title">{{ document.name }}</div>
-                    <button *ngIf="authService.isLogged()" (click)="fetchDocument(document.id)" class="btn btn-dark">Preview</button>
+                    <button *ngIf="authService.isLogged()" (click)="fetchDocument(document.id)"
+                        class="btn btn-dark">Preview</button>
                 </div>
                 <div class="divider"></div>
                 <br />

@@ -5,7 +5,8 @@ import jakarta.persistence.Entity;
 @Entity
 public class Admin extends User {
 
-    public Admin(){}
+    public Admin() {
+    }
 
     public Admin(String firstName, String lastName, String email, String password, byte[] profile) {
         super(firstName, lastName, email, password, profile, "ADMIN");
@@ -17,5 +18,5 @@ public class Admin extends User {
 
     public Admin(User t) {
         super(t);
-    }  
+    }
 }

@@ -28,9 +28,10 @@ public class Subject {
     @JsonBackReference
     private Degree degree;
 
-    public Subject(){}
+    public Subject() {
+    }
 
-    public Subject(String name, Degree degree){
+    public Subject(String name, Degree degree) {
         this.name = name;
         this.postedDate = new Date(System.currentTimeMillis());
         this.degree = degree;

@@ -31,39 +31,39 @@ import { AboutComponent } from './components/about/about.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    LoginComponent,
-    HeaderComponent,
-    SignupComponent,
-    MainComponent,
-    DegreeListComponent,
-    SubjectListComponent,
-    ProfileComponent,
-    DocumentListComponent,
-    AdminPannelComponent,
-    PopUpDialogComponent,
-    PopUpImageComponent,
-    AdminSubjectsComponent,
-    AdminPannelComponent,
-    AdminDocumentsComponent,
-    PopUpDocumentComponent,
-    AdminAddComponent,
-    SearchComponent,
-    AboutComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    HttpClientModule,
-    MatDialogModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        FooterComponent,
+        LoginComponent,
+        HeaderComponent,
+        SignupComponent,
+        MainComponent,
+        DegreeListComponent,
+        SubjectListComponent,
+        ProfileComponent,
+        DocumentListComponent,
+        AdminPannelComponent,
+        PopUpDialogComponent,
+        PopUpImageComponent,
+        AdminSubjectsComponent,
+        AdminPannelComponent,
+        AdminDocumentsComponent,
+        PopUpDocumentComponent,
+        AdminAddComponent,
+        SearchComponent,
+        AboutComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        HttpClientModule,
+        MatDialogModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
 
 })
 export class AppModule { }

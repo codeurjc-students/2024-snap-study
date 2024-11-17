@@ -13,7 +13,8 @@ public class AdminService {
     AdminRepository adminRepository;
 
     public Admin getAdminByEmail(String email) {
-        return adminRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Student not found with name " + email));
+        return adminRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with name " + email));
     }
-    
+
 }

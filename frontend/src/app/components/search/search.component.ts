@@ -6,68 +6,68 @@ import { Subject } from "../../models/subject.model";
 import { Degree } from "../../models/degree.model";
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
+    selector: 'app-search',
+    templateUrl: './search.component.html',
 })
 export class SearchComponent {
 
-  searchText: string = '';
-  page: number = 0;
-  size: number = 3;
-  results: any = {
-    degrees: [],
-    subjects: [],
-    documents: [],
-    last: false
-  };
+    searchText: string = '';
+    page: number = 0;
+    size: number = 3;
+    results: any = {
+        degrees: [],
+        subjects: [],
+        documents: [],
+        last: false
+    };
 
-  subject: any;
-  degree: any;
+    subject: any;
+    degree: any;
 
-  constructor(private subjectService: SubjectService, private searchService: SearchService, private route: ActivatedRoute, private router: Router, private renderer: Renderer2) { }
+    constructor(private subjectService: SubjectService, private searchService: SearchService, private route: ActivatedRoute, private router: Router, private renderer: Renderer2) { }
 
-  ngOnInit() {
-    this.renderer.addClass(document.body, 'search-results-page');
-    this.route.queryParams.subscribe(params => {
-      this.searchText = params['query'];
-    });
+    ngOnInit() {
+        this.renderer.addClass(document.body, 'search-results-page');
+        this.route.queryParams.subscribe(params => {
+            this.searchText = params['query'];
+        });
 
-    this.executeSearch();
-  }
-
-  ngOnDestroy(): void {
-    this.renderer.removeClass(document.body, 'search-results-page');
-  }
-
-  executeSearch() {
-    this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
-      this.results = result;
-    });
-  }
-
-  loadMore() {
-    
-    if (!this.results.last) {
-      this.page++;
-      this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
-        this.results.degrees = this.results.degrees.concat(result.degrees);
-        this.results.subjects = this.results.subjects.concat(result.subjects);
-        this.results.documents = this.results.documents.concat(result.documents);
-        this.results.last = result.last;
-      });
+        this.executeSearch();
     }
-  }
 
-  navigateToSubject(id: number) {
-    this.subjectService.getDegreeBySubject(id).subscribe(
-      (response: Degree) => {
-        this.degree = response;
-        this.router.navigate(['/degrees/' + this.degree.id + '/subjects/' + id]);
-      },
-      (error: any) => {
-        this.router.navigate(['/error']);
-      }
-    );
-  }
+    ngOnDestroy(): void {
+        this.renderer.removeClass(document.body, 'search-results-page');
+    }
+
+    executeSearch() {
+        this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
+            this.results = result;
+        });
+    }
+
+    loadMore() {
+
+        if (!this.results.last) {
+            this.page++;
+            this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
+                this.results.degrees = this.results.degrees.concat(result.degrees);
+                this.results.subjects = this.results.subjects.concat(result.subjects);
+                this.results.documents = this.results.documents.concat(result.documents);
+                this.results.last = result.last;
+            });
+        }
+    }
+
+    navigateToSubject(id: number) {
+        this.subjectService.getDegreeBySubject(id).subscribe(
+            (response: Degree) => {
+                this.degree = response;
+                this.router.navigate(['/degrees/' + this.degree.id + '/subjects/' + id]);
+            },
+            (error: any) => {
+                this.router.navigate(['/error']);
+            }
+        );
+    }
 
 }

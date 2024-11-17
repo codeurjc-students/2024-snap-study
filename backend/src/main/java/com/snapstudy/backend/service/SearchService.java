@@ -19,10 +19,10 @@ public class SearchService {
 
     @Autowired
     private DegreeRepository degreeRepository;
-    
+
     @Autowired
     private SubjectRepository subjectRepository;
-    
+
     @Autowired
     private DocumentRepository documentRepository;
 
@@ -41,7 +41,8 @@ public class SearchService {
         searchResult.setDegrees(degrees.getContent());
         searchResult.setSubjects(subjects.getContent());
         searchResult.setDocuments(documents.getContent());
-        searchResult.setLast(degrees.isLast() && subjects.isLast() && documents.isLast()); // Verifica si hay más resultados
+        searchResult.setLast(degrees.isLast() && subjects.isLast() && documents.isLast()); // Verifica si hay más
+                                                                                           // resultados
 
         return searchResult;
     }

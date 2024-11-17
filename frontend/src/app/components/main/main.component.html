@@ -12,13 +12,15 @@
                             <div class="action-buttons-gap">
                                 <div class="col"><input [(ngModel)]="searchText" class="form-control" type="text"
                                         placeholder="Start typing to search..." /></div>
-                                <div class="col-auto"><button class="btn btn-primary" type="submit" (click)="search()">Search Now!</button>
+                                <div class="col-auto"><button class="btn btn-primary" type="submit"
+                                        (click)="search()">Search Now!</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-                <h2 class="text-white-50 mx-auto mt-2 mb-5" style="padding-top: 10%;"><b>SCROLL TO EXPLORE ALL AVAILABLE DEGREE OPTIONS</b></h2>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5" style="padding-top: 10%;"><b>SCROLL TO EXPLORE ALL AVAILABLE
+                        DEGREE OPTIONS</b></h2>
             </div>
         </div>
     </div>
@@ -32,7 +34,8 @@
                 <li *ngFor="let degree of degrees">
                     <div class="info">
                         <div class="date">{{ degree.postedDate | date: 'MMM, yyyy' }}</div>
-                        <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}&nbsp;&nbsp; - &nbsp;&nbsp;{{ degree.type }}</a></div>
+                        <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}&nbsp;&nbsp; -
+                                &nbsp;&nbsp;{{ degree.type }}</a></div>
                         <div class="container-square">
                             <div class="square"></div>
                         </div>

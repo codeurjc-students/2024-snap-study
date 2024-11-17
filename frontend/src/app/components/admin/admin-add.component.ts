@@ -93,5 +93,5 @@ export class AdminAddComponent {
 
     ngOnDestroy(): void {
         this.renderer.removeClass(document.body, 'search-results-page');
-      }
+    }
 }

@@ -3,8 +3,8 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
                 <h2 class="text-dark mb-5"><b>DISCOVER ALL SUBJECTS FOR {{ subject.name | uppercase }}</b></h2>
-                    <h3 class="text-dark-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
-                        notes and resources for each one</h3>
+                <h3 class="text-dark-50 mx-auto mt-2 mb-5">Browse our platform for all subjects and find valuable
+                    notes and resources for each one</h3>
             </div>
         </div>
     </section>
@@ -16,10 +16,14 @@
         <ul>
             <li *ngFor="let document of documents">
                 <div class="info">
-                    <input *ngIf="authService.isLogged()" type="checkbox" (change)="onCheckboxChange($event, document.id)">
+                    <input *ngIf="authService.isLogged()" type="checkbox"
+                        (change)="onCheckboxChange($event, document.id)">
                     <div class="title"><a [routerLink]="['/degrees', document.id]">{{ document.name }}</a></div>
-                    <div class="title"><p>- AI DESCRIPTION -</p></div>
-                    <button *ngIf="authService.isLogged()" (click)="fetchDocument(document.id)" class="btn btn-dark">Preview</button>
+                    <div class="title">
+                        <p>- AI DESCRIPTION -</p>
+                    </div>
+                    <button *ngIf="authService.isLogged()" (click)="fetchDocument(document.id)"
+                        class="btn btn-dark">Preview</button>
                     <div *ngIf="!authService.isLogged()" class="container-square">
                         <div class="square"></div>
                     </div>

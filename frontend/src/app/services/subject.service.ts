@@ -9,7 +9,7 @@ const BASE_URL = '/api/subjects/';
 export class SubjectService {
     constructor(private http: HttpClient) { }
 
-    getSubjects(id:number, index: number): Observable<any> {
+    getSubjects(id: number, index: number): Observable<any> {
         let params = new HttpParams();
         params = params.append('page', index.toString());
         params = params.append('size', '5');
@@ -17,7 +17,7 @@ export class SubjectService {
         return this.http.get(BASE_URL + "degrees/" + id, { params: params }) as Observable<any>;
     }
 
-    getSubject(id:number): Observable<any> {
+    getSubject(id: number): Observable<any> {
         return this.http.get(BASE_URL + id) as Observable<any>;
     }
 

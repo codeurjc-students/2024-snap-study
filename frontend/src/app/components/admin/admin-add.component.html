@@ -4,8 +4,10 @@
             <div class="row gx-4 gx-lg-5">
                 <h2 *ngIf="isDegree" class="text-dark mb-5"><b>ADD A NEW DEGREE!</b></h2>
                 <h2 *ngIf="!isDegree" class="text-dark mb-5"><b>ADD A NEW SUBJECT!</b></h2>
-                <h3 *ngIf="isDegree" class="text-dark-50 mx-auto mt-2 mb-5">Help this community keep growing with a new degree</h3>
-                <h3 *ngIf="!isDegree" class="text-dark-50 mx-auto mt-2 mb-5">Help this community keep growing with a new subject</h3>
+                <h3 *ngIf="isDegree" class="text-dark-50 mx-auto mt-2 mb-5">Help this community keep growing with a new
+                    degree</h3>
+                <h3 *ngIf="!isDegree" class="text-dark-50 mx-auto mt-2 mb-5">Help this community keep growing with a new
+                    subject</h3>
             </div>
         </div>
     </section>
@@ -16,8 +18,8 @@
         <div class="row gx-4 gx-lg-5">
             <div class="col-md-8 col-lg-6 mx-auto text-center">
                 <div class="form-signup">
-                    <div class="col"><input [(ngModel)]="name" type="text" placeholder="Name..."
-                            class="form-control" /></div>
+                    <div class="col"><input [(ngModel)]="name" type="text" placeholder="Name..." class="form-control" />
+                    </div>
                     <br />
                     <div *ngIf="isDegree" class="col">
                         <select [(ngModel)]="selectedDegreeType" class="form-control">
@@ -27,9 +29,11 @@
                     </div>
                     <br />
                     <div class="row" style="padding-top: 2rem;">
-                        <div *ngIf="isDegree" class="col-auto"><button class="btn btn-dark" (click)="createDegree($event)">Create
+                        <div *ngIf="isDegree" class="col-auto"><button class="btn btn-dark"
+                                (click)="createDegree($event)">Create
                                 degree!</button></div>
-                        <div *ngIf="!isDegree" class="col-auto"><button class="btn btn-dark" (click)="createSubject($event)">Create
+                        <div *ngIf="!isDegree" class="col-auto"><button class="btn btn-dark"
+                                (click)="createSubject($event)">Create
                                 subject!</button></div>
                         <div class="col-auto"><button class="btn btn-dark" (click)="goBack()">Back</button></div>
                     </div>

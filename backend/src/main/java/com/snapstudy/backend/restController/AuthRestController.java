@@ -25,36 +25,36 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/api/auth")
 public class AuthRestController {
 
-	@Autowired
-	private UserLoginService userLoginService;
+    @Autowired
+    private UserLoginService userLoginService;
 
-	@Operation(summary = "Log in")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Login successful", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class)) }) })
-	@PostMapping("/login")
-	public ResponseEntity<AuthResponse> login(
-			@CookieValue(name = "accessToken", required = false) String accessToken,
-			@CookieValue(name = "refreshToken", required = false) String refreshToken,
-			@RequestBody LoginRequest loginRequest) {
+    @Operation(summary = "Log in")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login successful", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class)) }) })
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(
+            @CookieValue(name = "accessToken", required = false) String accessToken,
+            @CookieValue(name = "refreshToken", required = false) String refreshToken,
+            @RequestBody LoginRequest loginRequest) {
 
-		return userLoginService.login(loginRequest, accessToken, refreshToken);
-	}
+        return userLoginService.login(loginRequest, accessToken, refreshToken);
+    }
 
-	@PostMapping("/refresh")
-	public ResponseEntity<AuthResponse> refreshToken(
-			@CookieValue(name = "refreshToken", required = false) String refreshToken) {
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refreshToken(
+            @CookieValue(name = "refreshToken", required = false) String refreshToken) {
 
-		return userLoginService.refresh(refreshToken);
-	}
+        return userLoginService.refresh(refreshToken);
+    }
 
-	@Operation(summary = "Log out ")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Logout successful", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class)) }) })
-	@PostMapping("/logout")
-	public ResponseEntity<AuthResponse> logOut(HttpServletRequest request, HttpServletResponse response) {
+    @Operation(summary = "Log out ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Logout successful", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class)) }) })
+    @PostMapping("/logout")
+    public ResponseEntity<AuthResponse> logOut(HttpServletRequest request, HttpServletResponse response) {
 
-		return ResponseEntity.ok(new AuthResponse(Status.SUCCESS, userLoginService.logout(request, response)));
-	}
+        return ResponseEntity.ok(new AuthResponse(Status.SUCCESS, userLoginService.logout(request, response)));
+    }
 }

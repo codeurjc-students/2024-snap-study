@@ -17,17 +17,13 @@ export class DocumentService {
         return this.http.get(BASE_URL + id, { params: params }) as Observable<any>;
     }
 
-    // getSubject(id:number): Observable<any> {
-    //     return this.http.get(BASE_URL + id) as Observable<any>;
-    // }
-
     saveDocument(document: File, degree: number, subject: number) {
         const formData = new FormData();
         formData.append('file', document);
         return this.http.post("/api/documents/" + degree + "/" + subject, formData);
     }
 
-    deleteDocument(id: number, degreeId:number, subjectId: number): Observable<any> {
+    deleteDocument(id: number, degreeId: number, subjectId: number): Observable<any> {
         return this.http.delete(BASE_URL + degreeId + "/" + subjectId + "/" + id) as Observable<any>;
     }
 

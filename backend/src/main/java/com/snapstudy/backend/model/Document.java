@@ -13,9 +13,9 @@ public class Document {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String content; //para ELASTICSEARCH/IA RESUMEN
+    private String content; // para ELASTICSEARCH/IA RESUMEN
     @Column(nullable = false)
-    private Long repositoryId; //para ELASTICSEARCH/IA RESUMEN
+    private Long repositoryId; // para ELASTICSEARCH/IA RESUMEN
     @Column(nullable = false)
     private String extension;
 
@@ -24,9 +24,10 @@ public class Document {
     @JsonBackReference
     private Subject subject;
 
-    public Document (){}
+    public Document() {
+    }
 
-    public Document (String name, String content, Subject subject, Long repositoryId, String extension){
+    public Document(String name, String content, Subject subject, Long repositoryId, String extension) {
         this.name = name;
         this.content = content;
         this.subject = subject;
@@ -81,5 +82,5 @@ public class Document {
     public void setExtension(String extension) {
         this.extension = extension;
     }
-    
+
 }
