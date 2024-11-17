@@ -13,7 +13,7 @@ public class SearchRestController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public SearchResult search(@RequestParam("query") String query, 
                                @RequestParam("page") int page, 
                                @RequestParam("size") int size) {

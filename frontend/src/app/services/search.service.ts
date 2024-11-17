@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { SearchResult } from "../models/searchResult.model";
 
-const BASE_URL = '/api/search/'
+const BASE_URL = '/api/search'
 
 @Injectable({
     providedIn: 'root'
