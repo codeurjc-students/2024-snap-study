@@ -8,14 +8,6 @@ const BASE_URL = '/api/users/';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    /*getUserDegrees(index: number): Observable<any> {
-        let params = new HttpParams();
-        params = params.append('page', index.toString());
-        params = params.append('size', '5');
-
-        return this.http.get(BASE_URL, { params: params }) as Observable<any>;
-    }*/
-
     editProfile(firstName: String, lastName: String, email: String, password: String) {
         return this.http.put(BASE_URL, { firstName, lastName, email, password })
     }

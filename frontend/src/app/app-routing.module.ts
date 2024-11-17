@@ -16,26 +16,26 @@ import { SearchComponent } from './components/search/search.component';
 import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
-  { path: '', component: MainComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'error', component: ErrorComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'degrees', component: DegreeListComponent},
-  { path: 'degrees/:id', component: SubjectListComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'degrees/:id/subjects/:sid', component: DocumentListComponent },
-  { path: 'admin', component: AdminPannelComponent },
-  { path: 'admin/degrees/:id', component: AdminSubjectsComponent },
-  { path: 'admin/degrees/:id/subjects/:sid', component: AdminDocumentsComponent },
-  { path: 'admin/add/:isDegree/:degreeId', component: AdminAddComponent },
-  { path: 'search', component: SearchComponent },
-  { path: 'about', component: AboutComponent }
+    { path: '', component: MainComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'error', component: ErrorComponent },
+    { path: 'signup', component: SignupComponent },
+    { path: 'degrees', component: DegreeListComponent },
+    { path: 'degrees/:id', component: SubjectListComponent },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'degrees/:id/subjects/:sid', component: DocumentListComponent },
+    { path: 'admin', component: AdminPannelComponent },
+    { path: 'admin/degrees/:id', component: AdminSubjectsComponent },
+    { path: 'admin/degrees/:id/subjects/:sid', component: AdminDocumentsComponent },
+    { path: 'admin/add/:isDegree/:degreeId', component: AdminAddComponent },
+    { path: 'search', component: SearchComponent },
+    { path: 'about', component: AboutComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'top'
-  })],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes, {
+        scrollPositionRestoration: 'top'
+    })],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

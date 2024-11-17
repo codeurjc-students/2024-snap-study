@@ -1,6 +1,5 @@
 package com.snapstudy.backend.security;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,26 +14,26 @@ import org.springframework.stereotype.Service;
 import com.snapstudy.backend.model.User;
 import com.snapstudy.backend.repository.UserRepository;
 
-
 @Service
-public class RepositoryUserDetailService implements UserDetailsService{
-	
+public class RepositoryUserDetailService implements UserDetailsService {
+
     @Autowired
-	private UserRepository userRepository;
+    private UserRepository userRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-		List<GrantedAuthority> roles = new ArrayList<>();
-		for (String role : user.getRoles()) {
-			roles.add(new SimpleGrantedAuthority("ROLE_" + role));
-		}
+        List<GrantedAuthority> roles = new ArrayList<>();
+        for (String role : user.getRoles()) {
+            roles.add(new SimpleGrantedAuthority("ROLE_" + role));
+        }
 
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), 
-				user.getPassword(), roles);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(), roles);
 
-	}
-    
+    }
+
 }

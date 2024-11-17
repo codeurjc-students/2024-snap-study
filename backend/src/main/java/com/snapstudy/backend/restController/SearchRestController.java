@@ -25,9 +25,9 @@ public class SearchRestController {
             @ApiResponse(responseCode = "200", description = "Correct search", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = SearchResult.class)) }) })
     @GetMapping("")
-    public SearchResult search(@RequestParam("query") String query, 
-                               @RequestParam("page") int page, 
-                               @RequestParam("size") int size) {
+    public SearchResult search(@RequestParam("query") String query,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size) {
         return searchService.search(query, page, size);
     }
 }

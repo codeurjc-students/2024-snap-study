@@ -16,10 +16,10 @@ export class PopUpImageComponent implements OnInit {
         this.profilePicture = new File([], '')
     }
 
-    ngOnInit(): void { 
+    ngOnInit(): void {
         this.popUpService.popupState$.subscribe(state => {
             this.isOpen = state;
-          });
+        });
     }
 
     openPopUp(message: string): void {

@@ -32,7 +32,7 @@ export class PopUpService {
         });
     }
 
-    openPopUpImage(){
+    openPopUpImage() {
         this.popupState.next(true);
         this.dialog.open(PopUpImageComponent, {
             width: '400px',
@@ -51,7 +51,7 @@ export class PopUpService {
             panelClass: 'custom-dialog-container',
             data: { subject, degree } // Pasamos los datos al modal
         }).afterClosed().subscribe(() => {
-            this.popupState.next(false); 
+            this.popupState.next(false);
         });
     }
 

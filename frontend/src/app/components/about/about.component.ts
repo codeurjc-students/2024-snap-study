@@ -6,7 +6,7 @@ import { Component, Renderer2 } from "@angular/core";
 })
 export class AboutComponent {
 
-    constructor(private renderer: Renderer2){}
+    constructor(private renderer: Renderer2) { }
 
     ngOnInit() {
         this.renderer.addClass(document.body, 'search-results-page');
@@ -14,5 +14,5 @@ export class AboutComponent {
 
     ngOnDestroy(): void {
         this.renderer.removeClass(document.body, 'search-results-page');
-      }
+    }
 }

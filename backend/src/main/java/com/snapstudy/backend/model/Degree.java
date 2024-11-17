@@ -24,9 +24,10 @@ public class Degree {
     @JsonBackReference
     private List<Subject> subjects;
 
-    public Degree(){}
+    public Degree() {
+    }
 
-    public Degree(String name, String type){
+    public Degree(String name, String type) {
         this.name = name;
         this.type = type;
         this.postedDate = new Date(System.currentTimeMillis());
@@ -72,5 +73,5 @@ public class Degree {
     public void setType(String type) {
         this.type = type;
     }
-    
+
 }

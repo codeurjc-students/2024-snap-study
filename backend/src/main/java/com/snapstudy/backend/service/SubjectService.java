@@ -30,15 +30,15 @@ public class SubjectService {
         }
     }
 
-    public void save(Subject subject){
+    public void save(Subject subject) {
         subjectRepository.save(subject);
     }
 
-    public Optional<Subject> findByNameAndDegree(String name, Degree degree){
+    public Optional<Subject> findByNameAndDegree(String name, Degree degree) {
         return subjectRepository.findByNameAndDegree(name, degree);
     }
 
-    public void deleteSubject(Long id){
+    public void deleteSubject(Long id) {
         subjectRepository.deleteById(id);
     }
 

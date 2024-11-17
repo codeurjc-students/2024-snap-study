@@ -11,32 +11,32 @@ import com.snapstudy.backend.repository.DegreeRepository;
 
 @Service
 public class DegreeService {
-  @Autowired
-  DegreeRepository degreeRepository;
+    @Autowired
+    DegreeRepository degreeRepository;
 
-  public Page<Degree> findDegrees(Pageable pageable) {
-    return degreeRepository.findAll(pageable);
-  }
-
-  public Degree getDegreeById(Long id) {
-    Optional<Degree> degree = degreeRepository.findById(id);
-
-    if (degree.isPresent()) {
-      return degree.get();
-    } else {
-      return null;
+    public Page<Degree> findDegrees(Pageable pageable) {
+        return degreeRepository.findAll(pageable);
     }
-  }
 
-  public Optional<Degree> findByName(String name){
-    return degreeRepository.findByName(name);
-  }
+    public Degree getDegreeById(Long id) {
+        Optional<Degree> degree = degreeRepository.findById(id);
 
-  public void save (Degree degree){
-    degreeRepository.save(degree);
-  }
+        if (degree.isPresent()) {
+            return degree.get();
+        } else {
+            return null;
+        }
+    }
 
-  public void deleteDegree(Long id){
-    degreeRepository.deleteById(id);
-}
+    public Optional<Degree> findByName(String name) {
+        return degreeRepository.findByName(name);
+    }
+
+    public void save(Degree degree) {
+        degreeRepository.save(degree);
+    }
+
+    public void deleteDegree(Long id) {
+        degreeRepository.deleteById(id);
+    }
 }

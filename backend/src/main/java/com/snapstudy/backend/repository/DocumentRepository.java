@@ -12,8 +12,12 @@ import java.util.Optional;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     Page<Document> findAll(Pageable page);
+
     Page<Document> findDocumentsBySubjectId(Long id, Pageable page);
+
     Optional<Document> findById(Long id);
+
     Optional<Document> findByName(String name);
+
     Page<Document> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

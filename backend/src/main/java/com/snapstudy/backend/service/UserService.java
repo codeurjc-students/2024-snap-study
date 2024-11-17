@@ -14,15 +14,15 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public void setUser(User user){
+    public void setUser(User user) {
         userRepository.save(user);
     }
 
-    public Optional<User> getByEmail(String email){
+    public Optional<User> getByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> getById(Long userId){
+    public Optional<User> getById(Long userId) {
         return userRepository.findById(userId);
     }
 }
