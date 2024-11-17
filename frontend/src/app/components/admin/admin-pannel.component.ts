@@ -25,7 +25,7 @@ export class AdminPannelComponent implements OnInit {
         this.authService.getCurrentUser().subscribe((loaded) => {
             if (loaded) {
                 if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                    this.router.navigate(['/error']); // Redirige a error si no es admin
+                    this.router.navigate(['/error']); // Redirect to error if the user is not logged in or not an admin
                 } else {
                     this.degreeService.getDegrees(this.indexdegrees).subscribe((response) => {
                         this.degrees = this.degrees.concat(response.content);
@@ -34,7 +34,7 @@ export class AdminPannelComponent implements OnInit {
                     });
                 }
             } else {
-                this.router.navigate(['/error']); // Redirige a error si no se puede cargar el usuario
+                this.router.navigate(['/error']); // If the user could not be loaded correctly, redirect to error
             }
         });
     }

@@ -70,24 +70,24 @@ export class DocumentListComponent {
         }
     }
 
-    //DESCARGARÁ O VOLCARÁ LOS DOCUMENTOS SEGÚN LOS IDS SELECCIONADOS
+    // WILL DOWNLOAD OR EXPORT THE DOCUMENTS BASED ON THE SELECTED IDS
     getSelectedDocuments() {
         for (const id of this.selectedDocumentIds) {
             this.documentService.getDocument(id).subscribe(
                 (doc: Document) => {
                     if (doc) {
-                        // Si el documento es válido, proceder con la descarga
+                        // If the document is valid, proceed with the download
                         this.documentService.downloadDocument(id).subscribe(
                             (blob) => {
-                                const url = window.URL.createObjectURL(blob); // Crear URL temporal
-                                const a = document.createElement('a'); // Crear un elemento <a> dinámico
+                                const url = window.URL.createObjectURL(blob); // Create a temporary URL
+                                const a = document.createElement('a'); // Create a dynamic <a> element
                                 a.href = url;
                                 a.download = doc.name + doc.extension
-                                a.style.display = 'none'; // Enlace no visible
-                                document.body.appendChild(a); // Agregar el enlace al DOM
-                                a.click(); // Simular clic para iniciar la descarga
-                                document.body.removeChild(a); // Eliminar el enlace del DOM
-                                window.URL.revokeObjectURL(url); // Liberar la URL temporal
+                                a.style.display = 'none'; // Link not visible
+                                document.body.appendChild(a); // Add the link to the DOM
+                                a.click(); // Simulate a click to start the download
+                                document.body.removeChild(a); // Remove the link from the DOM
+                                window.URL.revokeObjectURL(url); // Release the temporary URL
                             },
                             (error) => {
                                 console.error(`Error al descargar el documento con ID ${id}:`, error);
@@ -110,10 +110,10 @@ export class DocumentListComponent {
                 if (doc) {
                     this.documentService.downloadDocument(id).subscribe(
                         (blob) => {
-                            const fileType = blob.type; // Obtener el tipo de archivo
+                            const fileType = blob.type; // Get the file type
                             const extension = doc.extension
 
-                            // Forzar el tipo si llega como 'application/octet-stream'
+                            // Force the type if it arrives as 'application/octet-stream'
                             let inferredType = fileType;
                             if (fileType === 'application/octet-stream') {
                                 if (extension === '.pdf') inferredType = 'application/pdf';
@@ -122,35 +122,35 @@ export class DocumentListComponent {
                                 }
                             }
 
-                            // Crear un Blob con el tipo correcto si es necesario
+                            // Create a Blob with the correct type if necessary
                             const correctedBlob = new Blob([blob], { type: inferredType });
-                            const url = window.URL.createObjectURL(correctedBlob); // Crear URL temporal
+                            const url = window.URL.createObjectURL(correctedBlob); // Create a temporary URL
 
-                            // Verificar si es PDF o imagen
+                            // Check if it's a PDF or image
                             if (inferredType === 'application/pdf' || inferredType.startsWith('image/')) {
-                                const newTab = window.open(url, '_blank'); // Abrir en nueva pestaña
+                                const newTab = window.open(url, '_blank'); // Open in a new tab
                                 if (newTab) {
                                     newTab.focus();
                                 } else {
-                                    alert('No se pudo abrir la nueva pestaña. Por favor, habilite los popups.');
+                                    alert('The new tab could not be opened. Please enable popups');
                                 }
                             } else {
-                                alert('El documento no puede ser previsualizado por el navegador');
+                                alert('The document cannot be previewed by the browser');
                             }
 
-                            // Liberar la URL temporal
+                            // Release the temporary URL
                             window.URL.revokeObjectURL(url);
                         },
                         (error) => {
-                            alert(`Error al obtener el contenido del documento ${doc.name}`);
+                            alert(`Error getting the content of the document ${doc.name}`);
                         }
                     );
                 } else {
-                    alert('El documento no puede ser previsualizado por el navegador');
+                    alert('The document cannot be previewed by the browser');
                 }
             },
             (error) => {
-                alert('Error al obtener el contenido del documento');
+                alert('Error getting the content of the document');
             }
         );
     }

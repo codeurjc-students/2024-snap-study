@@ -115,24 +115,24 @@ public class DocumentRestController {
         String ext = fileName.substring(fileName.lastIndexOf('.'));
         fileName = fileName.substring(0, fileName.lastIndexOf('.'));
 
-        // control de nombres de archivo repetidos
+        // Control for duplicate file names
         Document docCheck = documentService.getDocumentByName(fileName);
         if (docCheck != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT); // Ya existe un archivo con este nombre
+            return new ResponseEntity<>(HttpStatus.CONFLICT); // A file with this name already exists
         }
 
         Document document = new Document(fileName, "", subject, repository.getId(), ext);
         documentRepository.save(document);
 
         path = path + "/" + file.getOriginalFilename();
-        awsS3.addFile(path, file); // subimos el fichero a s3
+        awsS3.addFile(path, file); // Upload the file to S3
 
         return new ResponseEntity<>(document, HttpStatus.OK); // Return the document
     }
 
     private RepositoryDocument getRepository(Long degreeId, Long subjectId, String path) {
 
-        // Crea la carpeta en el s3 si no existe
+        // Create the folder in S3 if it doesn't exist
         awsS3.createFolder(path);
 
         Optional<RepositoryDocument> repository = repositoryDocument.findByDegreeIdAndSubjectId(degreeId, subjectId);
@@ -173,7 +173,7 @@ public class DocumentRestController {
             String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
             String fileName = doc.getName() + doc.getExtension();
 
-            int result = awsS3.deleteFile(path, fileName); // eliminar del s3 el documento
+            int result = awsS3.deleteFile(path, fileName); // Delete the file from S3
 
             if (result == 0) {
                 documentService.deleteDocument(id);
@@ -209,7 +209,6 @@ public class DocumentRestController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
-            // Construcción segura de la ruta
             String path = "RepositoryDocuments/" + deg.getName() + "/" + sub.getName();
             String docName = doc.getName() + doc.getExtension();
             Map<String, InputStream> downloadedFile = awsS3.downloadFile(path, docName);
@@ -223,7 +222,7 @@ public class DocumentRestController {
 
                 InputStreamResource resource = new InputStreamResource(inputStream);
 
-                // Configurar encabezados para la descarga del archivo
+                // Configure headers for file download
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + docName + "\"");
                 headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);

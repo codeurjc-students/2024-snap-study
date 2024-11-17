@@ -27,22 +27,21 @@ public class SearchService {
     private DocumentRepository documentRepository;
 
     public SearchResult search(String query, int page, int size) {
-        // Búsqueda en la tabla Degree
+        // Search in the Degree table
         Page<Degree> degrees = degreeRepository.findByNameContainingIgnoreCase(query, PageRequest.of(page, size));
 
-        // Búsqueda en la tabla Subject
+        // Search in the Subject table
         Page<Subject> subjects = subjectRepository.findByNameContainingIgnoreCase(query, PageRequest.of(page, size));
 
-        // Búsqueda en la tabla Document
+        // Search in the Document table
         Page<Document> documents = documentRepository.findByNameContainingIgnoreCase(query, PageRequest.of(page, size));
 
-        // Crear el resultado con los resultados de las 3 tablas
+        // Create the result using the results from the 3 tables
         SearchResult searchResult = new SearchResult();
         searchResult.setDegrees(degrees.getContent());
         searchResult.setSubjects(subjects.getContent());
         searchResult.setDocuments(documents.getContent());
-        searchResult.setLast(degrees.isLast() && subjects.isLast() && documents.isLast()); // Verifica si hay más
-                                                                                           // resultados
+        searchResult.setLast(degrees.isLast() && subjects.isLast() && documents.isLast()); // Check if there are more results
 
         return searchResult;
     }

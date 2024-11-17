@@ -26,7 +26,7 @@ export class AuthService {
             this.logged = false;
             this.admin = false;
             this.student = false;
-            this.currentUser = {} as User; // Limpia el usuario actual
+            this.currentUser = {} as User; // Clean the actual user
             this.userLoadedSubject.next(false);
             this.router.navigate(['']);
         });
@@ -53,13 +53,13 @@ export class AuthService {
                     this.admin = this.currentUser.roles.includes('ADMIN');
                     this.student = this.currentUser.roles.includes('STUDENT');
                     this.userLoadedSubject.next(true);
-                    observer.next(true); // Usuario cargado exitosamente
+                    observer.next(true); // User loaded successfully
                     observer.complete();
                 },
                 (error) => {
                     console.error("Error fetching user:", error);
                     this.userLoadedSubject.next(false);
-                    observer.next(false); // Error en la carga del usuario
+                    observer.next(false); // Error loading the user
                     observer.complete();
                 }
             );

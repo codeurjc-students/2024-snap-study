@@ -36,16 +36,16 @@ export class AdminDocumentsComponent {
         this.authService.getCurrentUser().subscribe((loaded) => {
             if (loaded) {
                 if (!this.authService.isLogged() || !this.authService.isAdmin()) {
-                    this.router.navigate(['/error']); // Redirige a error si no está logueado o no es admin
+                    this.router.navigate(['/error']); // Redirect to error if the user is not logged in or not an admin
                 } else {
                     this.getDocuments();
                     this.getDegree();
                     this.popUpService.documentSaved$.subscribe(() => {
-                        this.reload(); // Recargar después de que se haya guardado un documento
+                        this.reload(); // Reload after the document has been saved
                     });
                 }
             } else {
-                // Si no se pudo cargar el usuario correctamente, redirigir a error
+                // If the user could not be loaded correctly, redirect to error
                 this.router.navigate(['/error']);
             }
         });
@@ -133,10 +133,10 @@ export class AdminDocumentsComponent {
                 if (doc) {
                     this.documentService.downloadDocument(id).subscribe(
                         (blob) => {
-                            const fileType = blob.type; // Obtener el tipo de archivo
+                            const fileType = blob.type; // Get the file type
                             const extension = doc.extension
 
-                            // Forzar el tipo si llega como 'application/octet-stream'
+                            // Force the type if it arrives as 'application/octet-stream'
                             let inferredType = fileType;
                             if (fileType === 'application/octet-stream') {
                                 if (extension === '.pdf') inferredType = 'application/pdf';
@@ -145,13 +145,13 @@ export class AdminDocumentsComponent {
                                 }
                             }
 
-                            // Crear un Blob con el tipo correcto si es necesario
+                            // Create a Blob with the correct type if necessary
                             const correctedBlob = new Blob([blob], { type: inferredType });
-                            const url = window.URL.createObjectURL(correctedBlob); // Crear URL temporal
+                            const url = window.URL.createObjectURL(correctedBlob); // Create a temporary URL
 
-                            // Verificar si es PDF o imagen
+                            // Check if it's a PDF or image
                             if (inferredType === 'application/pdf' || inferredType.startsWith('image/')) {
-                                const newTab = window.open(url, '_blank'); // Abrir en nueva pestaña
+                                const newTab = window.open(url, '_blank'); // Open in a new tab
                                 if (newTab) {
                                     newTab.focus();
                                 } else {
@@ -161,7 +161,7 @@ export class AdminDocumentsComponent {
                                 alert('El documento no puede ser previsualizado por el navegador');
                             }
 
-                            // Liberar la URL temporal
+                            // Release the temporary URL
                             window.URL.revokeObjectURL(url);
                         },
                         (error) => {
