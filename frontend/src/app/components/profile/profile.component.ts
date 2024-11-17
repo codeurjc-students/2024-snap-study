@@ -49,7 +49,7 @@ export class ProfileComponent {
         } else {
             this.userService.editProfile(this.firstName, this.lastName, this.email, this.password).subscribe({
                 next: (_: any) => {
-                    // Esperamos a que getCurrentUser complete antes de redirigir
+                    // Wait for getCurrentUser to complete before redirecting
                     this.authService.getCurrentUser().subscribe((loaded: boolean) => {
                         if (loaded) {
                             this.router.navigate(['/profile']);

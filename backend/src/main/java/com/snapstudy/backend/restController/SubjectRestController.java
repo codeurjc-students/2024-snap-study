@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
-import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
@@ -132,7 +131,7 @@ public class SubjectRestController {
             }
 
             String path = "RepositoryDocuments/" + degree.getName() + "/" + sub.getName();
-            int result = awsS3.deleteFolder(path); // eliminar del s3 la carpeta
+            int result = awsS3.deleteFolder(path); // Delete the folder from S3
 
             if (result == 0) {
 
@@ -140,9 +139,9 @@ public class SubjectRestController {
                         .findByDegreeIdAndSubjectId(degreeId, id);
 
                 if (repository.isPresent()) {
-                    repositoryDocument.delete(repository.get()); // eliminar del repositorio
+                    repositoryDocument.delete(repository.get()); // Remove it from the repository
                 } else {
-                    // en fase de pruebas no están todos los repos en el s3
+                    // During the testing phase, not all repositories are in S3
                 }
 
                 subjectService.deleteSubject(id);

@@ -30,7 +30,7 @@ export class LoginComponent {
         } else {
             this.authService.login(this.email, this.password).subscribe({
                 next: () => {
-                    // Esperamos a que getCurrentUser complete antes de redirigir
+                    // Wait for getCurrentUser to complete before redirecting
                     this.authService.getCurrentUser().subscribe((loaded: boolean) => {
                         if (loaded) {
                             if (this.authService.isAdmin()) {
@@ -39,7 +39,7 @@ export class LoginComponent {
                                 this.router.navigate(['/']);
                             }
                         } else {
-                            this.router.navigate(['/error']); // Redirige a error si no se puede cargar el usuario
+                            this.router.navigate(['/error']); // If the user could not be loaded correctly, redirect to error
                         }
                     });
                 },

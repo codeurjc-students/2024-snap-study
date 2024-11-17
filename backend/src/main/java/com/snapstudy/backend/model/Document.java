@@ -13,9 +13,9 @@ public class Document {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String content; // para ELASTICSEARCH/IA RESUMEN
+    private String content; // ELASTICSEARCH/IA RESUME
     @Column(nullable = false)
-    private Long repositoryId; // para ELASTICSEARCH/IA RESUMEN
+    private Long repositoryId;
     @Column(nullable = false)
     private String extension;
 

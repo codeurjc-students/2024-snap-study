@@ -3,7 +3,6 @@ package com.snapstudy.backend.restController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.SearchResult;
 import com.snapstudy.backend.service.SearchService;
 

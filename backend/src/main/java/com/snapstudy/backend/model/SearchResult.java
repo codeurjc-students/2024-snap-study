@@ -6,7 +6,7 @@ public class SearchResult {
     private List<Degree> degrees;
     private List<Subject> subjects;
     private List<Document> documents;
-    private boolean last; // Para indicar si hay más páginas
+    private boolean last; // To indicate if there are more pages
 
     // Getters y Setters
     public List<Degree> getDegrees() {

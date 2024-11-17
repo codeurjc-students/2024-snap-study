@@ -50,7 +50,7 @@ export class AdminAddComponent {
     }
 
     goBack() {
-        this.location.back();  // Navega hacia la ruta anterior en el historial
+        this.location.back();
     }
 
     createDegree(event: Event) {

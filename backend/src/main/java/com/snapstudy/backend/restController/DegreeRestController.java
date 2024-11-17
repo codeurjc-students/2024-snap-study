@@ -124,13 +124,13 @@ public class DegreeRestController {
     }
 
     private Boolean deleteFolders(String path, Long degreeId) {
-        // Si borras un grado, que tiene asignaturas (carpetas), si no borras cada
-        // asignatura
-        // derá error porque AWS S3 no funciona como una jerarquía de carpetas, sino que
-        // solo
-        // usa claves de objetos que incluyen el prefijo de la "carpeta"
+        // If you delete a grade that has subjects (folders),
+        // and you don't delete each subject,
+        // it will result in an error because AWS S3 doesn't work like a folder
+        // hierarchy.
+        // Instead, it only uses object keys that include the "folder" prefix.
 
-        // Obtiene todas las asignaturas de este grado
+        // Retrieves all subjects for this grade
         List<RepositoryDocument> repos = repositoryDocument.findByDegreeId(degreeId);
 
         if (repos.size() > 0) {
@@ -141,20 +141,21 @@ public class DegreeRestController {
                 if (subject != null) {
                     String folder = path + subject.getName();
 
-                    int result = awsS3.deleteFolder(folder); // eliminar del s3 la carpeta
+                    int result = awsS3.deleteFolder(folder); // Delete the folder from S3
 
                     if (result == 0) {
                         subjectService.deleteSubject(subjectId);
-                        repositoryDocument.delete(repo); // eliminar del repositorio
-                    } else if (result == 1) { // la carpeta ya no existe
-                        // en fase de pruebas es normal que no esten todas las carpetas en el s3
+                        repositoryDocument.delete(repo); // Remove it from the repository
+                    } else if (result == 1) { // The folder no longer exists
+                        // During the testing phase, it's normal for some folders to be missing in S3
                     }
                 } else {
                     return false;
                 }
             }
-        } else { // puede ser que un grado no tenga asignaturas, entonces no hay nada en el
-                 // repositorio
+        } else {
+            // It's possible for a grade to have no subjects,
+            // in which case there is nothing in the repository.
             int result = awsS3.deleteFolder(path);
             if (result == 0) {
                 degreeService.deleteDegree(degreeId);

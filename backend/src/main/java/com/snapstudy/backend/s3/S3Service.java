@@ -39,145 +39,145 @@ public class S3Service {
         if (!file.isEmpty()) {
             try {
 
-                // Credenciales de AWS
+                // AWS Credentials
                 BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretAccessKey);
 
-                // Configuración del cliente de S3
+                // Configure the S3 client
                 AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                         .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                         .withRegion(Regions.EU_WEST_1)
                         .build();
 
-                // Crear un TransferManager para manejar la subida
+                // Create a TransferManager to handle the upload
                 TransferManager transferManager = TransferManagerBuilder.standard()
                         .withS3Client(s3Client)
                         .build();
 
-                // Crear el nombre del archivo con el timestamp
+                // Create the file name
                 String fileKey = folder;
 
-                // Crear la solicitud de subida
+                // Create the upload request
                 PutObjectRequest request = new PutObjectRequest(bucket, fileKey, file.getInputStream(), null);
 
-                // Subir el archivo
+                // Upload the file
                 Upload upload = transferManager.upload(request);
-                upload.waitForCompletion(); // Esperar a que la subida termine
+                upload.waitForCompletion(); // Wait for the upload to finish
 
-                // Devolver el nombre del archivo
+                // Return the file name
                 return fileKey;
             } catch (Exception e) {
                 e.printStackTrace();
-                return null; // Error al subir el archivo
+                return null; // Error uploading the file
             }
         }
-        return null; // El archivo está vacío
+        return null; // The file is empty
     }
 
     public static int createFolder(String folderName) {
         try {
-            // Credenciales de AWS
+            // AWS Credentials
             BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretAccessKey);
 
-            // Configuración del cliente de S3
+            // Configure the S3 client
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                     .withRegion(Regions.EU_WEST_1)
                     .build();
 
-            // Verificar si la carpeta ya existe
+            // Verify if the folder already exists
             String folderKey = folderName.endsWith("/") ? folderName : folderName + "/";
             GetObjectMetadataRequest metadataRequest = new GetObjectMetadataRequest(bucket, folderKey);
 
             try {
-                // Intentar obtener los metadatos del objeto (carpeta)
+                // Try to get the object metadata (folder)
                 s3Client.getObjectMetadata(metadataRequest);
-                // Si no se produce una excepción, la carpeta ya existe
-                return 1; // Carpeta ya existe
+                // If no exception occurs, the folder already exists
+                return 1;
             } catch (Exception e) {
-                // Si se produce una excepción, significa que la carpeta no existe y podemos
-                // crearla
-                // Crear un InputStream vacío
+                // If an exception occurs, it means the folder does not exist, and we can create
+                // it
+                // Create an empty InputStream
                 ByteArrayInputStream emptyContent = new ByteArrayInputStream(new byte[0]);
 
-                // Metadatos vacíos
+                // Empty metadata
                 ObjectMetadata metadata = new ObjectMetadata();
-                metadata.setContentLength(0); // Longitud del contenido es 0
+                metadata.setContentLength(0); // Set the content length to 0 (no content)
 
-                // Crear la solicitud para la "carpeta" en S3
+                // Create the request for the "folder" in S3
                 PutObjectRequest request = new PutObjectRequest(bucket, folderKey, emptyContent, metadata);
 
-                // Subir la "carpeta" (realmente un objeto con una clave que termina en "/")
+                // Upload the "folder" (actually an object with a key that ends with "/")
                 s3Client.putObject(request);
-                return 0; // Carpeta creada
+                return 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return 2; // Error al crear la carpeta
+            return 2; // Error creating the folder
         }
     }
 
     public static int deleteFile(String folder, String fileName) {
         try {
-            // Configuramos el cliente de Amazon S3 con nuestras credenciales
+            // Configure the Amazon S3 client with our credentials
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                     .withRegion(Regions.EU_WEST_1)
                     .build();
 
-            // Eliminamos el archivo indicando el bucket y el archivo
+            // Delete the file by specifying the bucket and the file
             String key = folder + "/" + fileName;
             s3Client.deleteObject(new DeleteObjectRequest(bucket, key));
 
-            return 0; // Eliminación exitosa
+            return 0; // Successful deletion
         } catch (Exception e) {
             e.printStackTrace();
-            return 1; // Error al eliminar el archivo en Amazon S3
+            return 1; // Error deleting the file from Amazon S3
         }
     }
 
     public static int deleteFolder(String folderName) {
         try {
-            // Configuramos el cliente de Amazon S3 con nuestras credenciales
+            // Configure the Amazon S3 client with our credentials
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                     .withRegion(Regions.EU_WEST_1)
                     .build();
 
-            // Verificamos si la carpeta existe
+            // Check if the folder exists
             String folderKey = folderName.endsWith("/") ? folderName : folderName + "/";
 
             try {
-                // Si no lanza excepción, la carpeta existe
+                // If no exception is thrown, the folder exists
                 ObjectMetadata metadata = s3Client.getObjectMetadata(bucket, folderKey);
 
-                // Obtenemos todos los objetos dentro de la carpeta
+                // Get all objects within the folder
                 ListObjectsRequest listRequest = new ListObjectsRequest()
                         .withBucketName(bucket)
                         .withPrefix(folderKey);
 
                 List<S3ObjectSummary> objects = s3Client.listObjects(listRequest).getObjectSummaries();
 
-                // Eliminamos cada objeto en la carpeta
+                // Delete each object inside the folder
                 for (S3ObjectSummary object : objects) {
                     s3Client.deleteObject(new DeleteObjectRequest(bucket, object.getKey()));
                 }
-                return 0; // Eliminación exitosa
+                return 0; // Successful deletion
 
             } catch (Exception e) {
-                return 1; // Si ocurre una excepción aquí, la carpeta no existe
+                return 1; // If an exception occurs here, the folder doesn't exist
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return 2; // Error al eliminar la carpeta en Amazon S3
+            return 2; // Error deleting the folder from Amazon S3
         }
     }
 
     public Map<String, InputStream> downloadFile(String folder, String fileName) {
         Map<String, InputStream> fileMap = new HashMap<>();
         try {
-            // Creamos las credenciales de AWS y el cliente
+            // Create AWS credentials and the client
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
@@ -186,13 +186,13 @@ public class S3Service {
 
             String fileKey = folder + "/" + fileName;
 
-            // Crear la solicitud para obtener el archivo de S3
+            // Create the request to retrieve the file from S3
             GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, fileKey);
 
-            // Descargar el archivo desde S3
+            // Download the file from S3
             S3Object s3Object = s3Client.getObject(getObjectRequest);
 
-            // Obtener el InputStream del archivo
+            // Get the InputStream of the file
             InputStream inputStream = s3Object.getObjectContent();
 
             if (inputStream != null) {
@@ -200,8 +200,8 @@ public class S3Service {
             }
 
         } catch (AmazonServiceException e) {
-            e.printStackTrace(); // Manejo de excepciones de Amazon S3
-            return null; // Error al descargar el archivo
+            e.printStackTrace(); // Handle Amazon S3 exceptions
+            return null; // Error downloading the file
         }
         return fileMap;
     }

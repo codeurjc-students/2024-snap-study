@@ -21,7 +21,7 @@ export class PopUpDocumentComponent implements OnInit {
         private popUpService: PopUpService,
         private documentService: DocumentService,
         private router: Router,
-        @Inject(MAT_DIALOG_DATA) public data: { subject: Subject, degree: Degree } // Recibir datos
+        @Inject(MAT_DIALOG_DATA) public data: { subject: Subject, degree: Degree } // GET data
     ) {
         this.document = new File([], '');
 

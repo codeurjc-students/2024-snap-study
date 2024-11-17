@@ -21,14 +21,14 @@ export class PopUpService {
     constructor(private dialog: MatDialog) { }
 
     openPopUp(message: string): void {
-        this.popupState.next(true); // Cambia el estado a abierto
+        this.popupState.next(true); // Change the state to open
         this.dialog.open(PopUpDialogComponent, {
             width: '400px',
             position: { top: '50px', left: '50px' },
             panelClass: 'custom-dialog-container',
             data: message
         }).afterClosed().subscribe(() => {
-            this.popupState.next(false); // Cambia el estado a cerrado
+            this.popupState.next(false); // Change the state to closed
         });
     }
 
@@ -49,7 +49,7 @@ export class PopUpService {
             width: '400px',
             position: { top: '50px', left: '50px' },
             panelClass: 'custom-dialog-container',
-            data: { subject, degree } // Pasamos los datos al modal
+            data: { subject, degree } // Pass the data to the modal
         }).afterClosed().subscribe(() => {
             this.popupState.next(false);
         });
