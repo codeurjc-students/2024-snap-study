@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'admin/degrees/:id', component: AdminSubjectsComponent },
   { path: 'admin/degrees/:id/subjects/:sid', component: AdminDocumentsComponent },
   { path: 'admin/add/:isDegree/:degreeId', component: AdminAddComponent },
-  { path: 'search/:text', component: SearchComponent },
+  { path: 'search', component: SearchComponent },
   { path: 'about', component: AboutComponent }
 ];
 

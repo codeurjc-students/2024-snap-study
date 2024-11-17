@@ -45,6 +45,6 @@ export class MainComponent {
   }
 
   search(){
-    this.router.navigate(['/search', this.searchText]);
+    this.router.navigate(['/search'], { queryParams: { query: this.searchText }});
   }
 }

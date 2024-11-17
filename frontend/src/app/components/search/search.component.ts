@@ -28,8 +28,8 @@ export class SearchComponent {
 
   ngOnInit() {
     this.renderer.addClass(document.body, 'search-results-page');
-    this.route.params.subscribe(params => {
-      this.searchText = params['text'];
+    this.route.queryParams.subscribe(params => {
+      this.searchText = params['query'];
     });
 
     this.executeSearch();
@@ -42,11 +42,11 @@ export class SearchComponent {
   executeSearch() {
     this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
       this.results = result;
-      console.log(this.results)
     });
   }
 
   loadMore() {
+    
     if (!this.results.last) {
       this.page++;
       this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
