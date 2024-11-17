@@ -52,7 +52,7 @@ public class DegreeRestController {
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Found the degrees", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
-                        @ApiResponse(responseCode = "404", description = "degrees not found", content = @Content) })
+                        @ApiResponse(responseCode = "204", description = "No content found", content = @Content) })
         @GetMapping("/")
         public ResponseEntity<Page<Degree>> getdegrees(@RequestParam(value = "page", defaultValue = "0") int page,
                         @RequestParam(value = "size", defaultValue = "10") int size) {
@@ -66,7 +66,7 @@ public class DegreeRestController {
 
         @Operation(summary = "Get a degree")
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Found the degree", content = {
+                        @ApiResponse(responseCode = "200", description = "Degree found", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
                         @ApiResponse(responseCode = "404", description = "Dregee not found", content = @Content) })
         @GetMapping("/{degreeId}")
@@ -80,6 +80,11 @@ public class DegreeRestController {
                 }
         }
 
+        @Operation(summary = "Create a degree")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Degree created", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
+                        @ApiResponse(responseCode = "409", description = "Dregee already created", content = @Content) })
         @PostMapping("/")
         public ResponseEntity<Degree> createDegree(@RequestBody DegreeDTO degreeDTO) {
 
@@ -93,6 +98,11 @@ public class DegreeRestController {
                 }
         }
 
+        @Operation(summary = "Delete a degree")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Degree deleted", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
+                        @ApiResponse(responseCode = "404", description = "Dregee not found", content = @Content) })
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> deleteDegree(@PathVariable Long id) {
                 Degree deg = degreeService.getDegreeById(id);
@@ -156,6 +166,10 @@ public class DegreeRestController {
                 return true;
         }
 
+        @Operation(summary = "Get degree types")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Types found", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }) })
         @GetMapping("/types")
         public List<String> getCareerFields() {
                 return List.of(DegreeType.values())

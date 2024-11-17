@@ -54,7 +54,7 @@ public class UserRestController {
 	@PostMapping("/")
 	public ResponseEntity<User> register(@RequestBody UserDTO post) throws IOException, SQLException {
 		Optional<User> checkUser = userService.getByEmail(post.getEmail());
-		if(checkUser.isPresent()){
+		if (checkUser.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		User user = new Student(post.getFirstName(), post.getLastName(), post.getEmail(), post.getPassword());
@@ -129,7 +129,6 @@ public class UserRestController {
 		}
 	}
 
-
 	@Operation(summary = "Set the image profile of the user")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Found the image profile", content = {
@@ -156,7 +155,6 @@ public class UserRestController {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
 
 	@Operation(summary = "Get the image profile of the user")
 	@ApiResponses(value = {

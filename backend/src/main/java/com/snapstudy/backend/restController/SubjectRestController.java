@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
+import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
@@ -46,8 +47,9 @@ public class SubjectRestController {
 
         @Operation(summary = "Get a page of Subjects")
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Found the subjects", content = {
+                        @ApiResponse(responseCode = "200", description = "Subjects found", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = Subject.class)) }),
+                        @ApiResponse(responseCode = "204", description = "No content found", content = @Content),
                         @ApiResponse(responseCode = "404", description = "Subjects not found", content = @Content) })
         @GetMapping("/degrees/{degreeId}")
         public ResponseEntity<Page<Subject>> getSubjects(@PathVariable Long degreeId,
@@ -72,7 +74,7 @@ public class SubjectRestController {
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Found the subject", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = Subject.class)) }),
-                        @ApiResponse(responseCode = "404", description = "Dregee not found", content = @Content) })
+                        @ApiResponse(responseCode = "404", description = "Subject not found", content = @Content) })
         @GetMapping("/{subjectId}")
         public ResponseEntity<Subject> getSubject(@PathVariable Long subjectId, HttpServletRequest request) {
 
@@ -84,6 +86,12 @@ public class SubjectRestController {
                 }
         }
 
+        @Operation(summary = "Create a subject")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Subject created", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = Subject.class)) }),
+                        @ApiResponse(responseCode = "404", description = "Degree not found", content = @Content),
+                        @ApiResponse(responseCode = "409", description = "Subject already created", content = @Content) })
         @PostMapping("/{degreeId}")
         public ResponseEntity<Subject> createSubject(@RequestBody String name, @PathVariable Long degreeId) {
                 Degree degree = degreeService.getDegreeById(degreeId);
@@ -102,6 +110,12 @@ public class SubjectRestController {
                 }
         }
 
+        @Operation(summary = "Delete subject")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Subject deleted", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = Subject.class)) }),
+                        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+                        @ApiResponse(responseCode = "404", description = "Subject not found", content = @Content) })
         @DeleteMapping("/{degreeId}/{id}")
         public ResponseEntity<Void> deleteSubject(@PathVariable Long degreeId, @PathVariable Long id) {
                 Subject sub = subjectService.getSubjectById(id);
@@ -142,14 +156,18 @@ public class SubjectRestController {
                 }
         }
 
-
+        @Operation(summary = "Get degree by subject")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Degree found", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
+                        @ApiResponse(responseCode = "404", description = "Subject/Degree not found", content = @Content) })
         @GetMapping("/degreesby/{subjectId}")
         public ResponseEntity<Degree> getDegreeBySubject(@PathVariable Long subjectId) {
                 Subject subject = subjectService.getSubjectById(subjectId);
 
                 if (subject != null) {
                         Degree degree = subject.getDegree();
-                        if(degree != null){
+                        if (degree != null) {
                                 return new ResponseEntity<>(degree, HttpStatus.OK);
                         }
                 }

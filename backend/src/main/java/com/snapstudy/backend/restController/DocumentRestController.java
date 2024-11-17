@@ -59,8 +59,9 @@ public class DocumentRestController {
 
     @Operation(summary = "Get a page of documents")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the Documents", content = {
+            @ApiResponse(responseCode = "200", description = "Documents found", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Document.class)) }),
+            @ApiResponse(responseCode = "204", description = "No content found", content = @Content),
             @ApiResponse(responseCode = "404", description = "Documents not found", content = @Content) })
     @GetMapping("/{subjectId}")
     public ResponseEntity<Page<Document>> getDocuments(@PathVariable Long subjectId,
@@ -81,6 +82,13 @@ public class DocumentRestController {
 
     }
 
+    @Operation(summary = "Save document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Document saved", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Document.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Document already saved", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Document not saved", content = @Content) })
     @PostMapping("/{degreeId}/{subjectId}")
     public ResponseEntity<Document> saveDocument(@RequestBody MultipartFile file, @PathVariable Long degreeId,
             @PathVariable Long subjectId) {
@@ -110,7 +118,7 @@ public class DocumentRestController {
         // control de nombres de archivo repetidos
         Document docCheck = documentService.getDocumentByName(fileName);
         if (docCheck != null) {
-            return new ResponseEntity<>(HttpStatus.OK); // Ya existe un archivo con este nombre
+            return new ResponseEntity<>(HttpStatus.CONFLICT); // Ya existe un archivo con este nombre
         }
 
         Document document = new Document(fileName, "", subject, repository.getId(), ext);
@@ -138,6 +146,12 @@ public class DocumentRestController {
         }
     }
 
+    @Operation(summary = "Delete document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Document deleted", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Document.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Document not deleted", content = @Content) })
     @DeleteMapping("/{degreeId}/{subjectId}/{id}")
     public ResponseEntity<Void> deleteDocument(@PathVariable Long id, @PathVariable Long degreeId,
             @PathVariable Long subjectId) {
@@ -173,6 +187,13 @@ public class DocumentRestController {
         }
     }
 
+    @Operation(summary = "Download document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Document found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Document.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Document not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "S3 error", content = @Content), })
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) {
         try {
@@ -219,6 +240,11 @@ public class DocumentRestController {
         }
     }
 
+    @Operation(summary = "Get document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Document found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Document.class)) }),
+            @ApiResponse(responseCode = "404", description = "Document not found", content = @Content) })
     @GetMapping("/")
     public ResponseEntity<Document> getDocument(@RequestParam("id") Long id) {
         Document doc = documentService.getDocumentById(id);
