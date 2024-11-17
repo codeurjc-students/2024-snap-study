@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  web:  
+    image: jrodriguezs2020/snapstudy
+    ports:
+      - "8443:8443"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/snapstudy
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=DAWWebapp09+
+      - JWT_SECRET=snapstudy
+    depends_on:
+      - db
+    restart: on-failure
+
+  db:
+    image: mysql:8.0.22
+    restart: always
+    ports:
+    - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=snapstudy
+      - MYSQL_ROOT_PASSWORD=DAWWebapp09+
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql:
