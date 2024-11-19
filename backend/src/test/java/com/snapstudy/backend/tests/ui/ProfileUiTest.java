@@ -19,6 +19,7 @@ public class ProfileUiTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
+    private LoginUiTestService loginUiTestService;
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -27,6 +28,7 @@ public class ProfileUiTest {
 
     @BeforeEach
     public void setUp() {
+        loginUiTestService = new LoginUiTestService();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
@@ -40,30 +42,9 @@ public class ProfileUiTest {
         }
     }
 
-    private void login() {
-        driver.get("http://localhost:4200/login");
-
-        WebElement emailField = driver.findElement(By.id("email"));
-        WebElement passwordField = driver.findElement(By.id("password"));
-        WebElement loginButton = driver.findElement(By.xpath("//button[contains(text(),'Sign in!')]"));
-
-        emailField.sendKeys("javiisalaas97@gmail.com");
-        passwordField.sendKeys("hola");
-
-        loginButton.click();
-
-        // Wait for the URL to change to the expected one
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.urlToBe("http://localhost:4200/"));
-
-        // Verify that the login has been successful by navigating to the main page
-        Assertions.assertEquals("http://localhost:4200/", driver.getCurrentUrl(),
-                "The user was correctly redirected.");
-    }
-
     @Test
     public void testEditProfilePasswordsDoNotMatch() {
-        login(); // Perform login before testing
+        loginUiTestService.login(driver); // Perform login before testing
 
         driver.get("http://localhost:4200/profile");
 
@@ -108,7 +89,7 @@ public class ProfileUiTest {
 
     @Test
     public void testEditProfileSuccess() {
-        login();
+        loginUiTestService.login(driver);
 
         driver.get("http://localhost:4200/profile");
 
