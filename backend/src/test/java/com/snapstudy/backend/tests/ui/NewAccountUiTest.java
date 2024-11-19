@@ -11,7 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -51,7 +50,7 @@ public class NewAccountUiTest {
         WebElement confirmPasswordField = driver.findElement(By.xpath("//input[@placeholder='Confirm Password...']"));
         WebElement signupButton = driver.findElement(By.xpath("//button[contains(text(),'Create account!')]"));
 
-        // Llenar los campos con datos válidos
+        // Fill the fields with valid data
         firstNameField.sendKeys("Pablo");
         lastNameField.sendKeys("Motos");
         emailField.sendKeys("pablomotos@gmail.com");
@@ -61,22 +60,22 @@ public class NewAccountUiTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(signupButton));
 
-        // Hacer scroll hasta el botón para asegurarse de que sea visible
+        // Scroll to the button to ensure it is visible
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", signupButton);
 
-        // Intentar hacer clic en el botón usando JavaScript si el clic normal falla
+        // Attempt to click the button using JavaScript if the normal click fails
         try {
-            signupButton.click(); // Intentar clic normal
+            signupButton.click(); // Attempt a normal click
         } catch (ElementClickInterceptedException e) {
-            // Si falla, usar JavaScript para hacer clic en el botón
+            // If it fails, use JavaScript to click the button
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
                     signupButton);
         }
 
-        // Esperar a que se redirija a la página de login
+        // Wait for the page to redirect to the login page
         wait.until(ExpectedConditions.urlToBe("http://localhost:4200/login"));
 
-        // Verificar que se ha redirigido correctamente
+        // Verify that the redirection was successful
         Assertions.assertEquals("http://localhost:4200/login",
                 driver.getCurrentUrl(),
                 "The user was correctly redirected to the login page after successful account creation.");
@@ -103,7 +102,7 @@ public class NewAccountUiTest {
         WebElement errorHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[contains(@class,'popup')]//b[contains(text(),'Some field is incomplete')]")));
 
-        // Verificar que el mensaje se muestra correctamente
+        // Verify that the message is displayed correctly
         Assertions.assertTrue(errorHeader.isDisplayed(), "Message should be visible.");
     }
 
@@ -118,12 +117,12 @@ public class NewAccountUiTest {
         WebElement confirmPasswordField = driver.findElement(By.xpath("//input[@placeholder='Confirm Password...']"));
         WebElement signupButton = driver.findElement(By.xpath("//button[contains(text(),'Create account!')]"));
 
-        // Llenar los campos con contraseñas que no coinciden
+        // Fill the fields with mismatched passwords
         firstNameField.sendKeys("Pablo");
         lastNameField.sendKeys("Motos");
         emailField.sendKeys("pablomotos@gmail.com");
         passwordField.sendKeys("MotoCross");
-        confirmPasswordField.sendKeys("FormulaUno"); // Contraseñas no coinciden
+        confirmPasswordField.sendKeys("FormulaUno"); // Passwords do not match
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(signupButton));
@@ -140,7 +139,7 @@ public class NewAccountUiTest {
         WebElement errorHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[contains(@class,'popup')]//b[contains(text(),'Passwords do not match')]")));
 
-        // Verificar que el mensaje se muestra correctamente
+        // Verify that the message is displayed correctly
         Assertions.assertTrue(errorHeader.isDisplayed(), "Message should be visible.");
     }
 
@@ -155,10 +154,10 @@ public class NewAccountUiTest {
         WebElement confirmPasswordField = driver.findElement(By.xpath("//input[@placeholder='Confirm Password...']"));
         WebElement signupButton = driver.findElement(By.xpath("//button[contains(text(),'Create account!')]"));
 
-        // Completar con un correo que ya existe
+        // Fill in with an email that already exists
         firstNameField.sendKeys("Javi");
         lastNameField.sendKeys("Salas");
-        emailField.sendKeys("javiisalaas97@gmail.com"); // Este correo ya debería existir
+        emailField.sendKeys("javiisalaas97@gmail.com"); // This email should already exist
         passwordField.sendKeys("Password123");
         confirmPasswordField.sendKeys("Password123");
 
