@@ -44,7 +44,7 @@ public class ProfileUiTest {
 
     @Test
     public void testEditProfilePasswordsDoNotMatch() {
-        loginUiTestService.login(driver); // Perform login before testing
+        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", "http://localhost:4200/"); // Perform login before testing
 
         driver.get("http://localhost:4200/profile");
 
@@ -89,7 +89,7 @@ public class ProfileUiTest {
 
     @Test
     public void testEditProfileSuccess() {
-        loginUiTestService.login(driver);
+        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", "http://localhost:4200/");
 
         driver.get("http://localhost:4200/profile");
 
