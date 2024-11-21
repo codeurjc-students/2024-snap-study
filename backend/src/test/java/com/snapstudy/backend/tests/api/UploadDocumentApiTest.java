@@ -3,7 +3,6 @@ package com.snapstudy.backend.tests.api;
 import java.io.File;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
-import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 
 public class UploadDocumentApiTest {
-
+    
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
 
