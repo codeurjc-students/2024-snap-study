@@ -10,6 +10,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -133,11 +134,17 @@ public class UserRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the image profile", content = {
                     @Content(mediaType = "image/jpg") }),
-            @ApiResponse(responseCode = "404", description = "image profile not found", content = @Content),
-            @ApiResponse(responseCode = "403", description = "forbiden o dont have permissions", content = @Content) })
+            @ApiResponse(responseCode = "404", description = "Image profile not found", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden or don't have permissions", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid image file", content = @Content) })
     @PutMapping("/image")
     public ResponseEntity<Object> updateFile(HttpServletRequest request, @RequestBody MultipartFile file)
             throws IOException {
+
+        if (file == null || file.isEmpty()) {
+            return ResponseEntity.badRequest().body("The image file is empty or missing.");
+        }
+
         byte[] foto;
         Optional<User> currentUser = userService.getByEmail(request.getUserPrincipal().getName());
 

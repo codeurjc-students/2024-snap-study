@@ -20,25 +20,24 @@ public class ProfileImageUploadApiTest {
 
     @BeforeAll
     public static void setUp() {
-        // Configurar RestAssured para la validación de SSL
+        // Configure RestAssured for SSL validation
         RestAssured.useRelaxedHTTPSValidation();
         loginApiTestService = new LoginApiTestService();
         cookies = loginApiTestService.loginAndGetCookies("javiisalaas97@gmail.com", "hola");
     }
 
     @Test
-    public void testUploadProfileImage_WithAuthToken() throws IOException {
+    public void testUploadProfileImageSuccess() throws IOException {
 
-        File testImage = new File("D:/DESCARGAS/miaa.jpg"); // local
+        File testImage = new File("D:/DESCARGAS/mia.jpg"); // local
 
         if (!testImage.exists()) {
-            // Crear un archivo temporal para simular una imagen
+            // Create a temporary file to simulate an image
             testImage = File.createTempFile("profile", ".jpg");
-            FileUtils.writeByteArrayToFile(testImage, new byte[] { 0, 1, 2, 3 }); // Contenido ficticio
+            FileUtils.writeByteArrayToFile(testImage, new byte[] { 0, 1, 2, 3 }); // Mock content
         }
 
-        // Realizar la petición PUT para cargar la imagen, incluyendo las cookies de
-        // sesión
+        // Make the PUT request to upload the image, including the session cookies
         RequestSpecification request = given()
                 .cookies(cookies)
                 .header("Content-Type", "multipart/form-data")
@@ -46,7 +45,23 @@ public class ProfileImageUploadApiTest {
         request.when()
                 .put("https://localhost:443/api/users/image")
                 .then()
-                .log().ifError() // Registra errores si los hay
-                .statusCode(201); // Verifica que la respuesta sea 201 Created
+                .log().ifError() // Log errors if any occur
+                .statusCode(201); // Verify that the response is 201 Created
+    }
+
+    @Test
+    public void testUploadProfileImageSFailure() throws IOException {
+        // Empty
+        File testImage = File.createTempFile("profile", ".jpg");
+
+        RequestSpecification request = given()
+                .cookies(cookies)
+                .header("Content-Type", "multipart/form-data")
+                .multiPart("file", testImage);
+        request.when()
+                .put("https://localhost:443/api/users/image")
+                .then()
+                .log().ifError()
+                .statusCode(400); // Verify that the response is 400 Bad Request
     }
 }
