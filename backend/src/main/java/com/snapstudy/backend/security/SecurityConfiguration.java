@@ -66,10 +66,11 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/users/**").hasAnyRole("ADMIN", "STUDENT")
                         .requestMatchers(HttpMethod.GET, "/api/degrees/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/subjects/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/documents/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/documents/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/documents/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/users/me").authenticated() // Require authentication for this endpoint
                         .requestMatchers(HttpMethod.POST, "/api/degrees/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/subjects/*").hasRole("ADMIN")
