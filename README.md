@@ -72,3 +72,106 @@ Buscador avanzado que permita buscar documentos mediante su nombre y contenido.
 ## Wireframe de pantallas y navegación
 
 ![Wireframe](images/Diseño.png)
+
+## Fase 1
+
+### Pantallas
+
+#### Página principal
+Una landing page donde puedes usar un buscador, ver los grados disponibles o acceder a información de SnapStudy.
+
+![Landing Page](images/mainpage.png)
+
+#### Inicio de sesión
+En esta pantalla podrás acceder a tu cuenta.
+
+![Login](images/login.png)
+
+#### Registro
+En esta pantalla podrás crear una nueva cuenta.
+
+![Registro](images/signin.png)
+
+#### About
+En esta página encontrarás información sobre la funcionalidad y objetivo de SnapStudy, además de conocer la tecnología con la que trabaja.
+
+PENDIENTE DE ACABAR
+
+#### Explore
+Representa el mismo listado de grados incluido en la página principal.
+
+![Listado de grados](images/explore.png)
+
+#### Lista de asignaturas
+Muestra un listado de las asignaturas de un grado.
+
+![Listado de asignaturas](images/subjectlist.png)
+
+#### Listado de documentos
+Representa el listado de recursos disponibles para una asignatura.
+
+![Listado de documentos](images/documentlist.png)
+
+#### Búsqueda
+Muestra todas las coincidencias encontradas a la hora de realizar una búsqueda.
+
+![Resultados de búsqueda](images/search.png)
+
+#### Panel principal de administrador
+Listado de grados con opciones de borrado y creación de nuevos.
+
+![Panel principal de administrador](images/adminpannel.png)
+
+#### Listado de asignaturas (administrador)
+Listado de asignaturas con opciones de borrado y creación de nuevas.
+
+![Listado de asignaturas - panel administrador](images/subjectsadmin.png)
+
+#### Listado de documentos (administrador)
+Listado de recursos disponibles para una asignatura con opciones para añadir nuevos, previsualizar o eliminar existentes.
+
+![Listado de documentos - panel administrador](images/documentlistadmin.png)
+
+#### Añadir recurso (administrador)
+Popup que permite subir un nuevo recurso a una asignatura.
+
+![Añadir recurso](images/adddocument.png)
+
+#### Añadir asignatura (administrador)
+Panel que permite al administrador crear una nueva asignatura.
+
+![Añadir asignatura](images/addsubject.png)
+
+#### Añadir grado (administrador)
+Panel que permite al administrador crear un nuevo grado.
+
+![Añadir grado](images/adddegree.png)
+
+#### Listado de documentos (usuario registrado)
+Listado de documentos de una asignatura, donde se permite descargar y previsualizar estos.
+
+![Listado de documentos usuario registrado](images/documentlistuser.png)
+
+#### Perfil (usuario registrado)
+Información principal del usuario, donde puedes modificar esta información o añadir una foto de perfil.
+
+![Perfil](images/profile.png)
+
+#### Añadir imagen de perfil (usuario registrado)
+Popup que permite subir una nueva imagen de perfil.
+
+![Subir imagen de perfil](images/profile.png)
+
+
+
+### Diagrama de navegación
+
+### Diagrama de entidades de base de datos
+
+### Diagrama de clases backend
+
+### Diagrama de clases frontend SPA
+
+### Documentación Docker
+
+### Instrucciones Docker
