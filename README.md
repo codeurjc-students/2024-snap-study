@@ -160,7 +160,7 @@ Información principal del usuario, donde puedes modificar esta información o a
 #### Añadir imagen de perfil (usuario registrado)
 Popup que permite subir una nueva imagen de perfil.
 
-![Subir imagen de perfil](images/profile.png)
+![Subir imagen de perfil](images/popupimage.png)
 
 
 
