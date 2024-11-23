@@ -162,9 +162,9 @@ Popup que permite subir una nueva imagen de perfil.
 
 ![Subir imagen de perfil](images/popupimage.png)
 
-
-
 ### Diagrama de navegación
+
+![Diagrama de navegación](images/diagrama.png)
 
 ### Diagrama de entidades de base de datos
 
