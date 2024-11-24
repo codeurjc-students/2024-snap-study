@@ -95,7 +95,7 @@ En esta pantalla podrás crear una nueva cuenta.
 #### About
 En esta página encontrarás información sobre la funcionalidad y objetivo de SnapStudy, además de conocer la tecnología con la que trabaja.
 
-PENDIENTE DE ACABAR
+![Información de SnapStudy](images/about.png)
 
 #### Explore
 Representa el mismo listado de grados incluido en la página principal.
