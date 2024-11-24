@@ -172,6 +172,8 @@ Popup que permite subir una nueva imagen de perfil.
 
 ### Diagrama de clases backend
 
+![Diagrama de clases backend](images/backend.png)
+
 ### Diagrama de clases frontend SPA
 
 ![Diagrama de clases frontend SPA](images/frontend.png)
