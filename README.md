@@ -168,6 +168,8 @@ Popup que permite subir una nueva imagen de perfil.
 
 ### Diagrama de entidades de base de datos
 
+![Diagrama de entidades de base de datos](images/bbdd.png)
+
 ### Diagrama de clases backend
 
 ### Diagrama de clases frontend SPA
