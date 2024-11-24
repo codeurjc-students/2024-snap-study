@@ -174,6 +174,8 @@ Popup que permite subir una nueva imagen de perfil.
 
 ### Diagrama de clases frontend SPA
 
+![Diagrama de clases frontend SPA](images/frontend.png)
+
 ### Documentación Docker
 
 ### Instrucciones Docker
