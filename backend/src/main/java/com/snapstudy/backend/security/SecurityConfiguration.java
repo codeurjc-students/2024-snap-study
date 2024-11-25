@@ -55,6 +55,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
 
         http.authenticationProvider(authenticationProvider());
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers("/**").permitAll()
+                );
 
         http
                 .securityMatcher("/api/**")
