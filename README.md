@@ -178,6 +178,65 @@ Popup que permite subir una nueva imagen de perfil.
 
 ![Diagrama de clases frontend SPA](images/frontend.png)
 
-### Documentación Docker
+### Construcción de la imagen Docker
 
-### Instrucciones Docker
+Para construir la imagen docker de SnapStudy debemos seguir los siguientes pasos:
+
+1. Clonar el repositorio
+```
+https://github.com/codeurjc-students/2024-snap-study.git
+```
+
+2. Navegar hasta el directorio "docker" dentro del proyecto
+```
+cd 2024-snap-study/docker
+```
+
+3. Instalar docker en nuestro sistema [here](https://docs.docker.com/engine/install/)
+
+4. Busca docker y ejecútalo
+
+5. Haz login en tu cuenta de Docker
+```
+docker login
+```
+
+7. Para generar la imagen Docker, ejecuta
+```
+./create_image.sh
+```
+
+Este script contiene los siguientes comandos
+```
+# Establece el contexto de compilación para el padre y compila usando Dockerfile desde el directorio de Docker
+docker build -t jrodriguezs2020/snapstudy -f docker/Dockerfile .
+# Sube la imagen a DockerHub
+docker push jrodriguezs2020/snapstudy
+# Ejecuta la imagen usando docker-compose desde el directorio de Docker
+docker-compose up
+```
+
+### Instrucciones de ejecución de la aplicación dockerizada
+
+Para ejecutar la imagen Docker de SnapStudy debemos seguir los siguientes pasos:
+
+1. Clonar el repositorio
+```
+https://github.com/codeurjc-students/2024-snap-study.git
+```
+
+2. Navegar hasta el directorio "docker" dentro del proyecto
+```
+cd 2024-snap-study/docker
+```
+
+3. Instalar docker en nuestro sistema [here](https://docs.docker.com/engine/install/)
+
+4. Busca docker y ejecútalo
+
+5. Ejecuta el comando
+```
+docker-compose up
+```
+
+6. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)
