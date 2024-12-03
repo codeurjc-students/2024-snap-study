@@ -160,7 +160,7 @@ public class SubjectRestController {
             @ApiResponse(responseCode = "200", description = "Degree found", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
             @ApiResponse(responseCode = "404", description = "Subject/Degree not found", content = @Content) })
-    @GetMapping("/degreesby/{subjectId}")
+    @GetMapping("/{subjectId}/degrees")
     public ResponseEntity<Degree> getDegreeBySubject(@PathVariable Long subjectId) {
         Subject subject = subjectService.getSubjectById(subjectId);
 
