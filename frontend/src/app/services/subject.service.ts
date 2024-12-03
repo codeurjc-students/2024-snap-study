@@ -30,6 +30,6 @@ export class SubjectService {
     }
 
     getDegreeBySubject(id: number): Observable<any> {
-        return this.http.get(BASE_URL + 'degreesby/' + id) as Observable<any>;
+        return this.http.get(BASE_URL + id + '/degrees') as Observable<any>;
     }
 }
