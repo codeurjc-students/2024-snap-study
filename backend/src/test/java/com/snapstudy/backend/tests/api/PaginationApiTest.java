@@ -22,7 +22,7 @@ public class PaginationApiTest {
                 .queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("https://localhost:443/api/subjects/degrees/{degreeId}")
+                .get("https://localhost:8443/api/subjects/degrees/{degreeId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that the response is 200 OK
@@ -36,7 +36,7 @@ public class PaginationApiTest {
                 .queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("https://localhost:443/api/subjects/degrees/{degreeId}")
+                .get("https://localhost:8443/api/subjects/degrees/{degreeId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found

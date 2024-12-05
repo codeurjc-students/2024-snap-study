@@ -40,7 +40,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 1) // Valid subject ID
                 .multiPart("file", testFile) // File to upload
                 .when()
-                .post("https://localhost:443/api/documents/{degreeId}/{subjectId}")
+                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that the response is 200 OK
@@ -65,7 +65,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 1) // Valid subject ID
                 .multiPart("file", testFile)
                 .when()
-                .post("https://localhost:443/api/documents/{degreeId}/{subjectId}")
+                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(409); // Verify that the response is 409 Conflict
@@ -88,7 +88,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 78796) // Invalid subject ID
                 .multiPart("file", testFile)
                 .when()
-                .post("https://localhost:443/api/documents/{degreeId}/{subjectId}")
+                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(400); // Verify that the response is 400 Bad Request
@@ -111,7 +111,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 1) // Valid subject ID
                 .multiPart("file", testFile)
                 .when()
-                .post("https://localhost:443/api/documents/{degreeId}/{subjectId}")
+                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found

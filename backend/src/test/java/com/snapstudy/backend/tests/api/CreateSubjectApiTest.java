@@ -29,7 +29,7 @@ public class CreateSubjectApiTest {
                 .contentType("application/json")
                 .body("Subject Test") // Subject name
                 .when()
-                .post("https://localhost:443/api/subjects/{degreeId}")
+                .post("https://localhost:8443/api/subjects/{degreeId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that it is successfully created
@@ -44,7 +44,7 @@ public class CreateSubjectApiTest {
                 .contentType("application/json")
                 .body("Physics")
                 .when()
-                .post("https://localhost:443/api/subjects/{degreeId}")
+                .post("https://localhost:8443/api/subjects/{degreeId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found
@@ -58,7 +58,7 @@ public class CreateSubjectApiTest {
                 .contentType("application/json")
                 .body("Cloud Computing") // Subject name
                 .when()
-                .post("https://localhost:443/api/subjects/{degreeId}")
+                .post("https://localhost:8443/api/subjects/{degreeId}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(409); // Verify that the response is 409 Conflict
