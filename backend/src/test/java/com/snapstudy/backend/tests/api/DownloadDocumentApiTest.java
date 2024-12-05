@@ -28,7 +28,7 @@ public class DownloadDocumentApiTest {
                 .cookies(cookies)
                 .pathParam("id", 6) // Valid document ID
                 .when()
-                .get("https://localhost:443/api/documents/download/{id}")
+                .get("https://localhost:8443/api/documents/download/{id}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that the response is 200 OK
@@ -44,7 +44,7 @@ public class DownloadDocumentApiTest {
                 .cookies(cookies)
                 .pathParam("id", 6654) // Valid document ID
                 .when()
-                .get("https://localhost:443/api/documents/download/{id}")
+                .get("https://localhost:8443/api/documents/download/{id}")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found

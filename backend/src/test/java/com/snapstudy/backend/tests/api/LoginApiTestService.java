@@ -12,7 +12,7 @@ public class LoginApiTestService {
                 .contentType("application/json")
                 .body("{\"username\":\"" + email + "\",\"password\":\"" + password + "\"}")
                 .when()
-                .post("https://localhost:443/api/auth/login")
+                .post("https://localhost:8443/api/auth/login")
                 .then()
                 .statusCode(200) // Verificamos que el login haya sido exitoso
                 .extract()

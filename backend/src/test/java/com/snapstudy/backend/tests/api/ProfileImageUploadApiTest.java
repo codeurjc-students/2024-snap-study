@@ -43,7 +43,7 @@ public class ProfileImageUploadApiTest {
                 .header("Content-Type", "multipart/form-data")
                 .multiPart("file", testImage);
         request.when()
-                .put("https://localhost:443/api/users/image")
+                .put("https://localhost:8443/api/users/image")
                 .then()
                 .log().ifError() // Log errors if any occur
                 .statusCode(201); // Verify that the response is 201 Created
@@ -59,7 +59,7 @@ public class ProfileImageUploadApiTest {
                 .header("Content-Type", "multipart/form-data")
                 .multiPart("file", testImage);
         request.when()
-                .put("https://localhost:443/api/users/image")
+                .put("https://localhost:8443/api/users/image")
                 .then()
                 .log().ifError()
                 .statusCode(400); // Verify that the response is 400 Bad Request
