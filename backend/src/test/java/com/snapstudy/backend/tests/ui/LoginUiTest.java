@@ -16,6 +16,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class LoginUiTest {
 
     private WebDriver driver;
+    private static String API_LOGIN_URL = "http://localhost:4200/login";
+    private static String API_MAIN_URL = "http://localhost:4200/";
+    private static String API_ERROR_URL = "http://localhost:4200/error";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -39,7 +42,7 @@ public class LoginUiTest {
 
     @Test
     public void testLoginSuccess() {
-        driver.get("http://localhost:4200/login");
+        driver.get(API_LOGIN_URL);
 
         WebElement emailField = driver.findElement(By.id("email"));
         WebElement passwordField = driver.findElement(By.id("password"));
@@ -52,17 +55,17 @@ public class LoginUiTest {
 
         // Wait for the URL to change to the expected one
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.urlToBe("http://localhost:4200/"));
+        wait.until(ExpectedConditions.urlToBe(API_MAIN_URL));
 
         // Verify that the login has been successful by navigating to the main page
-        Assertions.assertEquals("http://localhost:4200/", driver.getCurrentUrl(),
+        Assertions.assertEquals(API_MAIN_URL, driver.getCurrentUrl(),
                 "The user was correctly redirected.");
     }
 
     @Test
     public void testLoginFailure() {
 
-        driver.get("http://localhost:4200/login");
+        driver.get(API_LOGIN_URL);
 
         WebElement emailField = driver.findElement(By.id("email"));
         WebElement passwordField = driver.findElement(By.id("password"));
@@ -74,11 +77,11 @@ public class LoginUiTest {
         loginButton.click();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.urlToBe("http://localhost:4200/error"));
+        wait.until(ExpectedConditions.urlToBe(API_ERROR_URL));
 
         // Verify that the login was not successful and the user was redirected to the
         // error page
-        String expectedUrl = "http://localhost:4200/error";
+        String expectedUrl = API_ERROR_URL;
         Assertions.assertEquals(expectedUrl, driver.getCurrentUrl(),
                 "The user was correctly redirected to the error page due to incorrect password.");
     }

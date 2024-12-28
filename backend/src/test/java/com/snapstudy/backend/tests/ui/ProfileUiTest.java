@@ -20,6 +20,8 @@ public class ProfileUiTest {
     private WebDriver driver;
     private WebDriverWait wait;
     private LoginUiTestService loginUiTestService;
+    private static String API_MAIN_URL = "http://localhost:4200/";
+    private static String API_PROFILE_URL = "http://localhost:4200/profile";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -44,9 +46,9 @@ public class ProfileUiTest {
 
     @Test
     public void testEditProfilePasswordsDoNotMatch() {
-        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", "http://localhost:4200/"); // Perform login before testing
+        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", API_MAIN_URL); // Perform login before testing
 
-        driver.get("http://localhost:4200/profile");
+        driver.get(API_PROFILE_URL);
 
         // Locate the form fields
         WebElement firstNameField = driver.findElement(By.id("firstname"));
@@ -89,9 +91,9 @@ public class ProfileUiTest {
 
     @Test
     public void testEditProfileSuccess() {
-        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", "http://localhost:4200/");
+        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", API_MAIN_URL);
 
-        driver.get("http://localhost:4200/profile");
+        driver.get(API_PROFILE_URL);
 
         WebElement firstNameField = driver.findElement(By.id("firstname"));
         WebElement lastNameField = driver.findElement(By.xpath("//input[@placeholder='Last Name...']"));
@@ -124,8 +126,8 @@ public class ProfileUiTest {
         }
 
         // Verify that the redirection to /profile was successful
-        wait.until(ExpectedConditions.urlToBe("http://localhost:4200/profile"));
-        Assertions.assertEquals("http://localhost:4200/profile", driver.getCurrentUrl(),
+        wait.until(ExpectedConditions.urlToBe(API_PROFILE_URL));
+        Assertions.assertEquals(API_PROFILE_URL, driver.getCurrentUrl(),
                 "The user was successfully redirected after saving changes.");
     }
 

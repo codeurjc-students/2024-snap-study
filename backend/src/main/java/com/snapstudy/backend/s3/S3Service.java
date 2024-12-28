@@ -32,7 +32,6 @@ public class S3Service {
 
     private static String accessKey = System.getenv("AWS_S3_ACCESS_KEY_ID");
     private static String secretAccessKey = System.getenv("AWS_S3_SECRET_ACCESS_KEY");
-    private static String serviceUrl = "https://s3.eu-west-1.amazonaws.com";
     private static String bucket = "snapstudy-s3";
 
     public static String addFile(String folder, MultipartFile file) {

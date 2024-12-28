@@ -18,6 +18,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class NewAccountUiTest {
     private WebDriver driver;
+    private static String API_SIGNUP_URL = "http://localhost:4200/signup";
+    private static String API_LOGIN_URL = "http://localhost:4200/login";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -41,7 +43,7 @@ public class NewAccountUiTest {
 
     @Test
     public void testSignupSuccess() {
-        driver.get("http://localhost:4200/signup");
+        driver.get(API_SIGNUP_URL);
 
         WebElement firstNameField = driver.findElement(By.xpath("//input[@placeholder='First Name...']"));
         WebElement lastNameField = driver.findElement(By.xpath("//input[@placeholder='Last Name...']"));
@@ -73,17 +75,17 @@ public class NewAccountUiTest {
         }
 
         // Wait for the page to redirect to the login page
-        wait.until(ExpectedConditions.urlToBe("http://localhost:4200/login"));
+        wait.until(ExpectedConditions.urlToBe(API_LOGIN_URL));
 
         // Verify that the redirection was successful
-        Assertions.assertEquals("http://localhost:4200/login",
+        Assertions.assertEquals(API_LOGIN_URL,
                 driver.getCurrentUrl(),
                 "The user was correctly redirected to the login page after successful account creation.");
     }
 
     @Test
     public void testSignupWithEmptyFields() {
-        driver.get("http://localhost:4200/signup");
+        driver.get(API_SIGNUP_URL);
 
         WebElement signupButton = driver.findElement(By.xpath("//button[contains(text(),'Create account!')]"));
 
@@ -108,7 +110,7 @@ public class NewAccountUiTest {
 
     @Test
     public void testSignupWithNonMatchingPasswords() {
-        driver.get("http://localhost:4200/signup");
+        driver.get(API_SIGNUP_URL);
 
         WebElement firstNameField = driver.findElement(By.xpath("//input[@placeholder='First Name...']"));
         WebElement lastNameField = driver.findElement(By.xpath("//input[@placeholder='Last Name...']"));
@@ -145,7 +147,7 @@ public class NewAccountUiTest {
 
     @Test
     public void testSignupWithExistingEmail() {
-        driver.get("http://localhost:4200/signup");
+        driver.get(API_SIGNUP_URL);
 
         WebElement firstNameField = driver.findElement(By.xpath("//input[@placeholder='First Name...']"));
         WebElement lastNameField = driver.findElement(By.xpath("//input[@placeholder='Last Name...']"));

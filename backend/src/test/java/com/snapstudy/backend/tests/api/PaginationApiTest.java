@@ -3,11 +3,14 @@ package com.snapstudy.backend.tests.api;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.*;
+
 import io.restassured.RestAssured;
 
 import static io.restassured.RestAssured.given;
 
 public class PaginationApiTest {
+
+    private static String API_URL = "https://localhost:8443/api/subjects/degrees/{degreeId}";
 
     @BeforeAll
     public static void setUp() {
@@ -22,7 +25,7 @@ public class PaginationApiTest {
                 .queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("https://localhost:8443/api/subjects/degrees/{degreeId}")
+                .get(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that the response is 200 OK
@@ -36,7 +39,7 @@ public class PaginationApiTest {
                 .queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("https://localhost:8443/api/subjects/degrees/{degreeId}")
+                .get(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found
