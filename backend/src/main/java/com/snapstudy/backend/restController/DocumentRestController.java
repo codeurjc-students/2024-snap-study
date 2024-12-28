@@ -125,7 +125,11 @@ public class DocumentRestController {
         documentRepository.save(document);
 
         path = path + "/" + file.getOriginalFilename();
-        awsS3.addFile(path, file); // Upload the file to S3
+        String upload = awsS3.addFile(path, file); // Upload the file to S3
+
+        if(upload == null){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         return new ResponseEntity<>(document, HttpStatus.OK); // Return the document
     }
@@ -133,7 +137,10 @@ public class DocumentRestController {
     private RepositoryDocument getRepository(Long degreeId, Long subjectId, String path) {
 
         // Create the folder in S3 if it doesn't exist
-        awsS3.createFolder(path);
+        int creation = awsS3.createFolder(path);
+        if(creation == 2){
+            return null; //error creating folder path
+        }
 
         Optional<RepositoryDocument> repository = repositoryDocument.findByDegreeIdAndSubjectId(degreeId, subjectId);
 
