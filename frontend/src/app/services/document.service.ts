@@ -20,7 +20,7 @@ export class DocumentService {
     saveDocument(document: File, degree: number, subject: number) {
         const formData = new FormData();
         formData.append('file', document);
-        return this.http.post("/api/documents/" + degree + "/" + subject, formData);
+        return this.http.post(BASE_URL + degree + "/" + subject, formData);
     }
 
     deleteDocument(id: number, degreeId: number, subjectId: number): Observable<any> {
