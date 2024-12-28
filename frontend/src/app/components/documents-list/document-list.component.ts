@@ -91,14 +91,17 @@ export class DocumentListComponent {
                             },
                             (error) => {
                                 console.error(`Error al descargar el documento con ID ${id}:`, error);
+                                alert('It has not been possible to obtain the document ' + doc.name)
                             }
                         );
                     } else {
                         console.warn(`El documento con ID ${id} no es válido.`);
+                        alert('It has not been possible to obtain the document')
                     }
                 },
                 (error) => {
                     console.error(`Error al obtener el documento con ID ${id}:`, error);
+                    alert('It has not been possible to obtain the document')
                 }
             );
         }
