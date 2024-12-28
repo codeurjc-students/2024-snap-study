@@ -12,6 +12,7 @@ public class CreateSubjectApiTest {
 
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
+    private static String API_URL = "https://localhost:8443/api/subjects/{degreeId}";
 
     @BeforeAll
     public static void setUp() {
@@ -29,7 +30,7 @@ public class CreateSubjectApiTest {
                 .contentType("application/json")
                 .body("Subject Test") // Subject name
                 .when()
-                .post("https://localhost:8443/api/subjects/{degreeId}")
+                .post(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that it is successfully created
@@ -44,7 +45,7 @@ public class CreateSubjectApiTest {
                 .contentType("application/json")
                 .body("Physics")
                 .when()
-                .post("https://localhost:8443/api/subjects/{degreeId}")
+                .post(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found
@@ -58,7 +59,7 @@ public class CreateSubjectApiTest {
                 .contentType("application/json")
                 .body("Cloud Computing") // Subject name
                 .when()
-                .post("https://localhost:8443/api/subjects/{degreeId}")
+                .post(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(409); // Verify that the response is 409 Conflict

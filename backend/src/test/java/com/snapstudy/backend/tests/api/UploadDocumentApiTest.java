@@ -14,6 +14,7 @@ public class UploadDocumentApiTest {
     
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
+    private static String API_URL = "https://localhost:8443/api/documents/{degreeId}/{subjectId}";
 
     @BeforeAll
     public static void setUp() {
@@ -40,7 +41,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 1) // Valid subject ID
                 .multiPart("file", testFile) // File to upload
                 .when()
-                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
+                .post(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that the response is 200 OK
@@ -65,7 +66,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 1) // Valid subject ID
                 .multiPart("file", testFile)
                 .when()
-                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
+                .post(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(409); // Verify that the response is 409 Conflict
@@ -88,7 +89,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 78796) // Invalid subject ID
                 .multiPart("file", testFile)
                 .when()
-                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
+                .post(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(400); // Verify that the response is 400 Bad Request
@@ -111,7 +112,7 @@ public class UploadDocumentApiTest {
                 .pathParam("subjectId", 1) // Valid subject ID
                 .multiPart("file", testFile)
                 .when()
-                .post("https://localhost:8443/api/documents/{degreeId}/{subjectId}")
+                .post(API_URL)
                 .then()
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found

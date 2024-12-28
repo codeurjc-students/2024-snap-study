@@ -17,6 +17,7 @@ public class ProfileImageUploadApiTest {
 
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
+    private static String API_URL = "https://localhost:8443/api/users/image";
 
     @BeforeAll
     public static void setUp() {
@@ -43,7 +44,7 @@ public class ProfileImageUploadApiTest {
                 .header("Content-Type", "multipart/form-data")
                 .multiPart("file", testImage);
         request.when()
-                .put("https://localhost:8443/api/users/image")
+                .put(API_URL)
                 .then()
                 .log().ifError() // Log errors if any occur
                 .statusCode(201); // Verify that the response is 201 Created
@@ -59,7 +60,7 @@ public class ProfileImageUploadApiTest {
                 .header("Content-Type", "multipart/form-data")
                 .multiPart("file", testImage);
         request.when()
-                .put("https://localhost:8443/api/users/image")
+                .put(API_URL)
                 .then()
                 .log().ifError()
                 .statusCode(400); // Verify that the response is 400 Bad Request

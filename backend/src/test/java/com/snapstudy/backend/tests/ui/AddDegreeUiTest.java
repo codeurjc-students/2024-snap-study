@@ -19,6 +19,7 @@ public class AddDegreeUiTest {
 
     private WebDriver driver;
     private LoginUiTestService loginUiTestService;
+    private static String API_URL = "http://localhost:4200/admin";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -43,10 +44,10 @@ public class AddDegreeUiTest {
 
     @Test
     public void testAddDegreeSuccess() throws InterruptedException {
-        loginUiTestService.login(driver, "admin@admin.com", "admin", "http://localhost:4200/admin"); // Perform login
+        loginUiTestService.login(driver, "admin@admin.com", "admin", API_URL); // Perform login
                                                                                                      // before testing
 
-        driver.get("http://localhost:4200/admin/add/1/null");
+        driver.get(API_URL + "/add/1/null");
         Thread.sleep(1000);
         // Locate the form fields
         WebElement nameField = driver.findElement(By.xpath("//input[@placeholder='Name...']"));
@@ -62,18 +63,18 @@ public class AddDegreeUiTest {
 
         // Verify that the redirection to /admin was successful
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.urlToBe("http://localhost:4200/admin"));
+        wait.until(ExpectedConditions.urlToBe(API_URL));
 
-        Assertions.assertEquals("http://localhost:4200/admin", driver.getCurrentUrl(),
+        Assertions.assertEquals(API_URL, driver.getCurrentUrl(),
                 "The user was redirected back after successfully adding a degree.");
     }
 
     @Test
     public void testAddDegreeFailure() throws InterruptedException {
-        loginUiTestService.login(driver, "admin@admin.com", "admin", "http://localhost:4200/admin"); // Perform login
+        loginUiTestService.login(driver, "admin@admin.com", "admin", API_URL); // Perform login
                                                                                                      // before testing
 
-        driver.get("http://localhost:4200/admin/add/1/null");
+        driver.get(API_URL + "/add/1/null");
         Thread.sleep(1000);
         // Locate the form fields
         WebElement nameField = driver.findElement(By.xpath("//input[@placeholder='Name...']"));

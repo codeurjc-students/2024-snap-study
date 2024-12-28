@@ -18,6 +18,8 @@ public class LogoutUiTest {
     private WebDriver driver;
     private WebDriverWait wait;
     private LoginUiTestService loginUiTestService;
+    private static String API_PROFILE_URL = "http://localhost:4200/profile";
+    private static String API_MAIN_URL = "http://localhost:4200/";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -43,9 +45,9 @@ public class LogoutUiTest {
     @Test
     public void testLogout() {
         // Perform login before testing
-        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", "http://localhost:4200/");
+        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", API_MAIN_URL);
 
-        driver.get("http://localhost:4200/profile");
+        driver.get(API_PROFILE_URL);
 
         WebElement logoutButton = driver.findElement(By.xpath("//a[contains(text(), 'Log out!')]"));
 
@@ -53,8 +55,8 @@ public class LogoutUiTest {
 
         // Verify that the logout action redirects the user to the main page
         wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-        wait.until(ExpectedConditions.urlToBe("http://localhost:4200/"));
-        Assertions.assertEquals("http://localhost:4200/", driver.getCurrentUrl(),
+        wait.until(ExpectedConditions.urlToBe(API_MAIN_URL));
+        Assertions.assertEquals(API_MAIN_URL, driver.getCurrentUrl(),
                 "The user was successfully redirected after logout.");
     }
 
