@@ -242,9 +242,9 @@ minio.exe server D:/minio --console-address ":9001"
 ```
 De esta forma tendremos un sistema de almacenamiento en local que simula a AWS S3.
 
-5. Ejecuta el comando
+6. Ejecuta el comando
 ```
 docker-compose up
 ```
 
-6. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)
+7. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)
