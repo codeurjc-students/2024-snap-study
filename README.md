@@ -234,6 +234,14 @@ cd 2024-snap-study/docker
 
 4. Busca docker y ejecútalo
 
+5. Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
+Para usar AWS S3 es necesario tener una cuenta AWS y configurar un bucket de S3. Únicamente necesitamos sustituir los campos change-me en el archivo docker-compose.yml, en este caso AWS_S3_ACCESS_KEY_ID y AWS_S3_SECRET_ACCESS_KEY que se corresponden con el Access Key y Secrect Key del bucket S3.
+Si deseamos usar MinIO, debemos tener instalado en nuestro sistema este recurso [instalación](https://min.io/docs/minio/windows/operations/installation.html). Una vez instalado abrimos una consola de comandos y debemos navegar hasta la ruta donde se encuentre el archivo minio.exe y, una vez en la ruta, debemos ejecutar el siguiente comando
+```
+minio.exe server D:/minio --console-address ":9001"
+```
+De esta forma tendremos un sistema de almacenamiento en local que simula a AWS S3.
+
 5. Ejecuta el comando
 ```
 docker-compose up
