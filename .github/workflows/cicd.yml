@@ -33,10 +33,10 @@ jobs:
                 sudo chmod +x /usr/local/bin/docker-compose
                 docker-compose --version  # Verifica que docker-compose se haya instalado correctamente
 
-            - name: Change path
-              run: cd docker
             - name: Setup docker compose
-              run: docker-compose up -d
+              run: |
+                cd ./docker
+                docker-compose up -d
             - name: Give permissions to wait containers start script
               run: chmod +x waitContainers.sh
             - name: Wait for containers to start
