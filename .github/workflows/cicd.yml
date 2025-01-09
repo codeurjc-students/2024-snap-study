@@ -1,77 +1,49 @@
-name: Run Interface Tests (Manual Setup)
+name: CICD
 
 on:
-  push:
-    branches:
-      - main
-      - cicd
-  pull_request:
+    push:
+        branches:
+            - cicd
 
 jobs:
-  build-test:
-    runs-on: ubuntu-latest
+    publish:
+        runs-on:
+            ubuntu-latest
+        steps:
+            ## Step 1: Configuration
+            - uses: actions/checkout@v3
+            - uses: s4u/maven-settings-action@v2.8.0
+            - name: Set up JDK
+              uses: actions/setup-java@v3
+              with:
+                distribution: 'temurin'
+                java-version: '17'
 
-    steps:
-      # Paso 1: Clonar el repositorio
-      - name: Checkout repository
-        uses: actions/checkout@v3
+            - uses: browser-actions/setup-chrome@latest
+            - run: chrome --versión
+                
+            ## Step 2: Docker Login and Image Build
+            - name: Login to docker
+              run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_TOKEN }}"
+            - name: Build the docker image
+              run: docker build -f Docker/Dockerfile -t ${{ secrets.DOCKERHUB_IMAGE }}:${{ github.sha }} .
 
-      # Paso 2: Configurar Java
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'  # Usa 'temurin', 'zulu' o 'adopt' si lo prefieres
-          java-version: '17'       # Ajusta según tu versión de Java
+            ## Step 3: Image Execution and Wait to Image Start
+            - name: Setup docker compose
+              run: docker-compose up -d
+            - name: Give permissions to wait containers start script
+              run: chmod +x waitContainer.sh
+            - name: Wait for containers to start
+              run: ./waitContainer.sh
 
-      # Paso 3: Configurar Node.js para el frontend
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16' # Cambia la versión de Node.js si es necesario
+            ## Step 4: Test execution
+            - name: Run tests
+              run: mvn clean test -Dtest=LoginUiTests.java
 
-      # Paso 4: Instalar dependencias del frontend
-      - name: Install frontend dependencies
-        run: |
-          cd frontend
-          npm install
-
-      # Paso 5: Instalar dependencias del backend
-      - name: Install backend dependencies (if applicable)
-        run: |
-          cd backend
-          mvn install
-
-      # Paso 6: Iniciar el backend
-      - name: Start backend
-        run: |
-          cd backend
-          nohup java -jar target/backend.jar &
-
-      # Paso 7: Iniciar el frontend
-      - name: Start frontend
-        run: |
-          cd frontend
-          nohup npm start &
-
-      # Paso 8: Esperar a que los servicios estén listos
-      - name: Wait for backend and frontend to be ready
-        run: |
-          while ! curl -s http://localhost:8443; do sleep 1; done
-          while ! curl -s http://localhost:4200; do sleep 1; done
-
-      # Paso 9: Configurar Maven (para ejecutar las pruebas)
-      - name: Set up Maven
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      # Paso 10: Ejecutar las pruebas de interfaz
-      - name: Run interface tests
-        run: mvn clean test -Dtest=LoginUiTests.java
-
-      # Paso 11: Detener los servicios (opcional)
-      - name: Stop services
-        run: |
-          pkill -f backend.jar || true  # Detiene el backend
-          pkill -f npm || true           # Detiene el frontend
+            ## Step 5: End Image Execution and Push image to Docker Hub
+            - name: Stop docker compose
+              run: docker-compose down
+            - name: Push the docker image
+              run: docker push ${{ secrets.DOCKERHUB_IMAGE }}:${{ github.sha }}
+            - name: Push the docker image
+              run: docker push ${{ secrets.DOCKERHUB_IMAGE }}:${{ github.sha }}
