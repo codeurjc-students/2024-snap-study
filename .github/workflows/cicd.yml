@@ -26,8 +26,15 @@ jobs:
               run: docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}" -f docker/Dockerfile .
 
             ## Step 3: Image Execution and Wait to Image Start
+            ## Step 3: Instalar Docker Compose
+            - name: Install docker-compose
+              run: |
+                sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                sudo chmod +x /usr/local/bin/docker-compose
+                docker-compose --version  # Verifica que docker-compose se haya instalado correctamente
+
             - name: Setup docker compose
-              run: docker-compose up
+              run: docker-compose up -d
             - name: Give permissions to wait containers start script
               run: chmod +x waitContainers.sh
             - name: Wait for containers to start
