@@ -137,6 +137,12 @@
             <version>8.5.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version> <!-- Asegúrate de usar una versión compatible -->
+        </dependency>
+
 	</dependencies>
 
 	<build>
