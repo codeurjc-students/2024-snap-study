@@ -234,17 +234,70 @@ cd 2024-snap-study/docker
 
 4. Busca docker y ejecútalo
 
-5. Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
+5. Ejecuta el comando
+```
+docker-compose up
+```
+
+6. Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
 Para usar AWS S3 es necesario tener una cuenta AWS y configurar un bucket de S3. Únicamente necesitamos sustituir los campos change-me en el archivo docker-compose.yml, en este caso AWS_S3_ACCESS_KEY_ID y AWS_S3_SECRET_ACCESS_KEY que se corresponden con el Access Key y Secrect Key del bucket S3.
-Si deseamos usar MinIO, debemos tener instalado en nuestro sistema este recurso [instalación](https://min.io/docs/minio/windows/operations/installation.html). Una vez instalado abrimos una consola de comandos y debemos navegar hasta la ruta donde se encuentre el archivo minio.exe y, una vez en la ruta, debemos ejecutar el siguiente comando
+
+Si deseamos usar MinIO, y no vamos a ejecutar la aplicación web con docker-compose, debemos tener instalado en nuestro sistema este recurso [instalación](https://min.io/docs/minio/windows/operations/installation.html). Una vez instalado abrimos una consola de comandos y debemos navegar hasta la ruta donde se encuentre el archivo minio.exe y, una vez en la ruta, debemos ejecutar el siguiente comando
 ```
 minio.exe server D:/minio --console-address ":9001"
 ```
 De esta forma tendremos un sistema de almacenamiento en local que simula a AWS S3.
 
-6. Ejecuta el comando
+Ten en cuenta que si decides usar MinIO con docker-compose debes ajustar las rutas a la IP del contenedor docker que se cree, además de iniciar MinIO con docker, aquí te dejo un ejemplo
 ```
-docker-compose up
+version: "3.9"
+services:
+  web:  
+    image: jrodriguezs2020/snapstudy
+    ports:
+      - "8443:8443"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/snapstudy
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=DAWWebapp09+
+      - JWT_SECRET=snapstudy
+      - AWS_S3_ACCESS_KEY_ID=change_me
+      - AWS_S3_SECRET_ACCESS_KEY=change_me
+    depends_on:
+      - db
+      - minio
+    restart: on-failure
+
+  db:
+    image: mysql:8.0.22
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=snapstudy
+      - MYSQL_ROOT_PASSWORD=DAWWebapp09+
+    volumes:
+      - mysql:/var/lib/mysql
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server /data
+    volumes:
+      - minio_data:/data
+    restart: always
+
+volumes:
+  mysql:
+  minio_data:
 ```
 
+Podemos conocer la IP de nuestro contenedor docker así
+```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-minio-1
+```
 7. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)
