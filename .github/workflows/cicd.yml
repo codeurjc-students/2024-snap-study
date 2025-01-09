@@ -27,11 +27,11 @@ jobs:
 
             ## Step 3: Image Execution and Wait to Image Start
             - name: Setup docker compose
-              run: docker-compose up -d
+              run: docker-compose up
             - name: Give permissions to wait containers start script
-              run: chmod +x waitContainer.sh
+              run: chmod +x waitContainers.sh
             - name: Wait for containers to start
-              run: ./waitContainer.sh
+              run: ./waitContainers.sh
 
             ## Step 4: Test execution
             - name: Run tests
