@@ -43,7 +43,7 @@ jobs:
             - name: Setup docker compose
               run: |
                 cd ./docker
-                docker-compose up
+                docker-compose up -d
             - name: Give permissions to wait containers start script
               run: chmod +x waitContainers.sh
             - name: Wait for containers to start
