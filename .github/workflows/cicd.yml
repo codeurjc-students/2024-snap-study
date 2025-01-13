@@ -57,8 +57,10 @@ jobs:
 
             ## Step 5: End Image Execution and Push image to Docker Hub
             - name: Stop docker compose
-              run: docker-compose down
+              run: |
+                cd ./docker
+                docker-compose down
             - name: Push the docker image
-              run: docker push ${{ secrets.DOCKERHUB_IMAGE }}
-            - name: Push the docker image
-              run: docker push ${{ secrets.DOCKERHUB_IMAGE }}
+              run: |
+                cd ./docker
+                docker push ${{ secrets.DOCKERHUB_IMAGE }}
