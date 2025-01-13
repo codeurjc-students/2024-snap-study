@@ -54,7 +54,7 @@ jobs:
               run: |
                 sleep 10
                 docker ps
-                curl -k http://localhost:8443
+                docker exec -it docker_web_1 curl -k https://localhost:8443
                 sleep 60
                 cd ./backend
                 mvn -Dtest=LogoutUiTest test
