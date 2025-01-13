@@ -52,7 +52,14 @@ jobs:
 
             ## Step 4: Test execution
             - name: Run tests
-              run: mvn clean test -Dtest=LoginUiTests.java
+              run: |
+                pwd
+                cd ./frontend
+                ng serve
+                cd ..
+                cd ./bakend
+                mvn spring-boot:run
+                mvn clean test -Dtest=LoginUiTests.java
 
             ## Step 5: End Image Execution and Push image to Docker Hub
             - name: Stop docker compose
