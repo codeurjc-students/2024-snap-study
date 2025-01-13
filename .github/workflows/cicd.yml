@@ -52,6 +52,7 @@ jobs:
             ## Step 4: Test execution
             - name: Run tests
               run: |
+                sleep 30
                 pwd
                 cd ./backend
                 mvn -Dtest=LogoutUiTest test
