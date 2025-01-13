@@ -18,7 +18,8 @@ jobs:
               with:
                 distribution: 'temurin'
                 java-version: '17'
-                
+            - uses: browser-actions/setup-chrome@latest
+            - run: chrome --version
             ## Step 2: Docker Login and Image Build
             - name: Login to docker
               run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_TOKEN }}"
