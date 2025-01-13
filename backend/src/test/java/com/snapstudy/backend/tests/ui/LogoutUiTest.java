@@ -32,6 +32,7 @@ public class LogoutUiTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--headless");
+        options.setAcceptInsecureCerts(true);
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
@@ -47,7 +48,7 @@ public class LogoutUiTest {
     public void testLogout() {
         // Perform login before testing
         loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", API_MAIN_URL);
-
+        
         driver.get(API_PROFILE_URL);
 
         WebElement logoutButton = driver.findElement(By.xpath("//a[contains(text(), 'Log out!')]"));
