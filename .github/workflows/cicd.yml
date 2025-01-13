@@ -52,6 +52,9 @@ jobs:
             ## Step 4: Test execution
             - name: Run tests
               run: |
+                sleep 10
+                docker ps
+                curl - k https://localhost:8443
                 curl -k https://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps --format "{{.Names}}" | head -n 1)):8443
                 sleep 60
                 pwd
