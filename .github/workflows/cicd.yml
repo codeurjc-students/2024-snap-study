@@ -52,7 +52,7 @@ jobs:
             - name: Run tests
               run: |
                 pwd
-                cd ./bakend
+                cd ./backend
                 mvn -f pom.xml test
 
             ## Step 5: End Image Execution and Push image to Docker Hub
