@@ -16,9 +16,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class LoginUiTest {
 
     private WebDriver driver;
-    private static String API_LOGIN_URL = "http://localhost:4200/login";
-    private static String API_MAIN_URL = "http://localhost:4200/";
-    private static String API_ERROR_URL = "http://localhost:4200/error";
+    private static String API_LOGIN_URL = "http://localhost:8443/login";
+    private static String API_MAIN_URL = "http://localhost:8443/";
+    private static String API_ERROR_URL = "http://localhost:8443/error";
 
     @BeforeAll
     public static void setupDriverManager() {
