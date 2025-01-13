@@ -143,6 +143,12 @@
             <version>31.1-jre</version> <!-- Asegúrate de usar una versión compatible -->
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 	</dependencies>
 
 	<build>
