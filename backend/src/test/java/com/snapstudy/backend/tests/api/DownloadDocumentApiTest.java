@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.snapstudy.backend.service.DegreeService;
 import com.snapstudy.backend.service.DocumentService;
 
 import static org.hamcrest.Matchers.*;
@@ -14,7 +14,9 @@ import static io.restassured.RestAssured.given;
 
 public class DownloadDocumentApiTest {
 
+    @Autowired
     private DocumentService documentService;
+    
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
     private static String API_URL = "https://localhost:8443/api/documents/download/{id}";

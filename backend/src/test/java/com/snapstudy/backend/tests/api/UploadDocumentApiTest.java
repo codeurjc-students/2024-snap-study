@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.service.DegreeService;
@@ -19,8 +20,11 @@ import static io.restassured.RestAssured.given;
 
 public class UploadDocumentApiTest {
 
+    @Autowired
     private SubjectService subjectService;
+    @Autowired
     private DegreeService degreeService;
+    
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
     private static String API_URL = "https://localhost:8443/api/documents/{degreeId}/{subjectId}";
