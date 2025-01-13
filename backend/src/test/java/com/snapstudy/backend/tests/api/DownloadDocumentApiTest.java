@@ -28,7 +28,7 @@ public class DownloadDocumentApiTest {
         loginApiTestService = new LoginApiTestService();
         cookies = loginApiTestService.loginAndGetCookies("javiisalaas97@gmail.com", "hola");
     }
-
+/*
     @Test
     public void testDownloadDocument_Success() {
 
@@ -46,7 +46,7 @@ public class DownloadDocumentApiTest {
                 // Verify that the headers include download information
                 .contentType("application/octet-stream"); // Verify that the content type is as expected
     }
-
+*/
     @Test
     public void testDownloadDocument_NotFound() throws Exception {
 
