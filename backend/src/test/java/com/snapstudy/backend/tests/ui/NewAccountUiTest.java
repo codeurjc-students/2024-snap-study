@@ -19,8 +19,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class NewAccountUiTest {
     private WebDriver driver;
-    private static String API_SIGNUP_URL = "http://localhost:4200/signup";
-    private static String API_LOGIN_URL = "http://localhost:4200/login";
+    private static String API_SIGNUP_URL = "http://localhost:8443/signup";
+    private static String API_LOGIN_URL = "http://localhost:8443/login";
 
     @BeforeAll
     public static void setupDriverManager() {
