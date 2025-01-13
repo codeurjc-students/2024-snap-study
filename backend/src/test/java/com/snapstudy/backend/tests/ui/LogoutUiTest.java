@@ -18,8 +18,8 @@ public class LogoutUiTest {
     private WebDriver driver;
     private WebDriverWait wait;
     private LoginUiTestService loginUiTestService;
-    private static String API_PROFILE_URL = "http://localhost:8443/profile";
-    private static String API_MAIN_URL = "http://localhost:8443/";
+    private static String API_PROFILE_URL = "https://localhost:8443/profile";
+    private static String API_MAIN_URL = "https://localhost:8443/";
 
     @BeforeAll
     public static void setupDriverManager() {
