@@ -29,6 +29,7 @@ public class LoginUiTest {
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
