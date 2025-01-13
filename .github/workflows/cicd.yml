@@ -36,8 +36,6 @@ jobs:
             - name: Replace values in docker-compose.yml
               run: |
                 cd ./docker
-                pwd
-                ls -la
                 sed -i 's/change_me_access/${{ secrets.AWS_S3_ACCESS_KEY }}/g' docker-compose.yml
                 sed -i 's/change_me_secret/${{ secrets.AWS_S3_SECRET_KEY }}/g' docker-compose.yml
 
@@ -54,12 +52,8 @@ jobs:
             - name: Run tests
               run: |
                 pwd
-                cd ./frontend
-                ng serve
-                cd ..
                 cd ./bakend
-                mvn spring-boot:run
-                mvn clean test -Dtest=LoginUiTests.java
+                mvn -f pom.xml test
 
             ## Step 5: End Image Execution and Push image to Docker Hub
             - name: Stop docker compose
