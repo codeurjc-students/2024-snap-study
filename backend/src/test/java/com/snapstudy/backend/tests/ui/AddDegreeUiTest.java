@@ -32,13 +32,8 @@ public class AddDegreeUiTest {
         loginUiTestService = new LoginUiTestService();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
         options.setAcceptInsecureCerts(true);
-        driver = WebDriverManager.chromedriver().capabilities(options).create();
-        
-        //driver = new ChromeDriver(options);
+        driver = new ChromeDriver(options);
     }
 
     @AfterEach

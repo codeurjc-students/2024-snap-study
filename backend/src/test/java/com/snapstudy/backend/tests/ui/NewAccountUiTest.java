@@ -32,6 +32,7 @@ public class NewAccountUiTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--headless");
+        options.setAcceptInsecureCerts(true);
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
