@@ -1,13 +1,11 @@
 #!/bin/bash
 
 MAX_WAIT_SECONDS=600
-elapsed_seconds=0
-HOST="localhost"
-PORT=8443
 
-# Espera a que la aplicación responda a un GET en el puerto 8443
-while ! curl --silent --fail https://$HOST:$PORT; do
-  printf "\n  => Waiting for application to start - IP: https://$HOST and PORT: '$PORT'\n"
+elapsed_seconds=0
+
+while ! nc -z localhost 8443; do
+  printf "\n  => Waiting for application to start - IP: https://localhost and PORT: '8443'"
   sleep 1s
   ((elapsed_seconds++))
 
@@ -16,5 +14,3 @@ while ! curl --silent --fail https://$HOST:$PORT; do
     exit 1
   fi
 done
-
-echo "\n  => Application started successfully at https://$HOST:$PORT"
