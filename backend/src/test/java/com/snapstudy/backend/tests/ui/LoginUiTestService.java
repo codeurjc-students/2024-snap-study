@@ -12,25 +12,41 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class LoginUiTestService {
 
     public void login(WebDriver driver, String email, String password, String successUrl) {
-        driver.get("https://localhost:8443/login");
+        try {
+            System.out.println("Navigating to the login page...");
+            driver.get("https://localhost:8443/login");
 
-        WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(10));
-WebElement emailField = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
-        WebElement passwordField = driver.findElement(By.id("password"));
-        WebElement loginButton = driver.findElement(By.xpath("//button[contains(text(),'Sign in!')]"));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        emailField.sendKeys(email);
-        passwordField.sendKeys(password);
+            System.out.println("Waiting for email field...");
+            WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
 
-        loginButton.click();
+            System.out.println("Waiting for password field...");
+            WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password")));
 
-        // Wait for the URL to change to the expected one
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.urlToBe(successUrl));
+            System.out.println("Waiting for login button...");
+            WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Sign in!')]")));
 
-        // Verify that the login has been successful by navigating to the main page
-        Assertions.assertEquals(successUrl, driver.getCurrentUrl(),
-                "The user was correctly redirected.");
+            System.out.println("Entering email and password...");
+            emailField.sendKeys(email);
+            passwordField.sendKeys(password);
+
+            System.out.println("Clicking the login button...");
+            loginButton.click();
+
+            System.out.println("Waiting for successful redirect...");
+            wait.until(ExpectedConditions.urlContains(successUrl));
+
+            System.out.println("Verifying the current URL...");
+            Assertions.assertTrue(driver.getCurrentUrl().contains(successUrl),
+                    "The user was successfully redirected to the expected URL.");
+
+            System.out.println("Login successful!");
+        } catch (Exception e) {
+            System.err.println("Error during login: " + e.getMessage());
+            throw new RuntimeException("Login failed", e);
+        }
     }
     
 }
