@@ -23,8 +23,6 @@ import static io.restassured.RestAssured.given;
 public class UploadDocumentApiTest {
 
     @Autowired
-    private SubjectService subjectService;
-    @Autowired
     private DegreeService degreeService;
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
