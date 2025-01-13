@@ -63,4 +63,4 @@ jobs:
             - name: Push the docker image
               run: |
                 cd ./docker
-                docker push ${{ secrets.DOCKERHUB_IMAGE }}
+                docker push "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}"
