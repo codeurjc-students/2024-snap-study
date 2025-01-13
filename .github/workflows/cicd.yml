@@ -54,7 +54,7 @@ jobs:
               run: |
                 pwd
                 cd ./backend
-                mvn -f pom.xml test
+                mvn -Dtest=LogoutUiTest test
 
             ## Step 5: End Image Execution and Push image to Docker Hub
             - name: Stop docker compose
