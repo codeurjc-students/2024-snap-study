@@ -20,7 +20,7 @@ public class AddDegreeUiTest {
 
     private WebDriver driver;
     private LoginUiTestService loginUiTestService;
-    private static String API_URL = "http://localhost:8443/admin";
+    private static String API_URL = "https://localhost:8443/admin";
 
     @BeforeAll
     public static void setupDriverManager() {
