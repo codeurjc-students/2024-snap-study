@@ -3,6 +3,7 @@ package com.snapstudy.backend.tests.ui;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.time.Duration;
+import java.util.Random;
 
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -31,6 +32,7 @@ public class AddDegreeUiTest {
         loginUiTestService = new LoginUiTestService();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
@@ -49,6 +51,10 @@ public class AddDegreeUiTest {
 
         driver.get(API_URL + "/add/1/null");
         Thread.sleep(1000);
+
+        Random random = new Random();
+        String randomNumber = String.valueOf(random.nextInt(100000) + 1);
+
         // Locate the form fields
         WebElement nameField = driver.findElement(By.xpath("//input[@placeholder='Name...']"));
         WebElement degreeTypeDropdown = driver
@@ -56,7 +62,7 @@ public class AddDegreeUiTest {
         WebElement createDegreeButton = driver.findElement(By.xpath("//button[contains(text(),'Create degree!')]"));
 
         // Fill in the fields
-        nameField.sendKeys("Agricultural Engineering");
+        nameField.sendKeys(randomNumber);
         Thread.sleep(1000);
         degreeTypeDropdown.click(); // Select the dropdown option
         createDegreeButton.click();

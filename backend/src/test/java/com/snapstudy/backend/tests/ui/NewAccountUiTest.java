@@ -1,6 +1,7 @@
 package com.snapstudy.backend.tests.ui;
 
 import java.time.Duration;
+import java.util.Random;
 
 import org.junit.jupiter.api.*;
 
@@ -30,6 +31,7 @@ public class NewAccountUiTest {
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
@@ -43,6 +45,10 @@ public class NewAccountUiTest {
 
     @Test
     public void testSignupSuccess() {
+        Random random = new Random();
+        String randomNumber = String.valueOf(random.nextInt(100000) + 1);
+        String email = randomNumber + "@gmail.com";
+
         driver.get(API_SIGNUP_URL);
 
         WebElement firstNameField = driver.findElement(By.xpath("//input[@placeholder='First Name...']"));
@@ -55,7 +61,7 @@ public class NewAccountUiTest {
         // Fill the fields with valid data
         firstNameField.sendKeys("Pablo");
         lastNameField.sendKeys("Motos");
-        emailField.sendKeys("pablomotos@gmail.com");
+        emailField.sendKeys(email);
         passwordField.sendKeys("MotoCross");
         confirmPasswordField.sendKeys("MotoCross");
 

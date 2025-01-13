@@ -2,6 +2,8 @@ package com.snapstudy.backend.tests.api;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Random;
+
 import org.apache.commons.io.FileUtils;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -27,11 +29,15 @@ public class UploadDocumentApiTest {
     @Test
     public void testSaveDocument_Success() throws Exception {
 
-        File testFile = new File("D:/DESCARGAS/Chuleta_SQL.pdf"); // Path
+        File testFile = new File("D:/DESCARGAS/Chuleta.pdf"); // Local path
 
+        Random random = new Random();
+        String randomNumber = String.valueOf(random.nextInt(1000) + 1);
+        String fileName = "TestDocument_" + randomNumber;
+        
         if (!testFile.exists()) {
             // Create a temporary file to simulate an image
-            testFile = File.createTempFile("Chuleta_SQL", ".pdf");
+            testFile = File.createTempFile(fileName, ".pdf");
             FileUtils.writeByteArrayToFile(testFile, new byte[] { 0, 1, 2, 3 }); // Mock content
         }
 
@@ -45,7 +51,7 @@ public class UploadDocumentApiTest {
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200) // Verify that the response is 200 OK
-                .body("name", equalTo("Chuleta_SQL"));
+                .body("name", startsWith(fileName));
         // Verify that the document's name is as expected
     }
 
