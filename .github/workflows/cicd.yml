@@ -52,7 +52,7 @@ jobs:
             ## Step 4: Test execution
             - name: Run tests
               run: |
-                docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps --format "{{.Names}}" | head -n 1)
+                curl -k https://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps --format "{{.Names}}" | head -n 1)):8443
                 sleep 60
                 pwd
                 cd ./backend
