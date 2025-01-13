@@ -33,6 +33,11 @@ jobs:
                 sudo chmod +x /usr/local/bin/docker-compose
                 docker-compose --version  # Verifica que docker-compose se haya instalado correctamente
 
+            - name: Replace values in docker-compose.yaml
+              run: |
+                sed -i 's/change_me_access/${{ secrets.AWS_S3_ACCESS_KEY }}/g' /docker/docker-compose.yaml
+                sed -i 's/change_me_secret/${{ secrets.AWS_S3_SECRET_KEY }}/g' /docker/docker-compose.yaml
+
             - name: Setup docker compose
               run: |
                 cd ./docker
