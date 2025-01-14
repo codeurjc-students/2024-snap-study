@@ -49,7 +49,7 @@ public class AddDegreeUiTest {
     @Test
     public void testAddDegreeSuccess() throws InterruptedException {
         Thread.sleep(1000);
-        loginUiTestService.login(driver, "admin@admin.com", "admin12345", API_URL); // Perform login
+        loginUiTestService.login(driver, "admin@admin.com", "admin12345admin", API_URL); // Perform login
                                                                                                      // before testing
 
         driver.get(API_URL + "/add/1/null");
@@ -81,7 +81,7 @@ public class AddDegreeUiTest {
     @Test
     public void testAddDegreeFailure() throws InterruptedException {
         Thread.sleep(1000);
-        loginUiTestService.login(driver, "admin@admin.com", "admin12345", API_URL); // Perform login
+        loginUiTestService.login(driver, "admin@admin.com", "admin12345admin", API_URL); // Perform login
                                                                                                      // before testing
 
         driver.get(API_URL + "/add/1/null");
