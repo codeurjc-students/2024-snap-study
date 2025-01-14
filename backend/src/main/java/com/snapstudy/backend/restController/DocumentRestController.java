@@ -81,7 +81,7 @@ public class DocumentRestController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-
+/*
     @Operation(summary = "Save document")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Document saved", content = {
@@ -132,7 +132,7 @@ public class DocumentRestController {
         }
 
         return new ResponseEntity<>(document, HttpStatus.OK); // Return the document
-    }
+    }*/
 
     private RepositoryDocument getRepository(Long degreeId, Long subjectId, String path) {
 
@@ -263,16 +263,19 @@ public class DocumentRestController {
 
     }
 
-    @Operation(summary = "Api Tests")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Types found", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }) })
-    @PostMapping("/tests")
+    @PostMapping("/{degreeName}/{subjectName}")
     public ResponseEntity<Void> apiTest(@RequestBody MultipartFile file, @PathVariable String degreeName,
             @PathVariable String subjectName) {
-
+                System.out.println("-----------------------------------------------------------");
+                System.out.println("-----------------------------------------------------------");
+                System.out.println(subjectName);
+                System.out.println(degreeName);
+                System.out.println("-----------------------------------------------------------");
+            System.out.println("-----------------------------------------------------------");
         Optional<Degree> degree = degreeService.findByName(degreeName);
         if (!degree.isPresent()) {
+            System.out.println("-----------------------------------------------------------1");
+            System.out.println("-----------------------------------------------------------1");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Long degreeId = degree.get().getId();
@@ -281,6 +284,12 @@ public class DocumentRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Long subjectId = subject.get().getId();
+
+        if (file == null || degreeId == null || subject == null) {
+            System.out.println("-----------------------------------------------------------2");
+            System.out.println("-----------------------------------------------------------2");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         ResponseEntity<Document> response = saveDocumentLogic(file, degreeId, subjectId);
         if (response.getStatusCode() == HttpStatus.OK) {
@@ -291,16 +300,10 @@ public class DocumentRestController {
     }
 
     public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Long degreeId, Long subjectId) {
+        
         Subject subject = subjectService.getSubjectById(subjectId);
 
-        if (file == null || degreeId == null || subject == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         Degree degree = degreeService.getDegreeById(degreeId);
-        if (degree == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
         RepositoryDocument repository = getRepository(degreeId, subjectId, path);

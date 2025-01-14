@@ -4,7 +4,6 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.hamcrest.Matchers.*;
 
 import static io.restassured.RestAssured.given;
 

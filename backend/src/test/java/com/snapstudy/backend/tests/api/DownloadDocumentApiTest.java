@@ -4,18 +4,11 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.snapstudy.backend.service.DocumentService;
-
-import static org.hamcrest.Matchers.*;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 
 public class DownloadDocumentApiTest {
-
-    @Autowired
-    private DocumentService documentService;
     
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
