@@ -272,7 +272,7 @@ public class DocumentRestController {
 
         Optional<Degree> degree = degreeService.findByName(degreeName);
         if (!degree.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
         }
         Long degreeId = degree.get().getId();
         Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
@@ -302,7 +302,7 @@ public class DocumentRestController {
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
         RepositoryDocument repository = getRepository(degreeId, subjectId, path);
         if (repository == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         String fileName = file.getOriginalFilename();
