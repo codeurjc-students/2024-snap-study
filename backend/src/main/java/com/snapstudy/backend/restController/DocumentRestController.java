@@ -271,23 +271,16 @@ public class DocumentRestController {
         degreeName = degreeName.replace("%20", " ");
         subjectName = subjectName.replace("%20", " ");
 
-        final Optional<Degree> degree = degreeService.findByName(degreeName);
+        Optional<Degree> degree = degreeService.findByName(degreeName);
         if (!degree.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        final Long degreeId = degree.get().getId();
-        final Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
+        Long degreeId = degree.get().getId();
+        Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
         if (!subject.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        final Long subjectId = subject.get().getId();
-        final Logger logger = Logger.getLogger(DocumentRestController.class.getName());
-        logger.info("----------------------------------------");
-        logger.info("----------------------------------------");
-        logger.info(subjectId.toString());
-        logger.info(degreeId.toString());
-        logger.info("----------------------------------------");
-        logger.info("----------------------------------------");
+        Long subjectId = subject.get().getId();
 
         if (file == null || degreeId == null || subject == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -302,15 +295,7 @@ public class DocumentRestController {
     }
 
     public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Degree degree, Subject subject) {
-
-        final Logger logger = Logger.getLogger(DocumentRestController.class.getName());
-        logger.info("----------------------------------------");
-        logger.info("----------------------------------------");
-        logger.info(subject.getId().toString());
-        logger.info(degree.getId().toString());
-        logger.info("----------------------------------------");
-        logger.info("----------------------------------------");
-
+        
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
         RepositoryDocument repository = getRepository(degree.getId(), subject.getId(), path);
         if (repository == null) {

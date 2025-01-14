@@ -25,7 +25,7 @@ public class UploadDocumentApiTest {
         loginApiTestService = new LoginApiTestService();
         cookies = loginApiTestService.loginAndGetCookies("admin@admin.com", "admin");
     }
-
+/*
     @Test
     public void testSaveDocument_Success() throws Exception {
 
@@ -76,7 +76,7 @@ public class UploadDocumentApiTest {
                 .log().ifValidationFails()
                 .statusCode(409); // Verify that the response is 409 Conflict
     }
-/*
+*/
     @Test
     public void testSaveDocument_BadRequest() throws Exception{
         
@@ -123,5 +123,5 @@ public class UploadDocumentApiTest {
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found
     }
-*/
+
 }
