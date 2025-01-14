@@ -272,7 +272,7 @@ public class DocumentRestController {
 
         Optional<Degree> degree = degreeService.findByName(degreeName);
         if (!degree.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Long degreeId = degree.get().getId();
         Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
@@ -285,7 +285,7 @@ public class DocumentRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        ResponseEntity<Document> response = saveDocumentLogic(file, degreeId, subjectId);
+        ResponseEntity<Document> response = saveDocumentLogic(file, degree.get(), subject.get());
         if (response.getStatusCode() == HttpStatus.OK) {
             return response;
         }
@@ -293,16 +293,12 @@ public class DocumentRestController {
         return new ResponseEntity<>(response.getStatusCode());
     }
 
-    public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Long degreeId, Long subjectId) {
-        
-        Subject subject = subjectService.getSubjectById(subjectId);
-
-        Degree degree = degreeService.getDegreeById(degreeId);
+    public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Degree degree, Subject subject) {
 
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
-        RepositoryDocument repository = getRepository(degreeId, subjectId, path);
+        RepositoryDocument repository = getRepository(degree.getId(), subject.getId(), path);
         if (repository == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         String fileName = file.getOriginalFilename();
