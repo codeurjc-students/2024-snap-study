@@ -23,7 +23,7 @@ public class UploadDocumentApiTest {
         // Configure RestAssured for SSL validation
         RestAssured.useRelaxedHTTPSValidation();
         loginApiTestService = new LoginApiTestService();
-        cookies = loginApiTestService.loginAndGetCookies("admin@admin.com", "admin");
+        cookies = loginApiTestService.loginAndGetCookies("admin@admin.com", "admin12345");
     }
 /*
     @Test
