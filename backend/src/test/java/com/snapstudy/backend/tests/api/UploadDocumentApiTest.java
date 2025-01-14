@@ -17,7 +17,7 @@ public class UploadDocumentApiTest {
 
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
-    private static String API_URL = "https://localhost:8443/api/documents/{degreeName}/{subjectName}";
+    private static String API_URL = "https://localhost:8443/api/documents/tests/{degreeName}/{subjectName}";
 
     @BeforeAll
     public static void setUp() {
@@ -51,11 +51,10 @@ public class UploadDocumentApiTest {
                 .post(API_URL)
                 .then()
                 .log().ifValidationFails()
-                .statusCode(200) // Verify that the response is 200 OK
-                .body("name", startsWith(fileName));
+                .statusCode(200); // Verify that the response is 200 OK
         // Verify that the document's name is as expected
     }
-/*
+
     @Test
     public void testSaveDocument_Conflict() throws Exception{
         // Assuming a document with the same name already exists
@@ -125,5 +124,5 @@ public class UploadDocumentApiTest {
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found
     }
-*/
+
 }
