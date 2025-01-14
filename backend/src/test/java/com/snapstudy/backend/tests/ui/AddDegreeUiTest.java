@@ -33,7 +33,6 @@ public class AddDegreeUiTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--headless");
-        options.addArguments("--ignore-certificate-errors");
         options.setAcceptInsecureCerts(true);
         driver = new ChromeDriver(options);
     }
@@ -47,6 +46,7 @@ public class AddDegreeUiTest {
 
     @Test
     public void testAddDegreeSuccess() throws InterruptedException {
+        Thread.sleep(1000);
         loginUiTestService.login(driver, "admin@admin.com", "admin", API_URL); // Perform login
                                                                                                      // before testing
 
@@ -78,6 +78,7 @@ public class AddDegreeUiTest {
 
     @Test
     public void testAddDegreeFailure() throws InterruptedException {
+        Thread.sleep(1000);
         loginUiTestService.login(driver, "admin@admin.com", "admin", API_URL); // Perform login
                                                                                                      // before testing
 
