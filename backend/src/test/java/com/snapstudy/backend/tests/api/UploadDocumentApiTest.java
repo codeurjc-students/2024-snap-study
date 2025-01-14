@@ -43,8 +43,8 @@ public class UploadDocumentApiTest {
 
         given()
                 .cookies(cookies)
-                .pathParam("degreeName", "Law") // Valid degree
-                .pathParam("subjectName", "Programming") // Valid subject
+                .pathParam("degreeName", "Software Engineering") // Valid degree
+                .pathParam("subjectName", "Math") // Valid subject
                 .multiPart("file", testFile) // File to upload
                 .when()
                 .post(API_URL)
