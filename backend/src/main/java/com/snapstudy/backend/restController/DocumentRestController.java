@@ -269,7 +269,7 @@ public class DocumentRestController {
 
         Optional<Degree> degree = degreeService.findByName(degreeName);
         if (!degree.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         Long degreeId = degree.get().getId();
         Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
