@@ -302,13 +302,6 @@ public class DocumentRestController {
 
     public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Degree degree, Subject subject) {
 
-        System.out.println("----------------------------------------");
-        System.out.println("----------------------------------------");
-        System.out.println(subject.getId());
-        System.out.println(degree.getId());
-        System.out.println("----------------------------------------");
-        System.out.println("----------------------------------------");
-
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
         RepositoryDocument repository = getRepository(degree.getId(), subject.getId(), path);
         if (repository == null) {
