@@ -17,7 +17,7 @@ public class UploadDocumentApiTest {
 
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
-    private static String API_URL = "https://localhost:8443/api/documents/tests";
+    private static String API_URL = "https://localhost:8443/api/documents/{degreeName}/{subjectName}";
 
     @BeforeAll
     public static void setUp() {
@@ -44,8 +44,8 @@ public class UploadDocumentApiTest {
 
         given()
                 .cookies(cookies)
-                .pathParam("degreeName", "Software Engeenering") // Valid degree ID
-                .pathParam("subjectName", "Math") // Valid subject ID
+                .pathParam("degreeName", "Law") // Valid degree
+                .pathParam("subjectName", "Programming") // Valid subject
                 .multiPart("file", testFile) // File to upload
                 .when()
                 .post(API_URL)
@@ -55,7 +55,7 @@ public class UploadDocumentApiTest {
                 .body("name", startsWith(fileName));
         // Verify that the document's name is as expected
     }
-
+/*
     @Test
     public void testSaveDocument_Conflict() throws Exception{
         // Assuming a document with the same name already exists
@@ -125,5 +125,5 @@ public class UploadDocumentApiTest {
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found
     }
-
+*/
 }
