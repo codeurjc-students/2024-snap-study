@@ -36,7 +36,7 @@ public class TestDataInitializer {
     @PostConstruct
     public void init() throws Exception {
         Student user1 = new Student("Javier", "Salas", "javiisalaas97@gmail.com", "hola");
-        Admin ad = new Admin("Administrador", "Admin", "admin@admin.com", "admin12345");
+        Admin ad = new Admin("Administrador", "Admin", "admin@admin.com", "admin12345admin");
         adminRepository.save(ad);
         studenRepository.save(user1);
 
