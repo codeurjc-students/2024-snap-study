@@ -281,6 +281,13 @@ public class DocumentRestController {
         }
         Long subjectId = subject.get().getId();
 
+        System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
+        System.out.println(subjectId);
+        System.out.println(degreeId);
+        System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
+
         if (file == null || degreeId == null || subject == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -294,6 +301,13 @@ public class DocumentRestController {
     }
 
     public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Degree degree, Subject subject) {
+
+        System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
+        System.out.println(subject.getId());
+        System.out.println(degree.getId());
+        System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
 
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
         RepositoryDocument repository = getRepository(degree.getId(), subject.getId(), path);

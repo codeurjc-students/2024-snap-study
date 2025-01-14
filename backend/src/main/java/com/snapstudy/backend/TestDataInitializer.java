@@ -95,10 +95,7 @@ public class TestDataInitializer {
         subjectRepository.save(s9);
 
         RepositoryDocument newRepo = new RepositoryDocument(d1.getId(), s1.getId());
-        RepositoryDocument newRepo2 = new RepositoryDocument(d2.getId(), s2.getId());
-        
         repodocumentRepository.save(newRepo);
-        repodocumentRepository.save(newRepo2);
 
         Document dt1 = new Document("Tema 1", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt2 = new Document("Tema 2", "Prueba", s1, newRepo.getId(), ".pdf");
