@@ -266,6 +266,9 @@ public class DocumentRestController {
     @PostMapping("/tests/{degreeName}/{subjectName}")
     public ResponseEntity<Document> apiTest(@RequestBody MultipartFile file, @PathVariable String degreeName,
             @PathVariable String subjectName) {
+        
+        degreeName = degreeName.replace("%20", " ");
+        subjectName = subjectName.replace("%20", " ");
 
         Optional<Degree> degree = degreeService.findByName(degreeName);
         if (!degree.isPresent()) {
