@@ -55,7 +55,7 @@ jobs:
               run: |
                 sleep 20
                 cd ./backend
-                mvn -Dtest=UploadDocumentApiTest test
+                mvn mvn -f pom.xml test
 
             ## Step 5: End Image Execution and Push image to Docker Hub
             - name: Stop docker compose
