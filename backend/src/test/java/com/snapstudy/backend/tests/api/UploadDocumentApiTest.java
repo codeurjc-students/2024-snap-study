@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.*;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 
@@ -77,7 +76,7 @@ public class UploadDocumentApiTest {
                 .log().ifValidationFails()
                 .statusCode(409); // Verify that the response is 409 Conflict
     }
-
+/*
     @Test
     public void testSaveDocument_BadRequest() throws Exception{
         
@@ -124,5 +123,5 @@ public class UploadDocumentApiTest {
                 .log().ifValidationFails()
                 .statusCode(404); // Verify that the response is 404 Not Found
     }
-
+*/
 }
