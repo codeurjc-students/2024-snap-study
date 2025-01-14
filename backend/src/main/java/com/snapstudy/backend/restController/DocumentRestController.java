@@ -3,6 +3,7 @@ package com.snapstudy.backend.restController;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -270,23 +271,23 @@ public class DocumentRestController {
         degreeName = degreeName.replace("%20", " ");
         subjectName = subjectName.replace("%20", " ");
 
-        Optional<Degree> degree = degreeService.findByName(degreeName);
+        final Optional<Degree> degree = degreeService.findByName(degreeName);
         if (!degree.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Long degreeId = degree.get().getId();
-        Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
+        final Long degreeId = degree.get().getId();
+        final Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
         if (!subject.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Long subjectId = subject.get().getId();
-
-        System.out.println("----------------------------------------");
-        System.out.println("----------------------------------------");
-        System.out.println(subjectId);
-        System.out.println(degreeId);
-        System.out.println("----------------------------------------");
-        System.out.println("----------------------------------------");
+        final Long subjectId = subject.get().getId();
+        final Logger logger = Logger.getLogger(DocumentRestController.class.getName());
+        logger.info("----------------------------------------");
+        logger.info("----------------------------------------");
+        logger.info(subjectId.toString());
+        logger.info(degreeId.toString());
+        logger.info("----------------------------------------");
+        logger.info("----------------------------------------");
 
         if (file == null || degreeId == null || subject == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -301,6 +302,14 @@ public class DocumentRestController {
     }
 
     public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Degree degree, Subject subject) {
+
+        final Logger logger = Logger.getLogger(DocumentRestController.class.getName());
+        logger.info("----------------------------------------");
+        logger.info("----------------------------------------");
+        logger.info(subject.getId().toString());
+        logger.info(degree.getId().toString());
+        logger.info("----------------------------------------");
+        logger.info("----------------------------------------");
 
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
         RepositoryDocument repository = getRepository(degree.getId(), subject.getId(), path);
