@@ -9,8 +9,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=DAWWebapp09+
       - JWT_SECRET=snapstudy
-      - AWS_S3_ACCESS_KEY_ID=change_me
-      - AWS_S3_SECRET_ACCESS_KEY=change_me
+      - AWS_S3_ACCESS_KEY_ID=change_me_access
+      - AWS_S3_SECRET_ACCESS_KEY=change_me_secret
     depends_on:
       - db
     restart: on-failure

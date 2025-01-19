@@ -1,0 +1,72 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - cicd
+  pull_request:
+    branches:
+      - main
+
+jobs:
+    publish:
+        runs-on:
+            ubuntu-latest
+        steps:
+            ## Step 1: Configuration
+            - uses: actions/checkout@v3
+            - uses: s4u/maven-settings-action@v2.8.0
+            - name: Set up JDK
+              uses: actions/setup-java@v3
+              with:
+                distribution: 'temurin'
+                java-version: '17'
+            - uses: browser-actions/setup-chrome@latest
+            - run: chrome --version
+            ## Step 2: Docker Login and Image Build
+            - name: Login to docker
+              run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_TOKEN }}"
+            - name: Build the docker image
+              run: docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}" -f docker/Dockerfile .
+
+            ## Step 3: Image Execution and Wait to Image Start
+            ## Step 3: Instalar Docker Compose
+            - name: Install docker-compose
+              run: |
+                sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                sudo chmod +x /usr/local/bin/docker-compose
+                docker-compose --version  # Verifica que docker-compose se haya instalado correctamente
+
+            - name: Replace values in docker-compose.yml
+              run: |
+                cd ./docker
+                sed -i 's/change_me_access/${{ secrets.AWS_S3_ACCESS_KEY }}/g' docker-compose.yml
+                sed -i 's/change_me_secret/${{ secrets.AWS_S3_SECRET_KEY }}/g' docker-compose.yml
+
+            - name: Setup docker compose
+              run: |
+                cd ./docker
+                docker-compose up -d
+            - name: Give permissions to wait containers start script
+              run: chmod +x waitContainers.sh
+            - name: Wait for containers to start
+              run: ./waitContainers.sh
+
+            ## Step 4: Test execution
+            - name: Run tests
+              run: |
+                sleep 20
+                cd ./backend
+                mvn -f pom.xml test
+
+            ## Step 5: End Image Execution and Push image to Docker Hub
+            - name: Stop docker compose
+              run: |
+                cd ./docker
+                docker-compose down
+            - name: Login to docker
+              run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_TOKEN }}"
+            - name: Push the docker image
+              run: |
+                cd ./docker
+                docker push "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}"

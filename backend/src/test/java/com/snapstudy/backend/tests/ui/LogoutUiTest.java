@@ -18,8 +18,8 @@ public class LogoutUiTest {
     private WebDriver driver;
     private WebDriverWait wait;
     private LoginUiTestService loginUiTestService;
-    private static String API_PROFILE_URL = "http://localhost:4200/profile";
-    private static String API_MAIN_URL = "http://localhost:4200/";
+    private static String API_PROFILE_URL = "https://localhost:8443/profile";
+    private static String API_MAIN_URL = "https://localhost:8443/";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -31,6 +31,9 @@ public class LogoutUiTest {
         loginUiTestService = new LoginUiTestService();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
+        options.addArguments("--ignore-certificate-errors");
+        options.setAcceptInsecureCerts(true);
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
@@ -46,7 +49,7 @@ public class LogoutUiTest {
     public void testLogout() {
         // Perform login before testing
         loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", API_MAIN_URL);
-
+        
         driver.get(API_PROFILE_URL);
 
         WebElement logoutButton = driver.findElement(By.xpath("//a[contains(text(), 'Log out!')]"));
