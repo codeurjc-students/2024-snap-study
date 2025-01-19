@@ -3,6 +3,7 @@ package com.snapstudy.backend.restController;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -127,7 +128,7 @@ public class DocumentRestController {
         path = path + "/" + file.getOriginalFilename();
         String upload = awsS3.addFile(path, file); // Upload the file to S3
 
-        if(upload == null){
+        if (upload == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -138,8 +139,8 @@ public class DocumentRestController {
 
         // Create the folder in S3 if it doesn't exist
         int creation = awsS3.createFolder(path);
-        if(creation == 2){
-            return null; //error creating folder path
+        if (creation == 2) {
+            return null; // error creating folder path
         }
 
         Optional<RepositoryDocument> repository = repositoryDocument.findByDegreeIdAndSubjectId(degreeId, subjectId);
@@ -261,6 +262,66 @@ public class DocumentRestController {
 
         return ResponseEntity.ok(doc);
 
+    }
+
+    @PostMapping("/tests/{degreeName}/{subjectName}")
+    public ResponseEntity<Document> apiTest(@RequestBody MultipartFile file, @PathVariable String degreeName,
+            @PathVariable String subjectName) {
+        
+        degreeName = degreeName.replace("%20", " ");
+        subjectName = subjectName.replace("%20", " ");
+
+        Optional<Degree> degree = degreeService.findByName(degreeName);
+        if (!degree.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Long degreeId = degree.get().getId();
+        Optional<Subject> subject = subjectService.findByNameAndDegree(subjectName, degree.get());
+        if (!subject.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Long subjectId = subject.get().getId();
+
+        if (file == null || degreeId == null || subject == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        ResponseEntity<Document> response = saveDocumentLogic(file, degree.get(), subject.get());
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response;
+        }
+
+        return new ResponseEntity<>(response.getStatusCode());
+    }
+
+    public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Degree degree, Subject subject) {
+        
+        String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
+        RepositoryDocument repository = getRepository(degree.getId(), subject.getId(), path);
+        if (repository == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String fileName = file.getOriginalFilename();
+        String ext = fileName.substring(fileName.lastIndexOf('.'));
+        fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+
+        Document docCheck = documentService.getDocumentByName(fileName);
+        if (docCheck != null) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        Document document = new Document(fileName, "", subject, repository.getId(), ext);
+        documentRepository.save(document);
+
+        path = path + "/" + file.getOriginalFilename();
+        String upload = awsS3.addFile(path, file);
+
+        if (upload == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(document, HttpStatus.OK);
     }
 
 }

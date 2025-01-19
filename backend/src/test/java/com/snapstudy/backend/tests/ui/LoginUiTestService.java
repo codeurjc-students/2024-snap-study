@@ -12,9 +12,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class LoginUiTestService {
 
     public void login(WebDriver driver, String email, String password, String successUrl) {
-        driver.get("http://localhost:4200/login");
+        driver.get("https://localhost:8443/login");
 
-        WebElement emailField = driver.findElement(By.id("email"));
+        WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement emailField = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
         WebElement passwordField = driver.findElement(By.id("password"));
         WebElement loginButton = driver.findElement(By.xpath("//button[contains(text(),'Sign in!')]"));
 

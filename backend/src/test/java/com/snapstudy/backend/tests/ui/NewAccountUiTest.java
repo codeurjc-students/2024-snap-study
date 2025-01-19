@@ -1,6 +1,7 @@
 package com.snapstudy.backend.tests.ui;
 
 import java.time.Duration;
+import java.util.Random;
 
 import org.junit.jupiter.api.*;
 
@@ -18,8 +19,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class NewAccountUiTest {
     private WebDriver driver;
-    private static String API_SIGNUP_URL = "http://localhost:4200/signup";
-    private static String API_LOGIN_URL = "http://localhost:4200/login";
+    private static String API_SIGNUP_URL = "https://localhost:8443/signup";
+    private static String API_LOGIN_URL = "https://localhost:8443/login";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -30,6 +31,8 @@ public class NewAccountUiTest {
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
+        options.setAcceptInsecureCerts(true);
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
@@ -43,6 +46,10 @@ public class NewAccountUiTest {
 
     @Test
     public void testSignupSuccess() {
+        Random random = new Random();
+        String randomNumber = String.valueOf(random.nextInt(100000) + 1);
+        String email = randomNumber + "@gmail.com";
+
         driver.get(API_SIGNUP_URL);
 
         WebElement firstNameField = driver.findElement(By.xpath("//input[@placeholder='First Name...']"));
@@ -55,7 +62,7 @@ public class NewAccountUiTest {
         // Fill the fields with valid data
         firstNameField.sendKeys("Pablo");
         lastNameField.sendKeys("Motos");
-        emailField.sendKeys("pablomotos@gmail.com");
+        emailField.sendKeys(email);
         passwordField.sendKeys("MotoCross");
         confirmPasswordField.sendKeys("MotoCross");
 

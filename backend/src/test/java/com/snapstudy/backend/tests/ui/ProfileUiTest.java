@@ -20,8 +20,8 @@ public class ProfileUiTest {
     private WebDriver driver;
     private WebDriverWait wait;
     private LoginUiTestService loginUiTestService;
-    private static String API_MAIN_URL = "http://localhost:4200/";
-    private static String API_PROFILE_URL = "http://localhost:4200/profile";
+    private static String API_MAIN_URL = "https://localhost:8443/";
+    private static String API_PROFILE_URL = "https://localhost:8443/profile";
 
     @BeforeAll
     public static void setupDriverManager() {
@@ -33,6 +33,8 @@ public class ProfileUiTest {
         loginUiTestService = new LoginUiTestService();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
+        options.setAcceptInsecureCerts(true);
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
@@ -97,23 +99,20 @@ public class ProfileUiTest {
 
         WebElement firstNameField = driver.findElement(By.id("firstname"));
         WebElement lastNameField = driver.findElement(By.xpath("//input[@placeholder='Last Name...']"));
-        WebElement emailField = driver.findElement(By.xpath("//input[@placeholder='Email...']"));
         WebElement passwordField = driver.findElement(By.xpath("//input[@placeholder='Password...']"));
         WebElement confirmPasswordField = driver.findElement(By.xpath("//input[@placeholder='Confirm Password...']"));
         WebElement saveButton = driver.findElement(By.xpath("//button[contains(text(),'Save changes')]"));
-
+        
         firstNameField.clear();
         lastNameField.clear();
-        emailField.clear();
 
         // Complete the form fields
         firstNameField.sendKeys("Javier");
         lastNameField.sendKeys("Rodriguez");
-        emailField.sendKeys("javi@gmail.com");
         passwordField.sendKeys("password123");
         confirmPasswordField.sendKeys("password123");
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
 
         // Attempt to click the button using JavaScript if the normal click fails

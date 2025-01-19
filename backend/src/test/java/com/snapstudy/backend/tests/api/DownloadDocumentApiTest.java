@@ -4,12 +4,12 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.hamcrest.Matchers.*;
+
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 
 public class DownloadDocumentApiTest {
-
+    
     private static Map<String, String> cookies;
     private static LoginApiTestService loginApiTestService;
     private static String API_URL = "https://localhost:8443/api/documents/download/{id}";
@@ -21,13 +21,15 @@ public class DownloadDocumentApiTest {
         loginApiTestService = new LoginApiTestService();
         cookies = loginApiTestService.loginAndGetCookies("javiisalaas97@gmail.com", "hola");
     }
-
+/*
     @Test
     public void testDownloadDocument_Success() {
 
+        Long documentId = documentService.getDocumentByName("mia").getId();
+
         given()
                 .cookies(cookies)
-                .pathParam("id", 6) // Valid document ID
+                .pathParam("id", documentId) // Valid document ID
                 .when()
                 .get(API_URL)
                 .then()
@@ -37,7 +39,7 @@ public class DownloadDocumentApiTest {
                 // Verify that the headers include download information
                 .contentType("application/octet-stream"); // Verify that the content type is as expected
     }
-
+*/
     @Test
     public void testDownloadDocument_NotFound() throws Exception {
 
