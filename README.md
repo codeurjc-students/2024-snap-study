@@ -243,4 +243,10 @@ Podemos conocer la IP de nuestro contenedor docker así
 ```
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-minio-1
 ```
-7. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)
+
+7. Además debemos modificar el valor de la variable useMinIO de S3Service.java a true:
+```
+private static final boolean useMinIO = true;
+```
+
+8. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)
