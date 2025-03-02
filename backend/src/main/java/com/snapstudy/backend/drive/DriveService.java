@@ -1,7 +1,9 @@
 package com.snapstudy.backend.drive;
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.http.AbstractInputStreamContent;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.InputStreamContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
@@ -14,6 +16,7 @@ import com.google.auth.http.HttpCredentialsAdapter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -91,9 +94,55 @@ public class DriveService {
         }
     }
 
-    public void UploadFileInFolder(/* Stream file, String filename, */ String folder) throws IOException {
+    public static void uploadFileToGoogleDrive(String folderID, InputStream fileStream, String fileName) {
+        try {
+            Drive service = getDriveService();
+
+            if (fileExists(service, folderID, fileName)) {
+                System.out.println(
+                        "File '" + fileName + "' already exists in folder with ID: " + folderID + ". Skipping upload.");
+                return;
+            }
+
+            File fileMetadata = new File();
+            fileMetadata.setName(fileName);
+            fileMetadata.setParents(Collections.singletonList(folderID));
+
+            if (fileStream == null) {
+                System.out.println("El InputStream es nulo.");
+                return;
+            }
+
+            AbstractInputStreamContent mediaContent = new InputStreamContent("application/octet-stream", fileStream);
+
+            Drive.Files.Create request = service.files().create(fileMetadata, mediaContent);
+            request.setFields("id");
+            File uploadedFile = request.execute();
+
+            if (uploadedFile != null) {
+                System.out.println("File '" + fileMetadata.getName() + "' uploaded with ID: " + uploadedFile.getId());
+            } else {
+                System.out.println("File upload failed with no response body.");
+            }
+        } catch (Exception ex) {
+            System.out.println("Error during file upload: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private static boolean fileExists(Drive service, String folderID, String fileName) {
+        try {
+            String query = "name='" + fileName + "' and '" + folderID + "' in parents and trashed=false";
+            return !service.files().list().setQ(query).setFields("files(id)").execute().getFiles().isEmpty();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void UploadFileInFolder(InputStream file, String filename, String folder) throws IOException {
         String newFolder = createFolder(folder, folderID);
-        // uploadFileToGoogleDrive(newFolder, file, filename);
+        uploadFileToGoogleDrive(newFolder, file, filename);
     }
 
 }

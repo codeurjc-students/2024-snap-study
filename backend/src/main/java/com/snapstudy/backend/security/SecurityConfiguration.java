@@ -84,6 +84,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/subjects/*/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/degrees/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/documents/download/*").hasAnyRole("ADMIN", "STUDENT")
+                        .requestMatchers(HttpMethod.GET, "/api/documents/downloadGD/*").hasAnyRole("ADMIN", "STUDENT")
                         .requestMatchers(HttpMethod.GET, "/api/search").permitAll()
                         .anyRequest().permitAll()
 
