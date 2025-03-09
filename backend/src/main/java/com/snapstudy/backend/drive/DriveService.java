@@ -35,7 +35,7 @@ public class DriveService {
 
     private static final Object lockObject = new Object();
     private static final String APPLICATION_NAME = "Google Drive Upload Console App";
-    private static final String CREDENTIALS_FILE_PATH = "../credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "./credentials.json";
     private static final String folderID = "1CMnbMWN9vg4f25GyFCFHXVDBIVwQQWUl";
 
     public static Drive getDriveService() throws IOException {
