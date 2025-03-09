@@ -36,7 +36,7 @@ public class DriveService {
     private static final Object lockObject = new Object();
     private static final String APPLICATION_NAME = "Google Drive Upload Console App";
     private static final String CREDENTIALS_FILE_PATH = "./credentials.json";
-    private static final String folderID = "1CMnbMWN9vg4f25GyFCFHXVDBIVwQQWUl";
+    private static final String folderID = System.getenv("GOOGLE_DRIVE_FOLDER");
 
     public static Drive getDriveService() throws IOException {
         HttpTransport httpTransport = new NetHttpTransport();
@@ -184,7 +184,7 @@ public class DriveService {
     }
 
     public static void sendmail(String email, String folderId) throws IOException {
-        final String user = "snapstudy.drive@gmail.com";
+        final String user = System.getenv("APPLICATION_MAIL");
         final String password = System.getenv("APPLICATION_PASS_MAIL");
 
         String host = "smtp.gmail.com";
