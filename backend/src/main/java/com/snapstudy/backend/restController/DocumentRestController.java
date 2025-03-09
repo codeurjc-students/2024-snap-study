@@ -3,7 +3,6 @@ package com.snapstudy.backend.restController;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -24,22 +23,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.snapstudy.backend.drive.DriveService;
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
+import com.snapstudy.backend.model.User;
 import com.snapstudy.backend.repository.DocumentRepository;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.s3.S3Service;
 import com.snapstudy.backend.service.DegreeService;
 import com.snapstudy.backend.service.DocumentService;
 import com.snapstudy.backend.service.SubjectService;
+import com.snapstudy.backend.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/documents")
@@ -57,6 +60,10 @@ public class DocumentRestController {
     private S3Service awsS3;
     @Autowired
     private DegreeService degreeService;
+    @Autowired
+    private DriveService driveService;
+    @Autowired
+    private UserService userService;
 
     @Operation(summary = "Get a page of documents")
     @ApiResponses(value = {
@@ -267,7 +274,7 @@ public class DocumentRestController {
     @PostMapping("/tests/{degreeName}/{subjectName}")
     public ResponseEntity<Document> apiTest(@RequestBody MultipartFile file, @PathVariable String degreeName,
             @PathVariable String subjectName) {
-        
+
         degreeName = degreeName.replace("%20", " ");
         subjectName = subjectName.replace("%20", " ");
 
@@ -295,7 +302,7 @@ public class DocumentRestController {
     }
 
     public ResponseEntity<Document> saveDocumentLogic(MultipartFile file, Degree degree, Subject subject) {
-        
+
         String path = "RepositoryDocuments/" + degree.getName() + "/" + subject.getName();
         RepositoryDocument repository = getRepository(degree.getId(), subject.getId(), path);
         if (repository == null) {
@@ -322,6 +329,60 @@ public class DocumentRestController {
         }
 
         return new ResponseEntity<>(document, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Download document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Document found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Document.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Document not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "S3 error", content = @Content), })
+    @GetMapping("/downloadGD/{id}")
+    public ResponseEntity<?> downloadDocumentGD(@PathVariable Long id, HttpServletRequest request) {
+        try {
+
+            Optional<User> currentUser = userService.getByEmail(request.getUserPrincipal().getName());
+            if (currentUser.isPresent()) {
+                Document doc = documentService.getDocumentById(id);
+
+                if (doc == null) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+
+                Subject sub = doc.getSubject();
+                Degree deg = sub.getDegree();
+                if (deg == null || sub == null) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+
+                String path = "RepositoryDocuments/" + deg.getName() + "/" + sub.getName();
+                String docName = doc.getName() + doc.getExtension();
+                Map<String, InputStream> downloadedFile = awsS3.downloadFile(path, docName);
+
+                if (downloadedFile != null && !downloadedFile.isEmpty()) {
+                    InputStream inputStream = downloadedFile.get(docName);
+
+                    if (inputStream == null) {
+                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+
+                    // Download in Drive
+                    User user = currentUser.get();
+                    String pathGD = user.getFirstName() + " " + user.getLastName() + " -- " + user.getId().toString() + "/" + deg.getName() + "/" + sub.getName();
+                    driveService.UploadFileInFolder(user.getEmail(), inputStream, docName, pathGD);
+
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
