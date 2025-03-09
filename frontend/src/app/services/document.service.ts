@@ -34,4 +34,8 @@ export class DocumentService {
     getDocument(id: number): Observable<Document> {
         return this.http.get<Document>(BASE_URL, { params: { id: id.toString() } });
     }
+
+    downloadDocumentGD(id: number): Observable<any> {
+        return this.http.get(BASE_URL + "downloadGD/" + id) as Observable<any>
+    }
 }
