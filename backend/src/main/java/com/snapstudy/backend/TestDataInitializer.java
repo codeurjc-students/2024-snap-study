@@ -36,9 +36,11 @@ public class TestDataInitializer {
     @PostConstruct
     public void init() throws Exception {
         Student user1 = new Student("Javier", "Salas", "javiisalaas97@gmail.com", "hola");
+        Student user2 = new Student("Sandra", "García", "sandra.garcia2093@gmail.com", "hola");
         Admin ad = new Admin("Administrador", "Admin", "admin@admin.com", "admin12345admin");
         adminRepository.save(ad);
         studenRepository.save(user1);
+        studenRepository.save(user2);
 
         Degree d1 = new Degree("Software Engineering", "Engineering and Architecture");
         Degree d2 = new Degree("Law", "Social Sciences and Law");
@@ -96,12 +98,14 @@ public class TestDataInitializer {
 
         RepositoryDocument newRepo = new RepositoryDocument(d1.getId(), s1.getId());
         repodocumentRepository.save(newRepo);
+        RepositoryDocument newRepo2 = new RepositoryDocument(d1.getId(), s5.getId());
+        repodocumentRepository.save(newRepo2);
 
         Document dt1 = new Document("Tema 1", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt2 = new Document("Tema 2", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt3 = new Document("Tema 3", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt4 = new Document("Tema 4", "Prueba", s1, newRepo.getId(), ".pdf");
-        Document dt5 = new Document("Tema 5", "Prueba", s1, newRepo.getId(), ".pdf");
+        Document dt5 = new Document("AWS_certification_paths", "Prueba", s5, newRepo2.getId(), ".pdf");
         Document dt6 = new Document("cubo", "Prueba", s1, newRepo.getId(), ".pdf");
         Document dt7 = new Document("mia", "Prueba", s1, newRepo.getId(), ".jpg");
         Document dt8 = new Document("PracticaColasPilas", "Prueba", s1, newRepo.getId(), ".pas");
