@@ -11,6 +11,9 @@ services:
       - JWT_SECRET=snapstudy
       - AWS_S3_ACCESS_KEY_ID=change_me_access
       - AWS_S3_SECRET_ACCESS_KEY=change_me_secret
+      - GOOGLE_DRIVE_FOLDER=change_me
+      - APPLICATION_MAIL=change_me
+      - APPLICATION_PASS_MAIL=change_me
     depends_on:
       - db
     restart: on-failure
