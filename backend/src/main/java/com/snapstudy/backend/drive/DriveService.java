@@ -35,8 +35,9 @@ public class DriveService {
 
     private static final Object lockObject = new Object();
     private static final String APPLICATION_NAME = "Google Drive Upload Console App";
-    private static final String CREDENTIALS_FILE_PATH = "./credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = System.getenv("CREDENTIALS_FILE_PATH");
     private static final String folderID = System.getenv("GOOGLE_DRIVE_FOLDER");
+    private static final String MAIL_TEMPLATE_PATH = System.getenv("MAIL_TEMPLATE_PATH");
 
     public static Drive getDriveService() throws IOException {
         HttpTransport httpTransport = new NetHttpTransport();
@@ -60,7 +61,7 @@ public class DriveService {
 
             try {
                 // Intentar obtener la carpeta
-                Drive.Files.Get getRequest = service.files().get("1CMnbMWN9vg4f25GyFCFHXVDBIVwQQWUl");
+                Drive.Files.Get getRequest = service.files().get(folderID);
                 File folder = getRequest.execute();
                 System.out.println("Folder found: " + folder.getName());
             } catch (GoogleJsonResponseException e) {
@@ -204,7 +205,7 @@ public class DriveService {
         });
 
         try {
-            String htmlBody = new String(Files.readAllBytes(Paths.get("../backend/emailTemplate.html")));
+            String htmlBody = new String(Files.readAllBytes(Paths.get(MAIL_TEMPLATE_PATH)));
 
             // Reemplazar el marcador {{folderId}} con el valor real
             htmlBody = htmlBody.replace("{{folderId}}", folderId);

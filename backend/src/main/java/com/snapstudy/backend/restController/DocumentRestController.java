@@ -287,7 +287,6 @@ public class DocumentRestController {
         if (!subject.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Long subjectId = subject.get().getId();
 
         if (file == null || degreeId == null || subject == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
