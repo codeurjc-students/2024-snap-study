@@ -75,13 +75,11 @@ export class DocumentListComponent {
     downloadSelected() {
         this.popUpService.openPopUpDownloadDrive().then(option => {
             if (option === 0) {
-                console.log('El usuario eligió Descargar');
                 this.getSelectedDocuments()
             } else if (option === 1) {
-                console.log('El usuario eligió Google Drive');
                 this.downloadInGoogleDrive()
             } else {
-                console.log('El usuario cerró el popup sin elegir');
+                console.log('Exit');
             }
         });
     }
@@ -97,17 +95,15 @@ export class DocumentListComponent {
                                 { console.log('DONE') }
                             },
                             error: (err: HttpErrorResponse) => {
-                                console.error(`Error al descargar el documento con ID ${id}:`, err);
+                                console.error(`Error downloading the document with ID ${id}:`, err);
                                 alert('It has not been possible to obtain the document ' + doc.name)
                             }
                         });
                     } else {
-                        console.warn(`El documento con ID ${id} no es válido.`);
                         alert('It has not been possible to obtain the document')
                     }
                 },
                 (error) => {
-                    console.error(`Error al obtener el documento con ID ${id}:`, error);
                     alert('It has not been possible to obtain the document')
                 }
             );
@@ -134,17 +130,14 @@ export class DocumentListComponent {
                                 window.URL.revokeObjectURL(url); // Release the temporary URL
                             },
                             (error) => {
-                                console.error(`Error al descargar el documento con ID ${id}:`, error);
                                 alert('It has not been possible to obtain the document ' + doc.name)
                             }
                         );
                     } else {
-                        console.warn(`El documento con ID ${id} no es válido.`);
                         alert('It has not been possible to obtain the document')
                     }
                 },
                 (error) => {
-                    console.error(`Error al obtener el documento con ID ${id}:`, error);
                     alert('It has not been possible to obtain the document')
                 }
             );

@@ -368,7 +368,9 @@ public class DocumentRestController {
 
                     // Download in Drive
                     User user = currentUser.get();
-                    String pathGD = user.getFirstName() + " " + user.getLastName() + " -- " + user.getId().toString() + "/" + deg.getName() + "/" + sub.getName();
+                    String pathGD = user.getFirstName() + " " + user.getLastName() + " - " + user.getId().toString()
+                            + "/" + deg.getName() + "/" + sub.getName(); // ID - If 2 users have the same name
+                            
                     driveService.UploadFileInFolder(user.getEmail(), inputStream, docName, pathGD);
 
                     return new ResponseEntity<>(HttpStatus.OK);

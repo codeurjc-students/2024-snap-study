@@ -20,6 +20,6 @@ export class PopUpDownloadDriveComponent {
 
     
     selectOption(option: number) {
-        this.dialogRef.close(option); // Cierra el popup y devuelve la opción seleccionada
+        this.dialogRef.close(option);
     }
 }

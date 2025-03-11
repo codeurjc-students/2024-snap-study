@@ -68,7 +68,7 @@ export class PopUpService {
             panelClass: 'custom-dialog-container',
         }).afterClosed().toPromise().then((result) => {
             this.popupState.next(false);
-            return result ?? -1; // Si el usuario cierra sin seleccionar nada, devuelve -1
+            return result ?? -1; // If the user closes without selecting anything, return -1
         });
     }
 }
