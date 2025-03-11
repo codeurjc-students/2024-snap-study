@@ -29,7 +29,7 @@ jobs:
             - name: Build the docker image
               run: |
                 ls
-                echo ${{ secrets.CREDENTIALS_JSON }} > backend/credentials.json
+                printf "%s" "${{ secrets.CREDENTIALS_JSON }}" > backend/credentials.json
                 docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}" -f docker/Dockerfile .
 
             ## Step 3: Image Execution and Wait to Image Start
