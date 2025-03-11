@@ -40,8 +40,13 @@ jobs:
             - name: Replace values in docker-compose.yml
               run: |
                 cd ./docker
-                sed -i 's/change_me_access/${{ secrets.AWS_S3_ACCESS_KEY }}/g' docker-compose.yml
-                sed -i 's/change_me_secret/${{ secrets.AWS_S3_SECRET_KEY }}/g' docker-compose.yml
+                sed -i 's/change_me/${{ secrets.AWS_S3_ACCESS_KEY_ID }}/g' docker-compose.yml
+                sed -i 's/change_me/${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}/g' docker-compose.yml
+                sed -i 's/change_me/${{ secrets.GOOGLE_DRIVE_FOLDER }}/g' docker-compose.yml
+                sed -i 's/change_me/${{ secrets.APPLICATION_MAIL }}/g' docker-compose.yml
+                sed -i 's/change_me/${{ secrets.APPLICATION_PASS_MAIL }}/g' docker-compose.yml
+                sed -i 's/change_me/${{ secrets.MAIL_TEMPLATE_PATH }}/g' docker-compose.yml
+                sed -i 's/change_me/${{ secrets.CREDENTIALS_FILE_PATH }}/g' docker-compose.yml
 
             - name: Setup docker compose
               run: |
