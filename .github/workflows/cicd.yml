@@ -47,6 +47,7 @@ jobs:
                 sed -i 's/change_me/${{ secrets.APPLICATION_PASS_MAIL }}/g' docker-compose.yml
                 sed -i 's/change_me/${{ secrets.MAIL_TEMPLATE_PATH }}/g' docker-compose.yml
                 sed -i 's/change_me/${{ secrets.CREDENTIALS_FILE_PATH }}/g' docker-compose.yml
+                echo ${{ secrets.CREDENTIALS_JSON }} > backend/credentials.json
 
             - name: Setup docker compose
               run: |
