@@ -71,7 +71,7 @@ jobs:
             ## Step 4: Test execution
             - name: Run tests
               run: |
-                sleep 20
+                sleep 30
                 cd ./backend
                 mvn -f pom.xml test
 
