@@ -36,6 +36,10 @@ RUN mvn clean verify --fail-never
 # Copia el código del proyecto
 COPY backend/src /project/src
 
+# Copia el archivo credentials.json y emailTemplate.html dentro del volumen montado
+COPY backend/credentials.json /project/config/
+COPY backend/emailTemplate.html /project/email/
+
 COPY --from=angular /angular/dist/frontend/browser/ /project/src/main/resources/static/
 
 RUN mvn clean package -o -DskipTests=true
@@ -47,6 +51,10 @@ FROM maven:3.9.6-eclipse-temurin-17
 WORKDIR /usr/src/app
 
 COPY --from=backends /project/target/*.jar /usr/src/app
+
+# Copia el archivo de credenciales y emailTemplate desde la imagen de construcción al volumen
+COPY --from=backends /project/config/credentials.json /usr/src/app/config/
+COPY --from=backends /project/email/emailTemplate.html /usr/src/app/email/
 
 EXPOSE 8443
 

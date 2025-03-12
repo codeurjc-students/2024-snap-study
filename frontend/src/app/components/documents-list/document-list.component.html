@@ -36,7 +36,7 @@
                 <div class="col-auto"><button *ngIf="showLoadMoreButton()" class="btn btn-dark"
                         [class.display-div]="!moredocuments" (click)="getMoredocuments()">Load More</button></div>
                 <div class="col-auto"><button *ngIf="authService.isLogged()" class="btn btn-dark"
-                        (click)="getSelectedDocuments()">Get Documents</button></div>
+                        (click)="downloadSelected()">Get Documents</button></div>
             </div>
         </ul>
     </div>

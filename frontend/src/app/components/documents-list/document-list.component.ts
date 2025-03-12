@@ -5,6 +5,8 @@ import { SubjectService } from '../../services/subject.service';
 import { DocumentService } from '../../services/document.service';
 import { Document } from '../../models/document.model';
 import { AuthService } from '../../services/auth.service';
+import { PopUpService } from '../../services/popup.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-main',
@@ -22,7 +24,7 @@ export class DocumentListComponent {
     isPdf: boolean = false;
     isImage: boolean = false;
 
-    constructor(private renderer: Renderer2, public authService: AuthService, private documentService: DocumentService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router) {
+    constructor(private renderer: Renderer2, public authService: AuthService, private documentService: DocumentService, private subjectService: SubjectService, private route: ActivatedRoute, private router: Router, private popUpService: PopUpService) {
         this.documents = [];
         this.id = "";
     }
@@ -70,6 +72,44 @@ export class DocumentListComponent {
         }
     }
 
+    downloadSelected() {
+        this.popUpService.openPopUpDownloadDrive().then(option => {
+            if (option === 0) {
+                this.getSelectedDocuments()
+            } else if (option === 1) {
+                this.downloadInGoogleDrive()
+            } else {
+                console.log('Exit');
+            }
+        });
+    }
+
+    downloadInGoogleDrive() {
+        for (const id of this.selectedDocumentIds) {
+            this.documentService.getDocument(id).subscribe(
+                (doc: Document) => {
+                    if (doc) {
+                        // If the document is valid, proceed with the download
+                        this.documentService.downloadDocumentGD(id).subscribe({
+                            next: _ => {
+                                { console.log('DONE') }
+                            },
+                            error: (err: HttpErrorResponse) => {
+                                console.error(`Error downloading the document with ID ${id}:`, err);
+                                alert('It has not been possible to obtain the document ' + doc.name)
+                            }
+                        });
+                    } else {
+                        alert('It has not been possible to obtain the document')
+                    }
+                },
+                (error) => {
+                    alert('It has not been possible to obtain the document')
+                }
+            );
+        }
+    }
+
     // WILL DOWNLOAD OR EXPORT THE DOCUMENTS BASED ON THE SELECTED IDS
     getSelectedDocuments() {
         for (const id of this.selectedDocumentIds) {
@@ -90,17 +130,14 @@ export class DocumentListComponent {
                                 window.URL.revokeObjectURL(url); // Release the temporary URL
                             },
                             (error) => {
-                                console.error(`Error al descargar el documento con ID ${id}:`, error);
                                 alert('It has not been possible to obtain the document ' + doc.name)
                             }
                         );
                     } else {
-                        console.warn(`El documento con ID ${id} no es válido.`);
                         alert('It has not been possible to obtain the document')
                     }
                 },
                 (error) => {
-                    console.error(`Error al obtener el documento con ID ${id}:`, error);
                     alert('It has not been possible to obtain the document')
                 }
             );

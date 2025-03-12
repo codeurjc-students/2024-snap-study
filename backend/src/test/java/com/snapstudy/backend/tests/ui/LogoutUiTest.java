@@ -48,7 +48,7 @@ public class LogoutUiTest {
     @Test
     public void testLogout() {
         // Perform login before testing
-        loginUiTestService.login(driver, "javiisalaas97@gmail.com", "hola", API_MAIN_URL);
+        loginUiTestService.login(driver, "sandra.garcia2093@gmail.com", "hola", API_MAIN_URL);
         
         driver.get(API_PROFILE_URL);
 

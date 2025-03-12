@@ -1,0 +1,15 @@
+<div class="overlay"></div>
+<div class="popup">
+    <div>
+        <h1 class="image-banner">SELECT AN OPTION</h1>
+        <br />
+        <div class="px-4 text-center">        
+            <p><b class="dark-bold">If you select Google Drive, a folder will be created with the selected files and access will be granted. Otherwise, the resources will be downloaded.</b></p>
+        </div>
+    </div>
+    <div class="action-buttons">
+        <button mat-button [mat-dialog-close]="true" (click)="selectOption(0)" class="btn btn-dark">Descargar</button>
+        <button mat-button [mat-dialog-close]="true" (click)="selectOption(1)" class="btn btn-dark">Google Drive</button>
+        <button mat-button [mat-dialog-close]="true" class="btn btn-dark">Cancel</button>
+    </div>
+</div>

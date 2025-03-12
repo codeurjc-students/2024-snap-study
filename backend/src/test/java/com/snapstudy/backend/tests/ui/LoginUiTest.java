@@ -50,7 +50,7 @@ public class LoginUiTest {
         WebElement passwordField = driver.findElement(By.id("password"));
         WebElement loginButton = driver.findElement(By.xpath("//button[contains(text(),'Sign in!')]"));
 
-        emailField.sendKeys("javiisalaas97@gmail.com");
+        emailField.sendKeys("sandra.garcia2093@gmail.com");
         passwordField.sendKeys("hola");
 
         loginButton.click();

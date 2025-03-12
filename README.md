@@ -9,8 +9,9 @@
 
 ## [Funcionalidades de la aplicación](https://medium.com/@javiisalaas97/funcionalidades-de-snapstudy-65b5d5421d41)
 
-
 ## [Aspectos principales de la aplicación web](https://medium.com/@javiisalaas97/aspectos-principales-de-snapstudy-2b9f56dfd1bd)
+
+## [Crear credenciales para Google Drive](https://medium.com/@javiisalaas97/creaci%C3%B3n-de-credenciales-para-google-drive-api-c92acd46848c)
 
 ## Wireframe de pantallas y navegación
 
@@ -249,4 +250,8 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' doc
 private static final boolean useMinIO = true;
 ```
 
-8. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)
+8. Debemos cargar el archivo "credentials.json", el cual contendrá las credenciales para poder usar el cliente de Google Drive para el volcado de documentos a Drive. Para hacernos con este archivo de credenciales podemos seguir el siguente [post](https://medium.com/@javiisalaas97/creaci%C3%B3n-de-credenciales-para-google-drive-api-c92acd46848c)
+
+9. Para que todo el proceso de notificación del volcado de documentos en Google Drive, debemos cambiar el valor de la variable de entorno APPLICATION_PASS_MAIL. Esta es una contraseña de aplicación que permite enviar los emails desde la cuenta snapstudy.drive@gmail.com. Como es lógico, deberás cambiar el email, para ello basta con añadir el nuevo email a la variable de entorno APPLICATION_MAIL. Por último, debemos modificar el valor de la variable de entorno GOOGLE_DRIVE_FOLDER. Esta varible hace referencia a la carpeta "padre/raiz" dónde queremos almacenar todas las carpetas de los usuarios.
+
+10. Una vez finalizado el paso anterior, abre un navegador y busca [https://localhost:8443](https://localhost:8443)

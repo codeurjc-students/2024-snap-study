@@ -27,8 +27,7 @@ import { PopUpDocumentComponent } from './components/childs/popup-document.compo
 import { AdminAddComponent } from './components/admin/admin-add.component';
 import { SearchComponent } from './components/search/search.component';
 import { AboutComponent } from './components/about/about.component';
-
-
+import { PopUpDownloadDriveComponent } from './components/childs/popup-download-documents.component';
 
 @NgModule({
     declarations: [
@@ -51,7 +50,8 @@ import { AboutComponent } from './components/about/about.component';
         PopUpDocumentComponent,
         AdminAddComponent,
         SearchComponent,
-        AboutComponent
+        AboutComponent,
+        PopUpDownloadDriveComponent
     ],
     imports: [
         BrowserModule,

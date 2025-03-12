@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:  
-    image: jrodriguezs2020/snapstudy
+    image: jrodriguezs2020/snapstudy 
     ports:
       - "8443:8443"
     environment:
@@ -9,11 +9,19 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=DAWWebapp09+
       - JWT_SECRET=snapstudy
-      - AWS_S3_ACCESS_KEY_ID=change_me_access
-      - AWS_S3_SECRET_ACCESS_KEY=change_me_secret
+      - AWS_S3_ACCESS_KEY_ID=change_me
+      - AWS_S3_SECRET_ACCESS_KEY=change_me
+      - GOOGLE_DRIVE_FOLDER=change_me
+      - APPLICATION_MAIL=change_me
+      - APPLICATION_PASS_MAIL=change_me
+      - MAIL_TEMPLATE_PATH=change_me
+      - CREDENTIALS_FILE_PATH=change_me
     depends_on:
       - db
     restart: on-failure
+    volumes:
+      - credentials:/usr/src/app/config
+      - email:/usr/src/app/email
 
   db:
     image: mysql:8.0.22
@@ -27,3 +35,5 @@ services:
       - mysql:/var/lib/mysql
 volumes:
   mysql:
+  credentials:
+  email:
