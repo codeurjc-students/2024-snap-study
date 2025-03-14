@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template para crear una Lambda que se active con eventos de SQS
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: snapstudy-lambda-execution-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaSQSPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs-test
+
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: snapstudy-text-process-lambda-test
+      Runtime: python3.9
+      Handler: lambda_function.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        S3Bucket: snapstudy-artifacts
+        S3Key: lambda_code.zip
+      Timeout: 30
+      MemorySize: 128
+
+  EventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      EventSourceArn: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs-test
+      FunctionName: !GetAtt LambdaFunction.Arn
+      Enabled: true
+
+Outputs:
+  LambdaFunctionArn:
+    Description: ARN de la función Lambda
+    Value: !GetAtt LambdaFunction.Arn
