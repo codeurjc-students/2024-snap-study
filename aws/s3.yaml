@@ -11,7 +11,10 @@ Resources:
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
-
+      NotificationConfiguration:
+        QueueConfigurations:
+          - Queue: arn:aws:sqs:eu-west-1:879381272779:snapstudy-text-process-sqs-test
+            Event: s3:ObjectCreated:Put
 Outputs:
   BucketName:
     Description: Nombre del bucket creado

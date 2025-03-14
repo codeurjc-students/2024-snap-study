@@ -18,6 +18,7 @@ Resources:
             Principal: "*"
             Action:
               - sqs:SendMessage
+              - sqs:GetQueueAttributes
             Resource: !GetAtt SQSQueue.Arn
             Condition:
               ArnEquals:

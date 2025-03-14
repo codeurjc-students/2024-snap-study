@@ -24,13 +24,26 @@ Resources:
                   - sqs:DeleteMessage
                   - sqs:GetQueueAttributes
                 Resource: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs-test
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetObject
+                Resource: 
+                  - arn:aws:s3:::snapstudy-s3-test
+                  - arn:aws:s3:::snapstudy-s3-test/*
 
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: snapstudy-text-process-lambda-test
       Runtime: python3.9
-      Handler: lambda_function.lambda_handler
+      Handler: lambda_code.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Code:
         S3Bucket: snapstudy-artifacts
