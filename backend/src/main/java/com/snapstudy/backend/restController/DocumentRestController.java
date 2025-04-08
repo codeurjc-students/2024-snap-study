@@ -132,8 +132,10 @@ public class DocumentRestController {
         Document document = new Document(fileName, "", subject, repository.getId(), ext);
         documentRepository.save(document);
 
+        Long dbIndex = document.getId();
+
         path = path + "/" + file.getOriginalFilename();
-        String upload = awsS3.addFile(path, file); // Upload the file to S3
+        String upload = awsS3.addFile(path, file, dbIndex); // Upload the file to S3
 
         if (upload == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -320,8 +322,10 @@ public class DocumentRestController {
         Document document = new Document(fileName, "", subject, repository.getId(), ext);
         documentRepository.save(document);
 
+        Long dbIndex = document.getId();
+
         path = path + "/" + file.getOriginalFilename();
-        String upload = awsS3.addFile(path, file);
+        String upload = awsS3.addFile(path, file, dbIndex);
 
         if (upload == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

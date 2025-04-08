@@ -68,7 +68,7 @@ public class S3Service {
         }
     }
 
-    public static String addFile(String folder, MultipartFile file) {
+    public static String addFile(String folder, MultipartFile file, Long dbIndex) {
         if (!file.isEmpty()) {
             try {
                 // Create the file name
@@ -99,8 +99,11 @@ public class S3Service {
                             .withS3Client(s3Client)
                             .build();
 
+                    ObjectMetadata metadata = new ObjectMetadata();
+                    metadata.addUserMetadata("db-index", dbIndex.toString());
+
                     // Create the upload request
-                    PutObjectRequest request = new PutObjectRequest(bucket, fileKey, file.getInputStream(), null);
+                    PutObjectRequest request = new PutObjectRequest(bucket, fileKey, file.getInputStream(), metadata);
 
                     // Upload the file
                     Upload upload = transferManager.upload(request);
