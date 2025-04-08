@@ -22,7 +22,7 @@ Resources:
             Resource: !GetAtt SQSQueue.Arn
             Condition:
               ArnEquals:
-                aws:SourceArn: arn:aws:s3:::snapstudy-test
+                aws:SourceArn: arn:aws:s3:::snapstudy-s3
 
 Outputs:
   QueueURL:
