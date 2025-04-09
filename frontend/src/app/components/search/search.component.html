@@ -19,8 +19,9 @@
             <h4 class="text-dark mb-4" style="padding-bottom: 2%;"><b>(RESOURCES)</b></h4>
             <li *ngFor="let result of results">
                 <div class="info">
-                    <div class="date">Document</div>
-                    <div class="title"><a>{{result.title }}</a></div>
+                    <input *ngIf="authService.isLogged()" type="checkbox"
+                        (change)="onCheckboxChange($event, result.index)">
+                    <div class="title"><a>{{ result.title }}</a></div>
                     <div class="container-square">
                         <div class="square"></div>
                     </div>
@@ -28,12 +29,10 @@
                 <div class="divider"></div>
                 <br />
                 <br />
-
             </li>
             <div class="action-buttons">
-                <div *ngIf="!results.last">
-                    <button (click)="loadMore()" class="btn btn-dark">Load More</button>
-                </div>
+                <div class="col-auto"><button *ngIf="authService.isLogged()" class="btn btn-dark"
+                    (click)="downloadSelected()">Get Documents</button></div>
             </div>
         </ul>
     </div>

@@ -1,4 +1,4 @@
 export interface SearchResult {
-    index: string;
+    index: number;
     title: string;
 }

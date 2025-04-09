@@ -67,7 +67,7 @@ public class SearchRestController {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject result = results.getJSONObject(i);
                 String title = result.getString("title");
-                String index = result.getString("index");
+                Long index = Long.parseLong(result.getString("index"));
                 searchResults.add(new SearchResult(index, title)); // Agregamos a la lista con el índice
             }
             System.out.println(searchResults.toString());

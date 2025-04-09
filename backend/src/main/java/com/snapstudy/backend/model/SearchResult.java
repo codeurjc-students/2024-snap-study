@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SearchResult {
     @JsonProperty("index")
-    private String index;
+    private Long index;
     @JsonProperty("title")
     private String title;
 
-    public SearchResult(String index, String title) {
+    public SearchResult(Long index, String title) {
         this.index = index;
         this.title = title;
     }
