@@ -1,43 +1,15 @@
 package com.snapstudy.backend.model;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SearchResult {
-    private List<Degree> degrees;
-    private List<Subject> subjects;
-    private List<Document> documents;
-    private boolean last; // To indicate if there are more pages
+    @JsonProperty("index")
+    private String index;
+    @JsonProperty("title")
+    private String title;
 
-    // Getters y Setters
-    public List<Degree> getDegrees() {
-        return degrees;
-    }
-
-    public void setDegrees(List<Degree> degrees) {
-        this.degrees = degrees;
-    }
-
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
-    public List<Document> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
-    }
-
-    public boolean isLast() {
-        return last;
-    }
-
-    public void setLast(boolean last) {
-        this.last = last;
+    public SearchResult(String index, String title) {
+        this.index = index;
+        this.title = title;
     }
 }

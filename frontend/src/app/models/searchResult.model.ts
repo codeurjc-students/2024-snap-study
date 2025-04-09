@@ -1,6 +1,4 @@
 export interface SearchResult {
-    degrees: any[];
-    subjects: any[];
-    documents: any[];
-    last: boolean;
+    index: string;
+    title: string;
 }

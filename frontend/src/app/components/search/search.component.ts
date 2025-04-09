@@ -2,7 +2,6 @@ import { Component, Renderer2 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SearchService } from "../../services/search.service";
 import { SubjectService } from "../../services/subject.service";
-import { Subject } from "../../models/subject.model";
 import { Degree } from "../../models/degree.model";
 
 @Component({
@@ -14,15 +13,12 @@ export class SearchComponent {
     searchText: string = '';
     page: number = 0;
     size: number = 3;
-    results: any = {
-        degrees: [],
-        subjects: [],
-        documents: [],
-        last: false
-    };
+    results: any = []
 
     subject: any;
     degree: any;
+
+    isLoading = false;
 
     constructor(private subjectService: SubjectService, private searchService: SearchService, private route: ActivatedRoute, private router: Router, private renderer: Renderer2) { }
 
@@ -40,22 +36,19 @@ export class SearchComponent {
     }
 
     executeSearch() {
+        this.isLoading = true;
         this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
             this.results = result;
+            this.isLoading = false;
+        }, error => {
+            this.isLoading = false;
+            // Puedes manejar errores aquí también
         });
     }
 
     loadMore() {
 
-        if (!this.results.last) {
-            this.page++;
-            this.searchService.search(this.searchText, this.page, this.size).subscribe(result => {
-                this.results.degrees = this.results.degrees.concat(result.degrees);
-                this.results.subjects = this.results.subjects.concat(result.subjects);
-                this.results.documents = this.results.documents.concat(result.documents);
-                this.results.last = result.last;
-            });
-        }
+        
     }
 
     navigateToSubject(id: number) {

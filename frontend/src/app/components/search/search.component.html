@@ -8,58 +8,19 @@
     </section>
 </header>
 
-<section *ngIf="results.degrees.length > 0" style="padding: 5%;">
-    <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(SEARCH RESULT)</b></h2>
-    <div id="container">
-        <ul>
-            <h4 class="text-dark mb-4" style="padding-top: 5%; padding-bottom: 2%;"><b>(DEGREES)</b></h4>
-            <li *ngFor="let degree of results.degrees">
-                <div class="info">
-                    <div class="date">Degree</div>
-                    <div class="title"><a [routerLink]="['/degrees', degree.id]">{{ degree.name }}&nbsp;&nbsp; -
-                            &nbsp;&nbsp;{{ degree.type }}</a></div>
-                    <div class="container-square">
-                        <div class="square"></div>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <br />
-                <br />
-            </li>
-        </ul>
+<section *ngIf="isLoading" style="padding: 5%; text-align: center;">
+    <div class="spinner-border text-dark" role="status">
     </div>
 </section>
 
-<section *ngIf="results.subjects.length > 0" style="padding: 5%;">
-    <div id="container">
-        <ul>
-            <h4 class="text-dark mb-4" style="padding-bottom: 2%;"><b>(SUBJECTS)</b></h4>
-            <li *ngFor="let subject of results.subjects">
-                <div class="info">
-                    <div class="date">Subject</div>
-                    <div class="title"><a (click)="navigateToSubject(subject.id)">{{
-                            subject.name }}</a></div>
-                    <div class="container-square">
-                        <div class="square"></div>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <br />
-                <br />
-            </li>
-        </ul>
-    </div>
-</section>
-
-<section *ngIf="results.documents.length > 0" style="padding: 5%;">
+<section *ngIf="results.length > 0" style="padding: 5%;">
     <div id="container">
         <ul>
             <h4 class="text-dark mb-4" style="padding-bottom: 2%;"><b>(RESOURCES)</b></h4>
-            <li *ngFor="let document of results.documents">
+            <li *ngFor="let result of results">
                 <div class="info">
                     <div class="date">Document</div>
-                    <div class="title"><a [routerLink]="['/degrees/' + document.id + '/subjects', document.id]">{{
-                            document.name }}</a></div>
+                    <div class="title"><a>{{result.title }}</a></div>
                     <div class="container-square">
                         <div class="square"></div>
                     </div>
@@ -78,13 +39,13 @@
     </div>
 </section>
 
-<section *ngIf="(results.degrees.length == 0) && (results.subjects.length == 0) && (results.documents.length == 0)"
-    style="padding: 5%;">
+<section *ngIf="!isLoading && results.length == 0" style="padding: 5%;">
     <h2 class="text-dark mb-4" style="padding-left: 13%; padding-bottom: 2%;"><b>(SEARCH RESULT)</b></h2>
     <div id="container">
         <ul>
-            <h4 class="text-dark mb-4" style="padding-top: 5%; padding-bottom: 2%;"><b>UPS! Couldn't find anything for
-                    "{{ searchText }}"</b></h4>
+            <h4 class="text-dark mb-4" style="padding-top: 5%; padding-bottom: 2%;">
+                <b>UPS! Couldn't find anything for "{{ searchText }}"</b>
+            </h4>
         </ul>
     </div>
 </section>
