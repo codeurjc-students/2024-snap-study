@@ -5,7 +5,7 @@ Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: snapstudy-lambda-execution-role
+      RoleName: snapstudy-lambda-execution-dlq-role
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -14,7 +14,7 @@ Resources:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: LambdaPolicy
+        - PolicyName: LambdaPolicyDlq
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -23,7 +23,7 @@ Resources:
                   - sqs:ReceiveMessage
                   - sqs:DeleteMessage
                   - sqs:GetQueueAttributes
-                Resource: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs-test
+                Resource: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs-test-dlq
               - Effect: Allow
                 Action:
                   - logs:CreateLogGroup
@@ -47,21 +47,21 @@ Resources:
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: snapstudy-text-process-lambda-test
+      FunctionName: snapstudy-text-process-lambda-test-dlq
       Runtime: python3.9
-      Handler: lambda_code.lambda_handler
+      Handler: lambda_dlq_code.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Code:
         S3Bucket: snapstudy-artifacts
-        S3Key: lambda_code.zip
-      Timeout: 60
+        S3Key: lambda_dlq_code.zip
+      Timeout: 180
       MemorySize: 128
 
   EventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
-      BatchSize: 10
-      EventSourceArn: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs-test
+      BatchSize: 5
+      EventSourceArn: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs-test-dlq
       FunctionName: !GetAtt LambdaFunction.Arn
       Enabled: true
 

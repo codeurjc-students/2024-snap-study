@@ -6,6 +6,16 @@ Resources:
     Type: AWS::SQS::Queue
     Properties:
       QueueName: snapstudy-text-process-sqs-test
+      VisibilityTimeout: 60
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt SQSQueueDlq.Arn
+        maxReceiveCount: 1
+
+  SQSQueueDlq:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: snapstudy-text-process-sqs-test-dlq
+      VisibilityTimeout: 180
 
   SQSQueuePolicy:
     Type: AWS::SQS::QueuePolicy
@@ -19,10 +29,32 @@ Resources:
             Action:
               - sqs:SendMessage
               - sqs:GetQueueAttributes
+              - sqs:DeleteMessage
+              - sqs:GetQueueUrl
+              - sqs:PurgeQueue
+              - sqs:ChangeMessageVisibility
             Resource: !GetAtt SQSQueue.Arn
             Condition:
               ArnEquals:
                 aws:SourceArn: arn:aws:s3:::snapstudy-s3
+
+  SQSQueueDlqPolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref SQSQueueDlq
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal: "*"
+            Action:
+              - sqs:SendMessage
+              - sqs:GetQueueAttributes
+              - sqs:DeleteMessage
+              - sqs:GetQueueUrl
+              - sqs:PurgeQueue
+              - sqs:ChangeMessageVisibility
+            Resource: !GetAtt SQSQueueDlq.Arn
 
 Outputs:
   QueueURL:
@@ -31,3 +63,9 @@ Outputs:
   QueueARN:
     Description: ARN de la cola SQS creada
     Value: !GetAtt SQSQueue.Arn
+  DlqQueueURL:
+    Description: URL de la cola SQS DLQ creada
+    Value: !Ref SQSQueueDlq
+  DlqQueueARN:
+    Description: ARN de la cola SQS DLQ creada
+    Value: !GetAtt SQSQueueDlq.Arn

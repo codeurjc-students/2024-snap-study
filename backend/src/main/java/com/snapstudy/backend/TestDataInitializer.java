@@ -35,6 +35,7 @@ public class TestDataInitializer {
 
     @PostConstruct
     public void init() throws Exception {
+        /*
         Student user1 = new Student("Javier", "Salas", "javiisalaas97@gmail.com", "hola");
         Student user2 = new Student("Sandra", "García", "sandra.garcia2093@gmail.com", "hola");
         Admin ad = new Admin("Administrador", "Admin", "admin@admin.com", "admin12345admin");
@@ -70,6 +71,6 @@ public class TestDataInitializer {
         repodocumentRepository.save(newRepo);
         RepositoryDocument newRepo2 = new RepositoryDocument(d1.getId(), s5.getId());
         repodocumentRepository.save(newRepo2);
-
+        */
     }
 }
