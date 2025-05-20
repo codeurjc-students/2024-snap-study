@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snapstudy.backend.model.SearchResult;
+import com.snapstudy.backend.opensearch.OpenSearchService;
 import com.snapstudy.backend.service.SearchService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,10 +20,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/api/search")
 public class SearchRestController {
+
+    @Autowired
+    private OpenSearchService openSearchService2;
 
     @Operation(summary = "Execute a search")
     @ApiResponses(value = {
@@ -33,6 +38,11 @@ public class SearchRestController {
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
         try {
+
+            System.out.println("--------------------------------------------------");
+            searchIndex();
+            System.out.println("--------------------------------------------------");
+
             String scriptPath = "./search.py"; // Ajusta la ruta si hace falta
             String indexName = "snapstudy-index";
 
@@ -76,5 +86,21 @@ public class SearchRestController {
         } catch (Exception e) {
             throw new RuntimeException("Error ejecutando búsqueda con Python", e);
         }
+    }
+
+    
+    public void searchIndex() {
+        String endpoint = "search-snapstudy-opensearch-fjhm6pvyao62q5pw5jqonbvthy.eu-west-1.es.amazonaws.com";
+        String index = "snapstudy-index";
+        String query = """
+            {
+            "query": {
+                "match": {
+                "title": "aws"
+                }
+            }
+            }
+            """;
+        openSearchService2.search(endpoint, index, query);
     }
 }
