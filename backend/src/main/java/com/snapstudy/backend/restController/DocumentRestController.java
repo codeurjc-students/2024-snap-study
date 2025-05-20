@@ -163,6 +163,15 @@ public class DocumentRestController {
         }
     }
 
+    private void deleteDocmentFromOpensearch(Long documentId) throws Exception{
+        String dbindex = documentId.toString();
+        try{
+            //
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Operation(summary = "Delete document")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Document deleted", content = {
@@ -171,7 +180,7 @@ public class DocumentRestController {
             @ApiResponse(responseCode = "404", description = "Document not deleted", content = @Content) })
     @DeleteMapping("/{degreeId}/{subjectId}/{id}")
     public ResponseEntity<Void> deleteDocument(@PathVariable Long id, @PathVariable Long degreeId,
-            @PathVariable Long subjectId) {
+            @PathVariable Long subjectId) throws Exception {
         Document doc = documentService.getDocumentById(id);
 
         if (doc != null) {
@@ -193,6 +202,8 @@ public class DocumentRestController {
             int result = awsS3.deleteFile(path, fileName); // Delete the file from S3
 
             if (result == 0) {
+                //delete from opensearch
+                deleteDocmentFromOpensearch(id);
                 documentService.deleteDocument(id);
                 return ResponseEntity.noContent().build();
             } else {

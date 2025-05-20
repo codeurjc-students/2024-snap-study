@@ -30,9 +30,11 @@ def opensearch_multi_match_query(query, db_index):
         connection_class=RequestsHttpConnection
     )
 
+    query = '*' + query + '*'
+
     body = {
         "query": {
-            "multi_match": {
+            "query_string": {
                 "query": query,
                 "fields": ["title^2", "content^1"],
                 "fuzziness": "AUTO"
