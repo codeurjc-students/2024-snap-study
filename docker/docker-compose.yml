@@ -16,6 +16,7 @@ services:
       - APPLICATION_PASS_MAIL=change_me
       - MAIL_TEMPLATE_PATH=change_me
       - CREDENTIALS_FILE_PATH=change_me
+      - AWS_OPENSEARCH_ENDPOINT=change_me
     depends_on:
       - db
     restart: on-failure
