@@ -162,7 +162,7 @@ docker-compose up
 
 ### Instrucciones de ejecución de la aplicación dockerizada
 
-Para ejecutar la imagen Docker de SnapStudy debemos seguir los siguientes pasos:
+Una hemos seguido la [Guía para crear la infraestructura de SnapStudy](), para ejecutar la imagen Docker de SnapStudy debemos seguir los siguientes pasos:
 
 1. Clonar el repositorio
 ```
@@ -183,7 +183,7 @@ cd 2024-snap-study/docker
 docker-compose up
 ```
 
-6. Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
+6. Tenemos una versión más simplificada de la aplicación que no dispone de todos los servicios cloud que usa la aplicación, pero tiene todas las funcionalidades básicas. Esta es la [versión 1.0.0](https://github.com/codeurjc-students/2024-snap-study/releases/tag/v1.0.0) Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
 Para usar AWS S3 es necesario tener una cuenta AWS y configurar un bucket de S3. Únicamente necesitamos sustituir los campos change-me en el archivo docker-compose.yml, en este caso AWS_ACCESS_KEY_ID y AWS_SECRET_ACCESS_KEY que se corresponden con el Access Key y Secrect Key de la cuenta AWS.
 
 Si deseamos usar MinIO, y no vamos a ejecutar la aplicación web con docker-compose, debemos tener instalado en nuestro sistema este recurso [instalación](https://min.io/docs/minio/windows/operations/installation.html). Una vez instalado abrimos una consola de comandos y debemos navegar hasta la ruta donde se encuentre el archivo minio.exe y, una vez en la ruta, debemos ejecutar el siguiente comando

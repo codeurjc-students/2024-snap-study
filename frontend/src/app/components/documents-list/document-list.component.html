@@ -19,9 +19,6 @@
                     <input *ngIf="authService.isLogged()" type="checkbox"
                         (change)="onCheckboxChange($event, document.id)">
                     <div class="title"><a>{{ document.name }}</a></div>
-                    <div class="title">
-                        <p>- AI DESCRIPTION -</p>
-                    </div>
                     <button *ngIf="authService.isLogged()" (click)="fetchDocument(document.id)"
                         class="btn btn-dark">Preview</button>
                     <div *ngIf="!authService.isLogged()" class="container-square">
