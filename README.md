@@ -184,7 +184,7 @@ docker-compose up
 ```
 
 6. Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
-Para usar AWS S3 es necesario tener una cuenta AWS y configurar un bucket de S3. Únicamente necesitamos sustituir los campos change-me en el archivo docker-compose.yml, en este caso AWS_S3_ACCESS_KEY_ID y AWS_S3_SECRET_ACCESS_KEY que se corresponden con el Access Key y Secrect Key del bucket S3.
+Para usar AWS S3 es necesario tener una cuenta AWS y configurar un bucket de S3. Únicamente necesitamos sustituir los campos change-me en el archivo docker-compose.yml, en este caso AWS_ACCESS_KEY_ID y AWS_SECRET_ACCESS_KEY que se corresponden con el Access Key y Secrect Key de la cuenta AWS.
 
 Si deseamos usar MinIO, y no vamos a ejecutar la aplicación web con docker-compose, debemos tener instalado en nuestro sistema este recurso [instalación](https://min.io/docs/minio/windows/operations/installation.html). Una vez instalado abrimos una consola de comandos y debemos navegar hasta la ruta donde se encuentre el archivo minio.exe y, una vez en la ruta, debemos ejecutar el siguiente comando
 ```
@@ -201,12 +201,11 @@ services:
     ports:
       - "8443:8443"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/snapstudy
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=DAWWebapp09+
-      - JWT_SECRET=snapstudy
-      - AWS_S3_ACCESS_KEY_ID=change_me
-      - AWS_S3_SECRET_ACCESS_KEY=change_me
+      - DB_USER=change_me
+      - DB_URL=change_me
+      - DB_PASSWORD=change_me
+      - AWS_ACCESS_KEY_ID=change_me
+      - AWS_SECRET_ACCESS_KEY=change_me
     depends_on:
       - db
       - minio
