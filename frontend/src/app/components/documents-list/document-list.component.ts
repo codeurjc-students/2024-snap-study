@@ -86,6 +86,7 @@ export class DocumentListComponent {
 
     downloadInGoogleDrive() {
         for (const id of this.selectedDocumentIds) {
+            console.log(id)
             this.documentService.getDocument(id).subscribe(
                 (doc: Document) => {
                     if (doc) {
@@ -113,6 +114,7 @@ export class DocumentListComponent {
     // WILL DOWNLOAD OR EXPORT THE DOCUMENTS BASED ON THE SELECTED IDS
     getSelectedDocuments() {
         for (const id of this.selectedDocumentIds) {
+            console.log(id)
             this.documentService.getDocument(id).subscribe(
                 (doc: Document) => {
                     if (doc) {

@@ -5,17 +5,17 @@ services:
     ports:
       - "8443:8443"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/snapstudy
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=DAWWebapp09+
-      - JWT_SECRET=snapstudy
-      - AWS_S3_ACCESS_KEY_ID=change_me
-      - AWS_S3_SECRET_ACCESS_KEY=change_me
+      - AWS_ACCESS_KEY_ID=change_me
+      - AWS_SECRET_ACCESS_KEY=change_me
       - GOOGLE_DRIVE_FOLDER=change_me
       - APPLICATION_MAIL=change_me
       - APPLICATION_PASS_MAIL=change_me
       - MAIL_TEMPLATE_PATH=change_me
       - CREDENTIALS_FILE_PATH=change_me
+      - AWS_OPENSEARCH_ENDPOINT=change_me
+      - DB_USER=change_me
+      - DB_URL=change_me
+      - DB_PASSWORD=change_me
     depends_on:
       - db
     restart: on-failure

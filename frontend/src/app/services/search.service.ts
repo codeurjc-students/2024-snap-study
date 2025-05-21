@@ -12,12 +12,12 @@ export class SearchService {
 
     constructor(private http: HttpClient) { }
 
-    search(query: string, page: number, size: number): Observable<SearchResult> {
+    search(query: string, page: number, size: number): Observable<SearchResult[]> {
         const params = new HttpParams()
             .set('query', query)
             .set('page', page.toString())
             .set('size', size.toString());
 
-        return this.http.get<SearchResult>(BASE_URL, { params });
+        return this.http.get<SearchResult[]>(BASE_URL, { params });
     }
 }

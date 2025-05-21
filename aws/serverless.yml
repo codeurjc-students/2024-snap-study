@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template para crear una Lambda que se active con eventos de SQS
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: snapstudy-lambda-execution-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                  - sqs:GetQueueUrl
+                Resource: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetObject
+                Resource: 
+                  - arn:aws:s3:::snapstudy-s3
+                  - arn:aws:s3:::snapstudy-s3/*
+              - Effect: Allow
+                Action:
+                  - es:ESHttpPost
+                  - es:ESHttpPut
+                  - es:ESHttpGet
+                Resource: !Sub arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/snapstudy-opensearch
+
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: snapstudy-text-process-lambda
+      Runtime: python3.9
+      Handler: lambda_code.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        S3Bucket: snapstudy-artifacts
+        S3Key: lambda_code.zip
+      Timeout: 240
+      MemorySize: 128
+
+  EventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      EventSourceArn: !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:snapstudy-text-process-sqs
+      FunctionName: !GetAtt LambdaFunction.Arn
+      Enabled: true
+
+Outputs:
+  LambdaFunctionArn:
+    Description: ARN de la función Lambda
+    Value: !GetAtt LambdaFunction.Arn

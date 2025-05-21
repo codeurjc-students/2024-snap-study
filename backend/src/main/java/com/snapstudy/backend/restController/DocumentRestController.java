@@ -132,8 +132,10 @@ public class DocumentRestController {
         Document document = new Document(fileName, "", subject, repository.getId(), ext);
         documentRepository.save(document);
 
+        Long dbIndex = document.getId();
+
         path = path + "/" + file.getOriginalFilename();
-        String upload = awsS3.addFile(path, file); // Upload the file to S3
+        String upload = awsS3.addFile(path, file, dbIndex); // Upload the file to S3
 
         if (upload == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -169,7 +171,7 @@ public class DocumentRestController {
             @ApiResponse(responseCode = "404", description = "Document not deleted", content = @Content) })
     @DeleteMapping("/{degreeId}/{subjectId}/{id}")
     public ResponseEntity<Void> deleteDocument(@PathVariable Long id, @PathVariable Long degreeId,
-            @PathVariable Long subjectId) {
+            @PathVariable Long subjectId) throws Exception {
         Document doc = documentService.getDocumentById(id);
 
         if (doc != null) {
@@ -191,8 +193,14 @@ public class DocumentRestController {
             int result = awsS3.deleteFile(path, fileName); // Delete the file from S3
 
             if (result == 0) {
-                documentService.deleteDocument(id);
-                return ResponseEntity.noContent().build();
+                //delete from opensearch
+                int opss = documentService.deleteDocmentFromOpensearch(id);
+                if (opss == 0) {
+                    documentService.deleteDocument(id);
+                    return ResponseEntity.noContent().build();
+                } else {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -320,8 +328,10 @@ public class DocumentRestController {
         Document document = new Document(fileName, "", subject, repository.getId(), ext);
         documentRepository.save(document);
 
+        Long dbIndex = document.getId();
+
         path = path + "/" + file.getOriginalFilename();
-        String upload = awsS3.addFile(path, file);
+        String upload = awsS3.addFile(path, file, dbIndex);
 
         if (upload == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

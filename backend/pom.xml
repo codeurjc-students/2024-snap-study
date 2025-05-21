@@ -70,6 +70,13 @@
   			<version>2.3.1</version>
 		</dependency>
 
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+
+
 		<!-- AWS S3 SDK -->
         <dependency>
             <groupId>com.amazonaws</groupId>
@@ -178,6 +185,45 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.1</version>  <!-- Asegúrate de usar una versión adecuada -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>opensearch</artifactId>
+            <version>2.25.26</version>
+        </dependency>
+
+        <!-- Para acceso a configuración regional y otros servicios base -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>regions</artifactId>
+            <version>2.25.26</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>apache-client</artifactId>
+            <version>2.25.26</version>
+        </dependency>
+
+        <!-- AWS SDK v2 Auth -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>auth</artifactId>
+            <version>2.25.26</version>
+        </dependency>
+
+        <!-- AWS SDK v2 HTTP Client -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>http-client-spi</artifactId>
+            <version>2.25.26</version>
         </dependency>
 
 	</dependencies>

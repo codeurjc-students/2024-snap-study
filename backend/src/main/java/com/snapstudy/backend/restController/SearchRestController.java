@@ -1,10 +1,14 @@
 package com.snapstudy.backend.restController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.snapstudy.backend.model.SearchResult;
-import com.snapstudy.backend.service.SearchService;
+import com.snapstudy.backend.opensearch.OpenSearchService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,16 +21,34 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class SearchRestController {
 
     @Autowired
-    private SearchService searchService;
+    private OpenSearchService openSearchService;
 
     @Operation(summary = "Execute a search")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Correct search", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = SearchResult.class)) }) })
     @GetMapping("")
-    public SearchResult search(@RequestParam("query") String query,
+    public ResponseEntity<List<SearchResult>> search(@RequestParam("query") String query,
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
-        return searchService.search(query, page, size);
+        try {
+            List<SearchResult> searchResults = searchIndex(query);
+            if (searchResults != null) {
+                return new ResponseEntity<>(searchResults, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error ejecutando búsqueda ", e);
+        }
     }
+
+    public List<SearchResult> searchIndex(String query) {
+        String queryJson = openSearchService.buildSearchQuery(query);
+        String response = openSearchService.search(queryJson);
+        List<SearchResult> result = openSearchService.transformQuery(response);
+        return result;
+    }
+
 }

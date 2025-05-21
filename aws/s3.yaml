@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template para crear un bucket de S3 llamado snapstudy-s3-test
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: snapstudy-s3
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      NotificationConfiguration:
+        QueueConfigurations:
+          - Queue: arn:aws:sqs:eu-west-1:879381272779:snapstudy-text-process-sqs-test
+            Event: s3:ObjectCreated:Put
+
+Outputs:
+  BucketName:
+    Description: Nombre del bucket creado
+    Value: !Ref S3Bucket

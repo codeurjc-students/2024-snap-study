@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.DegreeType;
+import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.s3.S3Service;
 import com.snapstudy.backend.service.DegreeService;
+import com.snapstudy.backend.service.DocumentService;
 import com.snapstudy.backend.service.SubjectService;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
@@ -47,6 +49,8 @@ public class DegreeRestController {
     private RepositoryDocumentsRepository repositoryDocument;
     @Autowired
     private SubjectService subjectService;
+    @Autowired
+    private DocumentService documentService;
 
     @Operation(summary = "Get a page of degrees")
     @ApiResponses(value = {
@@ -104,7 +108,7 @@ public class DegreeRestController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Degree.class)) }),
             @ApiResponse(responseCode = "404", description = "Dregee not found", content = @Content) })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDegree(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDegree(@PathVariable Long id) throws Exception {
         Degree deg = degreeService.getDegreeById(id);
 
         if (deg != null) {
@@ -123,7 +127,7 @@ public class DegreeRestController {
         }
     }
 
-    private Boolean deleteFolders(String path, Long degreeId) {
+    private Boolean deleteFolders(String path, Long degreeId) throws Exception {
         // If you delete a grade that has subjects (folders),
         // and you don't delete each subject,
         // it will result in an error because AWS S3 doesn't work like a folder
@@ -139,6 +143,11 @@ public class DegreeRestController {
                 Subject subject = subjectService.getSubjectById(subjectId);
 
                 if (subject != null) {
+                    if (subject.getDocuments().size() > 0) {
+                        for (Document document : subject.getDocuments()) {
+                            int result = documentService.deleteDocmentFromOpensearch(document.getId());
+                        }
+                    }
                     String folder = path + subject.getName();
 
                     int result = awsS3.deleteFolder(folder); // Delete the folder from S3

@@ -36,12 +36,12 @@ public class SearchService {
         Page<Document> documents = documentRepository.findByNameContainingIgnoreCase(query, PageRequest.of(page, size));
 
         // Create the result using the results from the 3 tables
-        SearchResult searchResult = new SearchResult();
-        searchResult.setDegrees(degrees.getContent());
-        searchResult.setSubjects(subjects.getContent());
-        searchResult.setDocuments(documents.getContent());
-        searchResult.setLast(degrees.isLast() && subjects.isLast() && documents.isLast()); // Check if there are more results
+        // SearchResult searchResult = new SearchResult();
+        // searchResult.setDegrees(degrees.getContent());
+        // searchResult.setSubjects(subjects.getContent());
+        // searchResult.setDocuments(documents.getContent());
+        // searchResult.setLast(degrees.isLast() && subjects.isLast() && documents.isLast()); // Check if there are more results
 
-        return searchResult;
+        return null;
     }
 }

@@ -18,7 +18,7 @@
                 <div class="info">
                     <input *ngIf="authService.isLogged()" type="checkbox"
                         (change)="onCheckboxChange($event, document.id)">
-                    <div class="title"><a [routerLink]="['/degrees', document.id]">{{ document.name }}</a></div>
+                    <div class="title"><a>{{ document.name }}</a></div>
                     <div class="title">
                         <p>- AI DESCRIPTION -</p>
                     </div>

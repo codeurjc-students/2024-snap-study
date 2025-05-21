@@ -9,6 +9,7 @@ import java.util.Map;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -43,8 +44,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class S3Service {
 
-    private static String accessKey = System.getenv("AWS_S3_ACCESS_KEY_ID");
-    private static String secretAccessKey = System.getenv("AWS_S3_SECRET_ACCESS_KEY");
     private static String bucket = "snapstudy-s3";
     private static final boolean useMinIO = false;
 
@@ -68,7 +67,7 @@ public class S3Service {
         }
     }
 
-    public static String addFile(String folder, MultipartFile file) {
+    public static String addFile(String folder, MultipartFile file, Long dbIndex) {
         if (!file.isEmpty()) {
             try {
                 // Create the file name
@@ -85,12 +84,9 @@ public class S3Service {
                     return fileKey;
                 } else {
 
-                    // AWS Credentials
-                    BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretAccessKey);
-
                     // Configure the S3 client
                     AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                            .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                            .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
                             .withRegion(Regions.EU_WEST_1)
                             .build();
 
@@ -99,8 +95,11 @@ public class S3Service {
                             .withS3Client(s3Client)
                             .build();
 
+                    ObjectMetadata metadata = new ObjectMetadata();
+                    metadata.addUserMetadata("db-index", dbIndex.toString());
+
                     // Create the upload request
-                    PutObjectRequest request = new PutObjectRequest(bucket, fileKey, file.getInputStream(), null);
+                    PutObjectRequest request = new PutObjectRequest(bucket, fileKey, file.getInputStream(), metadata);
 
                     // Upload the file
                     Upload upload = transferManager.upload(request);
@@ -141,12 +140,10 @@ public class S3Service {
                     return 0; // Folder created successfully
                 }
             } else {
-                // AWS Credentials
-                BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretAccessKey);
 
                 // Configure the S3 client
                 AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                        .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
                         .withRegion(Regions.EU_WEST_1)
                         .build();
 
@@ -192,9 +189,8 @@ public class S3Service {
                 return 0;
             } else {
                 // Configure the Amazon S3 client with our credentials
-                BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
                 AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                        .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                        .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
                         .withRegion(Regions.EU_WEST_1)
                         .build();
 
@@ -236,9 +232,8 @@ public class S3Service {
                 }
             } else {
                 // Configure the Amazon S3 client with our credentials
-                BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
                 AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                        .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                        .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
                         .withRegion(Regions.EU_WEST_1)
                         .build();
 
@@ -292,9 +287,8 @@ public class S3Service {
 
             } else {
                 // Create AWS credentials and the client
-                BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretAccessKey);
                 AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                        .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                        .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
                         .withRegion(Regions.EU_WEST_1)
                         .build();
 
