@@ -5,6 +5,8 @@ services:
     ports:
       - "8443:8443"
     environment:
+      - AWS_ACCESS_KEY_ID=change_me
+      - AWS_SECRET_ACCESS_KEY=change_me
       - GOOGLE_DRIVE_FOLDER=change_me
       - APPLICATION_MAIL=change_me
       - APPLICATION_PASS_MAIL=change_me
@@ -14,14 +16,12 @@ services:
       - DB_USER=change_me
       - DB_URL=change_me
       - DB_PASSWORD=change_me
-      - AWS_PROFILE=change_me
     depends_on:
       - db
     restart: on-failure
     volumes:
       - credentials:/usr/src/app/config
       - email:/usr/src/app/email
-      - ~/.aws:/root/.aws
 
   db:
     image: mysql:8.0.22
