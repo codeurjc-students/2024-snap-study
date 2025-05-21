@@ -1,9 +1,11 @@
 package com.snapstudy.backend.restController;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -23,12 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snapstudy.backend.drive.DriveService;
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
+import com.snapstudy.backend.model.SearchResult;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.model.User;
+import com.snapstudy.backend.opensearch.OpenSearchService;
 import com.snapstudy.backend.repository.DocumentRepository;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.s3.S3Service;
@@ -163,15 +168,6 @@ public class DocumentRestController {
         }
     }
 
-    private void deleteDocmentFromOpensearch(Long documentId) throws Exception{
-        String dbindex = documentId.toString();
-        try{
-            //
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @Operation(summary = "Delete document")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Document deleted", content = {
@@ -203,9 +199,13 @@ public class DocumentRestController {
 
             if (result == 0) {
                 //delete from opensearch
-                deleteDocmentFromOpensearch(id);
-                documentService.deleteDocument(id);
-                return ResponseEntity.noContent().build();
+                int opss = documentService.deleteDocmentFromOpensearch(id);
+                if (opss == 0) {
+                    documentService.deleteDocument(id);
+                    return ResponseEntity.noContent().build();
+                } else {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapstudy.backend.model.Degree;
+import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.s3.S3Service;
 import com.snapstudy.backend.service.DegreeService;
+import com.snapstudy.backend.service.DocumentService;
 import com.snapstudy.backend.service.SubjectService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,6 +37,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api/subjects")
 public class SubjectRestController {
 
+    private final DocumentService documentService;
+
     @Autowired
     private SubjectService subjectService;
     @Autowired
@@ -43,6 +47,10 @@ public class SubjectRestController {
     private S3Service awsS3;
     @Autowired
     private RepositoryDocumentsRepository repositoryDocument;
+
+    SubjectRestController(DocumentService documentService) {
+        this.documentService = documentService;
+    }
 
     @Operation(summary = "Get a page of Subjects")
     @ApiResponses(value = {
@@ -116,10 +124,16 @@ public class SubjectRestController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
             @ApiResponse(responseCode = "404", description = "Subject not found", content = @Content) })
     @DeleteMapping("/{degreeId}/{id}")
-    public ResponseEntity<Void> deleteSubject(@PathVariable Long degreeId, @PathVariable Long id) {
+    public ResponseEntity<Void> deleteSubject(@PathVariable Long degreeId, @PathVariable Long id) throws Exception {
         Subject sub = subjectService.getSubjectById(id);
 
         if (sub != null) {
+
+            if (sub.getDocuments().size() > 0) {
+                for (Document document : sub.getDocuments()) {
+                    int result = documentService.deleteDocmentFromOpensearch(document.getId());
+                }
+            }
 
             if (degreeId == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -134,7 +148,6 @@ public class SubjectRestController {
             int result = awsS3.deleteFolder(path); // Delete the folder from S3
 
             if (result == 0) {
-
                 Optional<RepositoryDocument> repository = repositoryDocument
                         .findByDegreeIdAndSubjectId(degreeId, id);
 

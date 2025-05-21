@@ -12,4 +12,13 @@ public class SearchResult {
         this.index = index;
         this.title = title;
     }
+
+    public Long getIndex() {
+        return index;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
 }

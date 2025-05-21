@@ -45,6 +45,10 @@ public class SearchRestController {
     }
 
     public List<SearchResult> searchIndex(String query) {
-        return openSearchService.search(query);
+        String queryJson = openSearchService.buildSearchQuery(query);
+        String response = openSearchService.search(queryJson);
+        List<SearchResult> result = openSearchService.transformQuery(response);
+        return result;
     }
+
 }
