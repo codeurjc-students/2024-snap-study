@@ -1,11 +1,9 @@
 package com.snapstudy.backend.restController;
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -25,15 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snapstudy.backend.drive.DriveService;
 import com.snapstudy.backend.model.Degree;
 import com.snapstudy.backend.model.Document;
 import com.snapstudy.backend.model.RepositoryDocument;
-import com.snapstudy.backend.model.SearchResult;
 import com.snapstudy.backend.model.Subject;
 import com.snapstudy.backend.model.User;
-import com.snapstudy.backend.opensearch.OpenSearchService;
 import com.snapstudy.backend.repository.DocumentRepository;
 import com.snapstudy.backend.repository.RepositoryDocumentsRepository;
 import com.snapstudy.backend.s3.S3Service;
