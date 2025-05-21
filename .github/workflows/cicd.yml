@@ -43,16 +43,12 @@ jobs:
             - name: Replace values in docker-compose.yml
               run: |
                 cd ./docker
-                sed -i "s#change_me#$AWS_S3_ACCESS_KEY_ID#g" docker-compose.yml
-                sed -i "s#change_me#$AWS_S3_SECRET_ACCESS_KEY#g" docker-compose.yml
                 sed -i "s#change_me#$GOOGLE_DRIVE_FOLDER#g" docker-compose.yml
                 sed -i "s#change_me#$APPLICATION_MAIL#g" docker-compose.yml
                 sed -i "s#change_me#$APPLICATION_PASS_MAIL#g" docker-compose.yml
                 sed -i "s#change_me#$MAIL_TEMPLATE_PATH#g" docker-compose.yml
                 sed -i "s#change_me#$CREDENTIALS_FILE_PATH#g" docker-compose.yml
               env:
-                AWS_S3_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
-                AWS_S3_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
                 GOOGLE_DRIVE_FOLDER: ${{ secrets.GOOGLE_DRIVE_FOLDER }}
                 APPLICATION_MAIL: ${{ secrets.APPLICATION_MAIL }}
                 APPLICATION_PASS_MAIL: ${{ secrets.APPLICATION_PASS_MAIL }}
