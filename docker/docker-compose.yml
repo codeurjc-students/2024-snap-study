@@ -10,7 +10,7 @@ services:
       - GOOGLE_DRIVE_FOLDER=change_me
       - APPLICATION_MAIL=change_me
       - APPLICATION_PASS_MAIL=change_me
-      - MAIL_TEMPLATE_PATH=change_me
+      - MAIL_TEMPLATE_PATH=/usr/src/app/email/emailTemplate.html
       - CREDENTIALS_FILE_PATH=change_me
       - AWS_OPENSEARCH_ENDPOINT=change_me
       - DB_USER=change_me
