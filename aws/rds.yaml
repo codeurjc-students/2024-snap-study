@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Recreate RDS MySQL instance 'snapstudy' with manual input for subnets and other config."
+
+Parameters:
+  Subnet1:
+    Type: AWS::EC2::Subnet::Id
+    Description: "First subnet ID for the RDS subnet group"
+
+  Subnet2:
+    Type: AWS::EC2::Subnet::Id
+    Description: "Second subnet ID for the RDS subnet group"
+  
+  Subnet3:
+    Type: AWS::EC2::Subnet::Id
+    Description: "Second subnet ID for the RDS subnet group"
+
+  VpcSecurityGroupId:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: "Security Group to associate with the RDS instance"
+
+  AvailabilityZone:
+    Type: String
+    Default: eu-west-1b
+
+Resources:
+  DefaultDBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: "Default subnet group for snapstudy"
+      SubnetIds:
+        - !Ref Subnet1
+        - !Ref Subnet2
+        - !Ref Subnet3
+
+  SnapstudyDBInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBInstanceIdentifier: "snapstudy"
+      DBInstanceClass: "db.t4g.micro"
+      Engine: "mysql"
+      EngineVersion: "8.0.40"
+      MasterUsername: "admin"
+      MasterUserPassword: "snapstudy"
+      AllocatedStorage: "20"
+      MaxAllocatedStorage: 22
+      StorageType: "gp2"
+      StorageEncrypted: false
+      PubliclyAccessible: true
+      BackupRetentionPeriod: 1
+      MultiAZ: false
+      AvailabilityZone: !Ref AvailabilityZone
+      EnableIAMDatabaseAuthentication: false
+      DeletionProtection: false
+      EnablePerformanceInsights: false
+      MonitoringInterval: 0
+      DBSubnetGroupName: !Ref DefaultDBSubnetGroup
+      OptionGroupName: "default:mysql-8-0"
+      DBParameterGroupName: "default.mysql8.0"
+      CACertificateIdentifier: "rds-ca-rsa2048-g1"
+      VPCSecurityGroups:
+        - !Ref VpcSecurityGroupId
+
+Outputs:
+  DBInstanceEndpoint:
+    Description: "Endpoint of the RDS DB instance"
+    Value: !GetAtt SnapstudyDBInstance.Endpoint.Address

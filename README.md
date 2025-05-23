@@ -248,7 +248,7 @@ private static final boolean useMinIO = true;
    ```
    environment:
      - AWS_PROFILE=change_me
-  volumes:
+   volumes:
      - ~/.aws:/root/.aws
    ```
 

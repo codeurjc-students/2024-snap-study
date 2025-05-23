@@ -13,9 +13,9 @@ services:
       - MAIL_TEMPLATE_PATH=/usr/src/app/email/emailTemplate.html
       - CREDENTIALS_FILE_PATH=change_me
       - AWS_OPENSEARCH_ENDPOINT=change_me
-      - DB_USER=change_me
       - DB_URL=change_me
-      - DB_PASSWORD=change_me
+      - DB_USER=admin
+      - DB_PASSWORD=snapstudy
     depends_on:
       - db
     restart: on-failure
