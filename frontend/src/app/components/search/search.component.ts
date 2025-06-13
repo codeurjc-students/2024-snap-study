@@ -33,7 +33,7 @@ export class SearchComponent {
     isPdf: boolean = false;
     isImage: boolean = false;
 
-    constructor(private popUpService: PopUpService, private documentService: DocumentService, private subjectService: SubjectService, private searchService: SearchService, private route: ActivatedRoute, private router: Router, private renderer: Renderer2, public authService: AuthService) { }
+    constructor(private popUpService: PopUpService, private documentService: DocumentService, private searchService: SearchService, private route: ActivatedRoute, private router: Router, private renderer: Renderer2, public authService: AuthService) { }
 
     ngOnInit() {
         this.renderer.addClass(document.body, 'search-results-page');

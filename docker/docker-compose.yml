@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   web:  
     image: jrodriguezs2020/snapstudy 
@@ -16,24 +15,11 @@ services:
       - DB_URL=change_me
       - DB_USER=admin
       - DB_PASSWORD=snapstudy
-    depends_on:
-      - db
     restart: on-failure
     volumes:
       - credentials:/usr/src/app/config
       - email:/usr/src/app/email
 
-  db:
-    image: mysql:8.0.22
-    restart: always
-    ports:
-    - "3307:3306"
-    environment:
-      - MYSQL_DATABASE=snapstudy
-      - MYSQL_ROOT_PASSWORD=DAWWebapp09+
-    volumes:
-      - mysql:/var/lib/mysql
 volumes:
-  mysql:
   credentials:
   email:
