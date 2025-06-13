@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: EC2 con Docker Compose (Java + Angular), usando SG y VPC por defecto
+
+Parameters:
+  KeyName:
+    Description: Nombre del par de claves EC2
+    Type: AWS::EC2::KeyPair::KeyName
+
+  GitRepo:
+    Description: URL del repositorio Git
+    Type: String
+
+  GOOGLEDRIVEFOLDER:
+    Description: Carpeta de Google Drive para la app
+    Type: String
+
+  APPLICATIONMAIL:
+    Description: Email de la aplicación
+    Type: String
+
+  APPLICATIONPASSMAIL:
+    Description: Contraseña del email de la aplicación
+    Type: String
+
+  CREDENTIALSFILEPATH:
+    Description: Ruta de archivo de credenciales
+    Type: String
+
+  AWSOPENSEARCHENDPOINT:
+    Description: Endpoint de OpenSearch AWS
+    Type: String
+
+  DBURL:
+    Description: URL de la base de datos
+    Type: String
+
+Resources:
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      ImageId: ami-0152ea7e79f25bb5b  # Amazon Linux 2 en eu-west-1
+      SecurityGroups:
+        - default
+      Tags:
+        - Key: Name
+          Value: JavaAngularDockerEC2
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y git
+          amazon-linux-extras install docker -y
+          service docker start
+          usermod -a -G docker ec2-user
+
+          curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+
+          cd /home/ec2-user
+          git clone ${GitRepo} app
+          cd app
+
+          cat <<EOF > .env
+          GOOGLE_DRIVE_FOLDER=${GOOGLEDRIVEFOLDER}
+          APPLICATION_MAIL=${APPLICATIONMAIL}
+          APPLICATION_PASS_MAIL=${APPLICATIONPASSMAIL}
+          CREDENTIALS_FILE_PATH=${CREDENTIALSFILEPATH}
+          AWS_OPENSEARCH_ENDPOINT=${AWSOPENSEARCHENDPOINT}
+          DB_URL=${DBURL}
+          EOF
+
+          chown -R ec2-user:ec2-user /home/ec2-user/app
+          cd docker
+          docker-compose up -d
+
+Outputs:
+  InstancePublicIP:
+    Description: IP pública de la instancia EC2
+    Value: !GetAtt EC2Instance.PublicIp
