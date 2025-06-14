@@ -172,70 +172,11 @@ https://github.com/codeurjc-students/2024-snap-study.git
 3. Busca docker y ejecútalo
 
 4. SnapStudy cuenta con una versión simplificada de la aplicación que no dispone de todos los servicios cloud que usa la aplicación, pero tiene todas las funcionalidades básicas. Esta es la [versión 1.0.0](https://github.com/codeurjc-students/2024-snap-study/releases/tag/v1.0.0) Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
-Para usar AWS S3 es necesario tener una cuenta AWS y configurar un bucket de S3. Únicamente necesitamos sustituir los campos change-me en el archivo docker-compose.yml, en este caso AWS_ACCESS_KEY_ID y AWS_SECRET_ACCESS_KEY que se corresponden con el Access Key y Secrect Key de la cuenta AWS.
 
-Si deseamos usar MinIO, y no vamos a ejecutar la aplicación web con docker-compose, debemos tener instalado en nuestro sistema este recurso [instalación](https://min.io/docs/minio/windows/operations/installation.html). Una vez instalado abrimos una consola de comandos y debemos navegar hasta la ruta donde se encuentre el archivo minio.exe y, una vez en la ruta, debemos ejecutar el siguiente comando
+5. Si deseas lanzar Snapstudy al completo, con todas sus funcionalidades y los servicios cloud que usa debes desplegar los templates de cloudformation infra.yaml y opensearch.yaml, este orden. Además, una vez creado el dominio de opensearch, tenemos que crear el índice donde indexaremos los documentos:
 ```
-minio.exe server D:/minio --console-address ":9001"
+awscurl -X PUT --service es --region eu-west-1 -H "Content-Type: application/json" -d "{\"settings\": {\"number_of_shards\": 1, \"number_of_replicas\": 1}}" <domain_endpoint>/snapstudy-index
 ```
-De esta forma tendremos un sistema de almacenamiento en local que simula a AWS S3.
-
-Ten en cuenta que si decides usar MinIO con docker-compose debes ajustar las rutas a la IP del contenedor docker que se cree, además de iniciar MinIO con docker, aquí te dejo un ejemplo
-```
-version: "3.9"
-services:
-  web:  
-    image: jrodriguezs2020/snapstudy
-    ports:
-      - "8443:8443"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/snapstudy
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=DAWWebapp09+
-    depends_on:
-      - db
-      - minio
-    restart: on-failure
-
-  db:
-    image: mysql:8.0.22
-    restart: always
-    ports:
-      - "3307:3306"
-    environment:
-      - MYSQL_DATABASE=snapstudy
-      - MYSQL_ROOT_PASSWORD=DAWWebapp09+
-    volumes:
-      - mysql:/var/lib/mysql
-
-  minio:
-    image: minio/minio:latest
-    ports:
-      - "9000:9000"
-    environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin
-    command: server /data
-    volumes:
-      - minio_data:/data
-    restart: always
-
-volumes:
-  mysql:
-  minio_data:
-```
-
-Podemos conocer la IP de nuestro contenedor docker así
-```
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-minio-1
-```
-
-Además debemos modificar el valor de la variable useMinIO de S3Service.java a true:
-```
-private static final boolean useMinIO = true;
-```
-
-5. Si deseas lanzar Snapstudy al completo, con todas sus funcionalidades y los servicios cloud que usa debes seguir la [Guía para desplegar la infraestructura cloud de SnapStudy]()
 
 6. Una vez creada la infraestructura cloud, para que el backend de nuestra aplicación pueda hacer uso de los servicios de AWS debemos tener las credenciales de la cuenta de AWS a mano. Para ello planteo 2 opciones:
    1. Modificar las siguientes variables de entorno con los valores proporcionados al crear nuestra cuenta y usuario de AWS:
@@ -261,12 +202,6 @@ private static final boolean useMinIO = true;
 Además debemos importar a la base de datos el archivo backup.sql que encontramos en el repositorio. Este archivo contiene datos básicos de ejemplo para un primer arranque de la aplicación. Para subir el archivo a RDS ejecutamos el siguiente comando:
 ```
 mysql -h tu_endpoint_rds.amazonaws.com -u tu_usuario -p < backup.sql
-```
-En el caso en el que no deseemos usar RDS y queramos tener la base de datos en local, debemos mantener las anteriores variables mencionadas como:
-```
-- DB_URL=jdbc:mysql://localhost:3306/snapstudy
-- DB_USER=root
-- DB_PASSWORD=DAWWebapp09+
 ```
 
 8. Otra modificación que debemos hacer es añadir el endpoint que se ha creado con nuestra instancia de opensearch:
