@@ -1,9 +1,6 @@
 services:
   web:
-<<<<<<< HEAD
     env_file: ".env"
-=======
->>>>>>> main
     image: jrodriguezs2020/snapstudy 
     ports:
       - "8443:8443"
