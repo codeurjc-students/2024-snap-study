@@ -173,7 +173,10 @@ https://github.com/codeurjc-students/2024-snap-study.git
 
 4. SnapStudy cuenta con una versión simplificada de la aplicación que no dispone de todos los servicios cloud que usa la aplicación, pero tiene todas las funcionalidades básicas. Esta es la [versión 1.0.0](https://github.com/codeurjc-students/2024-snap-study/releases/tag/v1.0.0) Podemos elegir entre usar el servicio de AWS S3 para el almacenamiento de los archivos o MinIO en local.
 
-5. Si deseas lanzar Snapstudy al completo, con todas sus funcionalidades y los servicios cloud que usa debes seguir la [Guía para desplegar la infraestructura cloud de SnapStudy]()
+5. Si deseas lanzar Snapstudy al completo, con todas sus funcionalidades y los servicios cloud que usa debes desplegar los templates de cloudformation infra.yaml y opensearch.yaml, este orden. Además, una vez creado el dominio de opensearch, tenemos que crear el índice donde indexaremos los documentos:
+```
+awscurl -X PUT --service es --region eu-west-1 -H "Content-Type: application/json" -d "{\"settings\": {\"number_of_shards\": 1, \"number_of_replicas\": 1}}" <domain_endpoint>/snapstudy-index
+```
 
 6. Una vez creada la infraestructura cloud, para que el backend de nuestra aplicación pueda hacer uso de los servicios de AWS debemos tener las credenciales de la cuenta de AWS a mano. Para ello planteo 2 opciones:
    1. Modificar las siguientes variables de entorno con los valores proporcionados al crear nuestra cuenta y usuario de AWS:
