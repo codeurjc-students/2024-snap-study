@@ -62,7 +62,7 @@ Resources:
           cd /home/ec2-user
           git clone ${GitRepo} app
           cd app
-
+          cd docker
           cat <<EOF > .env
           GOOGLE_DRIVE_FOLDER=${GOOGLEDRIVEFOLDER}
           APPLICATION_MAIL=${APPLICATIONMAIL}
@@ -73,7 +73,6 @@ Resources:
           EOF
 
           chown -R ec2-user:ec2-user /home/ec2-user/app
-          cd docker
           docker-compose up -d
 
 Outputs:
