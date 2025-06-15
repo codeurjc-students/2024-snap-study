@@ -35,6 +35,12 @@ Parameters:
     Type: String
 
 Resources:
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref S3AccessRole
+
   S3AccessRole:
     Type: AWS::IAM::Role
     Properties:
@@ -46,13 +52,30 @@ Resources:
               Service: ec2.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: S3ReadAccess
+        - PolicyName: S3AccessPolicy
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action: s3:GetObject
-                Resource: !Sub "arn:aws:s3:::${CredentialsS3Bucket}/*"
+                Action:
+                  - s3:GetObject
+                Resource:
+                  - !Sub arn:aws:s3:::${CredentialsS3Bucket}/*
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                Resource:
+                  - !Sub arn:aws:s3:::${CredentialsS3Bucket}
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:ReadObject
+                Resource:
+                  - !Sub arn:aws:s3:::snapstudy-s3
+                  - !Sub arn:aws:s3:::snapstudy-s3/*
 
   EC2SecurityGroup:
     Type: AWS::EC2::SecurityGroupIngress
@@ -69,6 +92,7 @@ Resources:
       InstanceType: t2.micro
       KeyName: !Ref KeyName
       ImageId: ami-0152ea7e79f25bb5b  # Amazon Linux 2 en eu-west-1
+      IamInstanceProfile: !Ref EC2InstanceProfile
       SecurityGroups:
         - default
       Tags:
@@ -79,6 +103,7 @@ Resources:
           #!/bin/bash
           yum update -y
           yum install -y git
+          yum install -y mysql
           amazon-linux-extras install docker -y
           service docker start
           usermod -a -G docker ec2-user
@@ -90,7 +115,7 @@ Resources:
           git clone https://github.com/codeurjc-students/2024-snap-study app
           cd app
           mysql -h ${DBURL} -u admin -p snapstudy < backup.sql
-          aws s3 cp ${CredentialsS3Bucket}/credentials.json /home/ec2-user/app/backend/credentials.json
+          aws s3 cp s3://${CredentialsS3Bucket}/credentials.json /home/ec2-user/app/backend/credentials.json
           cd docker
           cat <<EOF > .env
           GOOGLE_DRIVE_FOLDER=${GOOGLEDRIVEFOLDER}

@@ -19,7 +19,7 @@ public class Subject {
     @Column(nullable = false)
     private Date postedDate;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Document> documents;
 
