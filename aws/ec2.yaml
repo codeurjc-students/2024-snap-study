@@ -2,6 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: EC2 con Docker Compose (Java + Angular), usando SG y VPC por defecto
 
 Parameters:
+  DefaultSecurityGroupId:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: ID del default Security Group
+
   CredentialsS3Bucket:
     Description: Ruta S3 del archivo credentials.json
     Type: String
@@ -51,15 +55,13 @@ Resources:
                 Resource: !Sub "arn:aws:s3:::${CredentialsS3Bucket}/*"
 
   EC2SecurityGroup:
-    Type: AWS::EC2::SecurityGroup
+    Type: AWS::EC2::SecurityGroupIngress
     Properties:
-      GroupDescription: Permitir acceso TCP al puerto 8443
-      VpcId: !Ref AWS::NoValue
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 8443
-          ToPort: 8443
-          CidrIp: 0.0.0.0/0
+      GroupId: !Ref DefaultSecurityGroupId
+      IpProtocol: tcp
+      FromPort: 8443
+      ToPort: 8443
+      CidrIp: 0.0.0.0/0
 
   EC2Instance:
     Type: AWS::EC2::Instance
