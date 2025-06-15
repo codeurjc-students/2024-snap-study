@@ -10,10 +10,6 @@ Parameters:
     Description: Nombre del par de claves EC2
     Type: AWS::EC2::KeyPair::KeyName
 
-  GitRepo:
-    Description: URL del repositorio Git
-    Type: String
-
   GOOGLEDRIVEFOLDER:
     Description: Carpeta de Google Drive para la app
     Type: String
@@ -89,7 +85,7 @@ Resources:
           chmod +x /usr/local/bin/docker-compose
 
           cd /home/ec2-user
-          git clone ${GitRepo} app
+          git clone https://github.com/codeurjc-students/2024-snap-study app
           cd app
           mysql -h ${DBURL} -u admin -p snapstudy < backup.sql
           aws s3 cp ${CredentialsS3Bucket}/credentials.json /home/ec2-user/app/backend/credentials.json
