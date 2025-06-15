@@ -114,7 +114,7 @@ Resources:
           cd /home/ec2-user
           git clone https://github.com/codeurjc-students/2024-snap-study app
           cd app
-          mysql -h ${DBURL} -u admin -p snapstudy < backup.sql
+          mysql -h ${DBURL} -u admin -p"snapstudy" < backup.sql
           aws s3 cp s3://${CredentialsS3Bucket}/credentials.json /home/ec2-user/app/backend/credentials.json
           cd docker
           cat <<EOF > .env
