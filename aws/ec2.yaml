@@ -1,0 +1,107 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: EC2 con Docker Compose (Java + Angular), usando SG y VPC por defecto
+
+Parameters:
+  CredentialsS3Bucket:
+    Description: Ruta S3 del archivo credentials.json
+    Type: String
+
+  KeyName:
+    Description: Nombre del par de claves EC2
+    Type: AWS::EC2::KeyPair::KeyName
+
+  GOOGLEDRIVEFOLDER:
+    Description: Carpeta de Google Drive para la app
+    Type: String
+
+  APPLICATIONMAIL:
+    Description: Email de la aplicación
+    Type: String
+
+  APPLICATIONPASSMAIL:
+    Description: Contraseña del email de la aplicación
+    Type: String
+
+  AWSOPENSEARCHENDPOINT:
+    Description: Endpoint de OpenSearch AWS
+    Type: String
+
+  DBURL:
+    Description: URL de la base de datos
+    Type: String
+
+Resources:
+  S3AccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3ReadAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "arn:aws:s3:::${CredentialsS3Bucket}/*"
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Permitir acceso TCP al puerto 8443
+      VpcId: !Ref AWS::NoValue
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8443
+          ToPort: 8443
+          CidrIp: 0.0.0.0/0
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      ImageId: ami-0152ea7e79f25bb5b  # Amazon Linux 2 en eu-west-1
+      SecurityGroups:
+        - default
+      Tags:
+        - Key: Name
+          Value: JavaAngularDockerEC2
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y git
+          amazon-linux-extras install docker -y
+          service docker start
+          usermod -a -G docker ec2-user
+
+          curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+
+          cd /home/ec2-user
+          git clone https://github.com/codeurjc-students/2024-snap-study app
+          cd app
+          mysql -h ${DBURL} -u admin -p snapstudy < backup.sql
+          aws s3 cp ${CredentialsS3Bucket}/credentials.json /home/ec2-user/app/backend/credentials.json
+          cd docker
+          cat <<EOF > .env
+          GOOGLE_DRIVE_FOLDER=${GOOGLEDRIVEFOLDER}
+          APPLICATION_MAIL=${APPLICATIONMAIL}
+          APPLICATION_PASS_MAIL=${APPLICATIONPASSMAIL}
+          AWS_OPENSEARCH_ENDPOINT=${AWSOPENSEARCHENDPOINT}
+          DB_URL=${DBURL}
+          EOF
+
+          chown -R ec2-user:ec2-user /home/ec2-user/app
+          docker-compose up -d
+
+Outputs:
+  InstancePublicIP:
+    Description: IP pública de la instancia EC2
+    Value: !GetAtt EC2Instance.PublicIp
