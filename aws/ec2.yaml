@@ -2,6 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: EC2 con Docker Compose (Java + Angular), usando SG y VPC por defecto
 
 Parameters:
+  CredentialsS3Bucket:
+    Description: Ruta S3 del archivo credentials.json
+    Type: String
+
   KeyName:
     Description: Nombre del par de claves EC2
     Type: AWS::EC2::KeyPair::KeyName
@@ -22,10 +26,6 @@ Parameters:
     Description: Contraseña del email de la aplicación
     Type: String
 
-  CREDENTIALSFILEPATH:
-    Description: Ruta de archivo de credenciales
-    Type: String
-
   AWSOPENSEARCHENDPOINT:
     Description: Endpoint de OpenSearch AWS
     Type: String
@@ -35,6 +35,35 @@ Parameters:
     Type: String
 
 Resources:
+  S3AccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3ReadAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "arn:aws:s3:::${CredentialsS3Bucket}/*"
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Permitir acceso TCP al puerto 8443
+      VpcId: !Ref AWS::NoValue
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8443
+          ToPort: 8443
+          CidrIp: 0.0.0.0/0
 
   EC2Instance:
     Type: AWS::EC2::Instance
@@ -62,12 +91,13 @@ Resources:
           cd /home/ec2-user
           git clone ${GitRepo} app
           cd app
+          mysql -h ${DBURL} -u admin -p snapstudy < backup.sql
+          aws s3 cp ${CredentialsS3Bucket}/credentials.json /home/ec2-user/app/backend/credentials.json
           cd docker
           cat <<EOF > .env
           GOOGLE_DRIVE_FOLDER=${GOOGLEDRIVEFOLDER}
           APPLICATION_MAIL=${APPLICATIONMAIL}
           APPLICATION_PASS_MAIL=${APPLICATIONPASSMAIL}
-          CREDENTIALS_FILE_PATH=${CREDENTIALSFILEPATH}
           AWS_OPENSEARCH_ENDPOINT=${AWSOPENSEARCHENDPOINT}
           DB_URL=${DBURL}
           EOF
