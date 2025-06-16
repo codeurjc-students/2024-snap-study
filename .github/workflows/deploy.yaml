@@ -22,12 +22,13 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             cd /ruta/a/tu/app
             git pull origin main
             # Opcional: instalar dependencias
-            # npm install / yarn install / composer install, etc.
-            # Reinicia la aplicación
-            pm2 restart app
-            # o docker-compose up -d --build
+            # npm install
+            # yarn install
+            # composer install
+            pm2 restart app || echo "pm2 restart falló"
+            # docker-compose up -d --build
           EOF
