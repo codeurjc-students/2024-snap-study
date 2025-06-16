@@ -22,6 +22,7 @@ export class PopUpService {
     constructor(private dialog: MatDialog) { }
 
     openPopUp(message: string): void {
+        document.body.style.overflow = 'hidden';
         this.popupState.next(true); // Change the state to open
         this.dialog.open(PopUpDialogComponent, {
             width: '400px',
@@ -30,10 +31,12 @@ export class PopUpService {
             data: message
         }).afterClosed().subscribe(() => {
             this.popupState.next(false); // Change the state to closed
+            document.body.style.overflow = '';
         });
     }
 
     openPopUpImage() {
+        document.body.style.overflow = 'hidden';
         this.popupState.next(true);
         this.dialog.open(PopUpImageComponent, {
             width: '400px',
@@ -41,10 +44,12 @@ export class PopUpService {
             panelClass: 'custom-dialog-container',
         }).afterClosed().subscribe(() => {
             this.popupState.next(false);
+            document.body.style.overflow = '';
         });
     }
 
     openPopUpDocument(subject: Subject, degree: Degree) {
+        document.body.style.overflow = 'hidden';
         this.popupState.next(true);
         this.dialog.open(PopUpDocumentComponent, {
             width: '400px',
@@ -53,6 +58,7 @@ export class PopUpService {
             data: { subject, degree } // Pass the data to the modal
         }).afterClosed().subscribe(() => {
             this.popupState.next(false);
+            document.body.style.overflow = '';
         });
     }
 
@@ -61,6 +67,7 @@ export class PopUpService {
     }
 
     openPopUpDownloadDrive(): Promise<number> {
+        document.body.style.overflow = 'hidden';
         this.popupState.next(true);
         return this.dialog.open(PopUpDownloadDriveComponent, {
             width: '400px',
@@ -68,6 +75,7 @@ export class PopUpService {
             panelClass: 'custom-dialog-container',
         }).afterClosed().toPromise().then((result) => {
             this.popupState.next(false);
+            document.body.style.overflow = '';
             return result ?? -1; // If the user closes without selecting anything, return -1
         });
     }
