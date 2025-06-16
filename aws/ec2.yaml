@@ -51,6 +51,7 @@ Resources:
             Principal:
               Service: ec2.amazonaws.com
             Action: sts:AssumeRole
+      RoleName: ec2-role
       Policies:
         - PolicyName: S3AccessPolicy
           PolicyDocument:
