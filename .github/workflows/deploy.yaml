@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Deploy to EC2 Amazon Linux 2023
 
 on:
   push:
@@ -17,5 +17,6 @@ jobs:
         run: |
           cd /home/ec2-user/app
           git pull origin main
-          npm install
-          pm2 restart app || pm2 start app.js --name app
+          cd /home/ec2-user/app/docker
+          docker-compose down
+          docker-compose up -d --build
