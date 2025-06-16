@@ -90,9 +90,9 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t2.micro
+      InstanceType: t3.micro
       KeyName: !Ref KeyName
-      ImageId: ami-0152ea7e79f25bb5b  # Amazon Linux 2 en eu-west-1
+      ImageId: ami-021d9f8e43481e7da
       IamInstanceProfile: !Ref EC2InstanceProfile
       SecurityGroups:
         - default

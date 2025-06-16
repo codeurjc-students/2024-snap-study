@@ -7,14 +7,13 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted  # El runner está en la misma EC2
 
     steps:
-      - name: Manual checkout sin node
-        run: |
-          git clone --depth 1 -b "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" "https://github.com/codeurjc-students/2024-snap-study.git" .
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Deploy local
+      - name: Deploy locally
         run: |
           cd /home/ec2-user/app
           git pull origin main
