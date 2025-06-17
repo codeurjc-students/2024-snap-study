@@ -1,4 +1,4 @@
-name: Deploy to EC2 Amazon Linux 2023
+name: Build and Deploy to EC2
 
 on:
   push:
@@ -6,8 +6,31 @@ on:
       - main
 
 jobs:
+  build:
+    name: Build on GitHub-hosted runner
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to docker
+        run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_TOKEN }}"
+
+      - name: Build the docker image
+        run: |
+          printf "%s" "${{ secrets.CREDENTIALS_JSON }}" > backend/credentials.json
+          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}" -f docker/Dockerfile .
+
+      - name: Push the docker image
+        run: |
+          cd ./docker
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}"
+
   deploy:
-    runs-on: self-hosted  # El runner está en la misma EC2
+    name: Deploy to EC2
+    runs-on: self-hosted
+    needs: build 
 
     steps:
       - name: Checkout repo
@@ -17,13 +40,8 @@ jobs:
         run: |
           cd /home/ec2-user/app
           git pull origin main
-      - name: Generate docker image
-        run: |
-          docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_TOKEN }}"
-          printf "%s" "${{ secrets.CREDENTIALS_JSON }}" > backend/credentials.json
-          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}" -f docker/Dockerfile .
-          docker push "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}"
-      - name: Generate docker image
+
+      - name: Redeploy with Docker
         run: |
           cd /home/ec2-user/app/docker
           docker-compose down
