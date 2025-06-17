@@ -20,10 +20,10 @@ jobs:
       - name: Build the docker image
         run: |
           printf "%s" "${{ secrets.CREDENTIALS_JSON }}" > backend/credentials.json
-          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}" -f docker/Dockerfile .
+          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}:latest" -f docker/Dockerfile .
 
       - name: Push the docker image
-        run: docker push "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}"
+        run: docker push "${{ secrets.DOCKERHUB_USERNAME }}"/"${{ secrets.DOCKERHUB_IMAGE }}:latest"
 
   deploy:
     name: Deploy to EC2
