@@ -45,4 +45,5 @@ jobs:
         run: |
           cd /home/ec2-user/app/docker
           docker-compose down
+          docker-compose pull
           docker-compose up -d
