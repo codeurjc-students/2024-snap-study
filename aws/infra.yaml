@@ -64,6 +64,20 @@ Resources:
       VPCSecurityGroups:
         - !Ref VpcSecurityGroupId
 
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: snapstudy-s3
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      NotificationConfiguration:
+        QueueConfigurations:
+          - Queue: arn:aws:sqs:eu-west-1:879381272779:snapstudy-text-process-sqs-test
+            Event: s3:ObjectCreated:Put
+
   SQSQueue:
     Type: AWS::SQS::Queue
     Properties:
@@ -159,6 +173,9 @@ Outputs:
   DBInstanceEndpoint:
     Description: "Endpoint of the RDS DB instance"
     Value: !GetAtt SnapstudyDBInstance.Endpoint.Address
+  BucketName:
+    Description: Nombre del bucket creado
+    Value: !Ref S3Bucket
   LambdaFunctionArn:
     Description: ARN de la función Lambda
     Value: !GetAtt LambdaFunction.Arn
