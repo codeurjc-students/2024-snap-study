@@ -34,7 +34,7 @@ public class OpenSearchService {
         try {
             String url = String.format("%s/%s/_search", opensearchEndpoint, opensearchIndex);
 
-            // Construir la request sin firma
+            // Build the unsigned request
             SdkHttpFullRequest unsignedRequest = SdkHttpFullRequest.builder()
                     .method(SdkHttpMethod.POST)
                     .uri(URI.create(url))
@@ -42,7 +42,7 @@ public class OpenSearchService {
                     .contentStreamProvider(() -> new ByteArrayInputStream(queryJson.getBytes(StandardCharsets.UTF_8)))
                     .build();
 
-            // Firmar con SigV4
+            // Sign with SigV4
             Aws4Signer signer = Aws4Signer.create();
             SdkHttpFullRequest signedRequest = signer.sign(unsignedRequest,
                     software.amazon.awssdk.auth.signer.params.Aws4SignerParams.builder()
@@ -51,7 +51,7 @@ public class OpenSearchService {
                             .awsCredentials(DefaultCredentialsProvider.create().resolveCredentials())
                             .build());
 
-            // Construir HttpRequest de Java con headers firmados (excepto Host)
+            // Build the Java HttpRequest with signed headers (except for Host)
             HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .timeout(Duration.ofSeconds(10))
@@ -147,14 +147,14 @@ public class OpenSearchService {
         try {
             String url = String.format("%s/%s/_doc/%s", opensearchEndpoint, opensearchIndex, id);
 
-            // Construir la request sin firma
+            // Build the unsigned request
             SdkHttpFullRequest unsignedRequest = SdkHttpFullRequest.builder()
                     .method(SdkHttpMethod.DELETE)
                     .uri(URI.create(url))
                     .putHeader("Content-Type", "application/json")
                     .build();
 
-            // Firmar con SigV4
+            // Sign with SigV4
             Aws4Signer signer = Aws4Signer.create();
             SdkHttpFullRequest signedRequest = signer.sign(unsignedRequest,
                     software.amazon.awssdk.auth.signer.params.Aws4SignerParams.builder()
@@ -163,7 +163,7 @@ public class OpenSearchService {
                             .awsCredentials(DefaultCredentialsProvider.create().resolveCredentials())
                             .build());
 
-            // Construir HttpRequest de Java con headers firmados (excepto Host)
+            // Build the Java HttpRequest with signed headers (except for Host)
             HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .timeout(Duration.ofSeconds(10))

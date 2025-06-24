@@ -217,7 +217,7 @@ public class DriveService {
             message.setSubject("Access to your folder in Google Drive");
             message.setContent(htmlBody, "text/html; charset=utf-8");
 
-            // Enviar el correo
+            // Send mail
             Transport.send(message);
 
             System.out.println("Email sent successfully");

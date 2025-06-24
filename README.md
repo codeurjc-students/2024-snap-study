@@ -203,5 +203,5 @@ Otro paso importante para poder usar correctamente el servicio de Google Drive e
 7. 
 El despliegue de la aplicación en una instancia de AWS EC2 se realiza a través del template de CloudFormation ec2.yaml. Esta plantilla crea una instancia EC2 basada en una AMI de Amazon Linux 2023. La plantilla configura automáticamente el entorno necesario para arrancar la aplicación, pero requiere que el archivo de credenciales de Google Drive se añaada manualmente a un bucket de S3. Una vez completado el despliegue del stack, tras unos minutos, se podrá acceder a SnapStudy mediante la dirección IP pública de la instancia EC2, a través del puerto 8443.
 ```
-https://<IP_PUBLICA_EC2>:
+https://<IP_PUBLICA_EC2>:8443
 ```

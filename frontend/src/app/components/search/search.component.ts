@@ -56,7 +56,6 @@ export class SearchComponent {
             console.log(this.results)
         }, error => {
             this.isLoading = false;
-            // Puedes manejar errores aquí también
         });
     }
 

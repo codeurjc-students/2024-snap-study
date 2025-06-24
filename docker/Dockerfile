@@ -1,42 +1,42 @@
 #################################################
-# Imagen base para el contenedor de compilación de Angular
+# Base image for the Angular build container
 #################################################
 FROM node:20.12.1 as angular
 
-# Define el directorio de trabajo donde ejecutar comandos para Angular
+# Define the working directory where Angular commands will be executed
 WORKDIR /angular
 
-# Copia el package.json y package-lock.json (o yarn.lock si usas yarn)
+# Copy the package.json and package-lock.json
 COPY frontend/package*.json ./
 
-# Instala todas las dependencias necesarias
+# Install all necessary dependencies
 RUN npm install
 
-# Copia el código fuente de la aplicación Angular
+# Copy the Angular application source code
 COPY frontend/ .
 
-# Construye la aplicación Angular para producción
+# Build the Angular application for production
 RUN npm run build -- --configuration production
 
 
 #################################################
-# Imagen base para el contenedor de compilación
+# Base image for the build container
 #################################################
 FROM maven:3.9.6-eclipse-temurin-17 as backends
 
-# Define el directorio de trabajo donde ejecutar comandos
+# Define the working directory where commands will be executed
 WORKDIR /project
 
-# Copia las dependencias del proyecto
+# Copy the project dependencies
 COPY backend/pom.xml /project/
 
-# Descarga las dependencias del proyecto
+# Download the project dependencies
 RUN mvn clean verify --fail-never
 
-# Copia el código del proyecto
+# Copy the project source code
 COPY backend/src /project/src
 
-# Copia el archivo credentials.json y emailTemplate.html dentro del volumen montado
+# Copy the credentials.json and emailTemplate.html files into the mounted volume
 COPY backend/credentials.json /project/config/
 COPY backend/emailTemplate.html /project/email/
 
@@ -52,7 +52,7 @@ WORKDIR /usr/src/app
 
 COPY --from=backends /project/target/*.jar /usr/src/app
 
-# Copia el archivo de credenciales y emailTemplate desde la imagen de construcción al volumen
+# Copy the credentials file and email template from the build image to the volume
 COPY --from=backends /project/config/credentials.json /usr/src/app/config/
 COPY --from=backends /project/email/emailTemplate.html /usr/src/app/email/
 

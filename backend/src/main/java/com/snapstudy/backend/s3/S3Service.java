@@ -53,7 +53,7 @@ public class S3Service {
         if (useMinIO) {
             try {
                 minioClient = MinioClient.builder()
-                        .endpoint("http://127.0.0.1:9000") // Cambia a "http://192.168.18.196:9000" si es otra máquina
+                        .endpoint("http://127.0.0.1:9000") // Change to "http://192.168.18.196:9000" if is other machine
                         .credentials("minioadmin", "minioadmin")
                         .build();
                 // Crear bucket si no existe
