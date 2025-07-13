@@ -50,6 +50,7 @@ export class PopUpService {
 
     openPopUpDocument(subject: Subject, degree: Degree) {
         document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
         this.popupState.next(true);
         this.dialog.open(PopUpDocumentComponent, {
             width: '400px',
@@ -59,6 +60,7 @@ export class PopUpService {
         }).afterClosed().subscribe(() => {
             this.popupState.next(false);
             document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
         });
     }
 
